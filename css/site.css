@@ -1,0 +1,42 @@
+body {
+  margin:0;
+  padding:0;
+  color:#fff;
+  background:#333;
+}
+
+.column {
+  width:600px;
+  margin:10px auto;
+}
+
+h2 {
+  font:15px/20px 'Courier';
+}
+
+
+#map {
+  border:2px solid #000;
+  width:600px;
+  height:600px;
+}
+
+.mmg-default {
+  background:#aff379;
+  border:1px solid #000;
+  display:block;
+  width:10px;
+  height:10px;
+}
+
+.my-custom {
+  background:#222;
+  border:2px solid #faf45a;
+  color:#fff;
+  display:block;
+  padding:4px;
+}
+
+pre {
+  color:#fff;
+}

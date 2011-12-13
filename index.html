@@ -1,0 +1,84 @@
+<html>
+  <head>
+    <title>modest markers</title>
+    <link href='css/site.css' rel='stylesheet' type='text/css' />
+    <script src='example/random_geojson_points.js'></script>
+    <script src='lib/modestmaps.js'></script>
+    <script src='lib/wax.mm.min.js'></script>
+    <script src='src/mmg.js'></script>
+  </head>
+  <body>
+    <div class='column'>
+      <h2>modestmarkers</h2>
+      <div id='map'></div>
+<pre>
+wax.tilejson('http://a.tiles.mapbox.com/v3/tmcw.boldness.jsonp',
+function(tj) {
+  var m = new MM.Map('map', new wax.mm.connector(tj))
+    .setCenterZoom(new MM.Location(0, 0), 2);
+
+  var mg = MMG();
+  m.addLayer(mg);
+  mg.geojson(random_geojson);
+
+  var pt = {
+    "type": "FeatureCollection",
+    "features": [{
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-40.0, 30.0]
+      },
+      "properties": {
+        "name": "Tom"
+      }
+    }]
+  };
+            
+  var mg2 = MMG();
+  m.addLayer(mg2);
+  mg2.factory(function(x) {
+    var d = document.createElement('div');
+    d.className = 'my-custom';
+    d.innerHTML = x.properties.name;
+    return d;
+  }).geojson(pt);
+});
+</pre>
+    </div>
+    <script>
+      wax.tilejson('http://a.tiles.mapbox.com/v3/tmcw.boldness.jsonp',
+        function(tj) {
+          var m = new MM.Map('map', new wax.mm.connector(tj))
+            .setCenterZoom(new MM.Location(0, 0), 2);
+
+          var mg = MMG();
+          m.addLayer(mg);
+          mg.geojson(random_geojson);
+
+          var pt = {
+            "type": "FeatureCollection",
+            "features": [{
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [-40.0, 30.0]
+              },
+              "properties": {
+                "name": "Tom"
+              }
+            }]
+          };
+                    
+          var mg2 = MMG();
+          m.addLayer(mg2);
+          mg2.factory(function(x) {
+            var d = document.createElement('div');
+            d.className = 'my-custom';
+            d.innerHTML = x.properties.name;
+            return d;
+          }).geojson(pt);
+        });
+    </script>
+  </body>
+</html>
