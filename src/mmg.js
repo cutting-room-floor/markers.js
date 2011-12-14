@@ -1,4 +1,4 @@
-function MMG() {
+function mmg() {
     var l = {},
         // a list of our markers
         markers = null,
@@ -68,7 +68,7 @@ function MMG() {
             // TODO: throw an error?
         }
     }
-    
+
     /**
      * Add an HTML element as a marker, located at the position of the
      * provided GeoJSON feature, Location instance (or {lat,lon} object
@@ -147,7 +147,7 @@ function MMG() {
         }
         return marker;
     };
-    
+
     // remove all markers
     l.removeAllMarkers = function() {
         while (markers.length > 0) {

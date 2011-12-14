@@ -1,50 +1,31 @@
 <html>
   <head>
-    <title>modest markers</title>
+    <title>mmg: simple GeoJSON for Modest Maps</title>
     <link href='css/site.css' rel='stylesheet' type='text/css' />
-    <script src='example/random_geojson_points.js'></script>
-    <script src='lib/modestmaps.js'></script>
-    <script src='lib/wax.mm.min.js'></script>
-    <script src='src/mmg.js'></script>
+    <script type='text/javascript' src='example/random_geojson_points.js'></script>
+    <script type='text/javascript' src='lib/modestmaps.js'></script>
+    <script type='text/javascript' src='lib/wax.mm.min.js'></script>
+    <script type='text/javascript' src='src/mmg.js'></script>
   </head>
   <body>
     <div class='column'>
-      <h2>modestmarkers</h2>
+      <h2>mmg</h2>
       <div id='map'></div>
-<pre>
-wax.tilejson('http://a.tiles.mapbox.com/v3/tmcw.boldness.jsonp',
-function(tj) {
-  var m = new MM.Map('map', new wax.mm.connector(tj))
-    .setCenterZoom(new MM.Location(0, 0), 2);
-
-  var mg = MMG();
-  m.addLayer(mg);
-  mg.geojson(random_geojson);
-
-  var pt = {
-    "type": "FeatureCollection",
-    "features": [{
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [-40.0, 30.0]
-      },
-      "properties": {
-        "name": "Tom"
-      }
-    }]
-  };
-            
-  var mg2 = MMG();
-  m.addLayer(mg2);
-  mg2.factory(function(x) {
-    var d = document.createElement('div');
-    d.className = 'my-custom';
-    d.innerHTML = x.properties.name;
-    return d;
-  }).geojson(pt);
-});
-</pre>
+      <div class='download'>download: <a href='https://raw.github.com/mapbox/mmg/gh-pages/src/mmg.js'>mmg.js</a></div>
+      <p><strong>mmg</strong> is a quick method of getting GeoJSON
+      into Modest Maps. It requires the Modest Maps 1.x.x work for the <code>addLayer</code>
+      API. There are no other dependencies, and it's designed to work cross-browser.</p>
+      <p>It's a chaining API, so the constructor, <code>mmg()</code>, takes no arguments,
+      but returns an object with <code>.factory(function(x) { return elem; })</code> and
+      <code>.geojson(obj)</code> methods. It'll accept any GeoJSON object - bring your own
+      AJAX and JSON.parse if necessary.</p>
+      <p>The <strong>factory method</strong> takes a GeoJSON feature object, and returns an
+      HTML element that will be added as a marker for that feature. The element can have
+      childNodes, and if you want the markers to be clickable, or any other interaction to be
+      added, attach event listeners to the elements in your factory method.</p>
+      <p>It's based heavily on <a href='https://github.com/shawnbot'>Shawn Allen's</a>
+      GeoJSON example.</p>
+      <script src="https://gist.github.com/1477030.js?file=example.js"></script>
     </div>
     <script>
       wax.tilejson('http://a.tiles.mapbox.com/v3/tmcw.boldness.jsonp',
@@ -52,7 +33,7 @@ function(tj) {
           var m = new MM.Map('map', new wax.mm.connector(tj))
             .setCenterZoom(new MM.Location(0, 0), 2);
 
-          var mg = MMG();
+          var mg = mmg();
           m.addLayer(mg);
           mg.geojson(random_geojson);
 
@@ -69,8 +50,8 @@ function(tj) {
               }
             }]
           };
-                    
-          var mg2 = MMG();
+
+          var mg2 = mmg();
           m.addLayer(mg2);
           mg2.factory(function(x) {
             var d = document.createElement('div');

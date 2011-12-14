@@ -1,8 +1,21 @@
 body {
   margin:0;
   padding:0;
-  color:#fff;
-  background:#333;
+  background:#F7FFFF;
+  color:#333;
+  font:12px/20px 'Verdana', sans-serif;
+}
+
+a, code {
+  color:#1F2780;
+}
+
+div.download {
+  padding:10px 0;
+}
+
+div.download a {
+  font:20px/30px 'Verdana', sans-serif;
 }
 
 .column {
@@ -10,15 +23,10 @@ body {
   margin:10px auto;
 }
 
-h2 {
-  font:15px/20px 'Courier';
-}
-
-
 #map {
   border:2px solid #000;
   width:600px;
-  height:600px;
+  height:300px;
 }
 
 .mmg-default {
@@ -37,6 +45,6 @@ h2 {
   padding:4px;
 }
 
-pre {
-  color:#fff;
+div.gist {
+  font-size:11px;
 }
