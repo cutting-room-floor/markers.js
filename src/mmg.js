@@ -55,18 +55,16 @@ function mmg() {
 
     // reposition a single marker element
     function repositionMarker(marker) {
-        if (marker.coord) {
-            var pos = l.map.coordinatePoint(marker.coord);
-            // offset by the layer parent position if x or y is non-zero
-            if (position.x || position.y) {
-                pos.x -= position.x;
-                pox.y -= position.y;
-            }
-            marker.style.left = ~~(pos.x + 0.5) + "px";
-            marker.style.top = ~~(pos.y + 0.5) + "px";
-        } else {
-            // TODO: throw an error?
+        // remember the tile coordinate so we don't have to reproject every time
+        if (!marker.coord) marker.coord = l.map.locationCoordinate(marker.location);
+        var pos = l.map.coordinatePoint(marker.coord);
+        // offset by the layer parent position if x or y is non-zero
+        if (position.x || position.y) {
+            pos.x -= position.x;
+            pox.y -= position.y;
         }
+        marker.style.left = ~~(pos.x + 0.5) + "px";
+        marker.style.top = ~~(pos.y + 0.5) + "px";
     }
 
     /**
@@ -80,12 +78,10 @@ function mmg() {
         }
         // convert the feature to a Location instance
         marker.location = fLocation(feature);
-        // remember the tile coordinate so we don't have to reproject every time
-        marker.coord = l.map.locationCoordinate(marker.location);
         // position: absolute
         marker.style.position = 'absolute';
         // update the marker's position
-        repositionMarker(marker);
+        if (l.map) repositionMarker(marker);
         // append it to the DOM
         parent.appendChild(marker);
         // add it to the list

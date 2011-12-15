@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>mmg: simple GeoJSON for Modest Maps</title>
@@ -6,6 +7,7 @@
     <script type='text/javascript' src='lib/modestmaps.js'></script>
     <script type='text/javascript' src='lib/wax.mm.min.js'></script>
     <script type='text/javascript' src='src/mmg.js'></script>
+    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
   </head>
   <body>
     <div class='column'>
@@ -33,32 +35,28 @@
           var m = new MM.Map('map', new wax.mm.connector(tj))
             .setCenterZoom(new MM.Location(0, 0), 2);
 
-          var mg = mmg();
-          m.addLayer(mg);
-          mg.geojson(random_geojson);
+          m.addLayer(mmg().geojson(random_geojson));
 
-          var pt = {
-            "type": "FeatureCollection",
-            "features": [{
-              "type": "Feature",
-              "geometry": {
-                "type": "Point",
-                "coordinates": [-40.0, 30.0]
-              },
-              "properties": {
-                "name": "Tom"
-              }
-            }]
-          };
+          var pt = { 'type': 'FeatureCollection',
+            'features': [{ 'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [-40.0, 30.0]
+            },
+            'properties': { 'name': 'Tom' }
+          }]};
 
-          var mg2 = mmg();
-          m.addLayer(mg2);
-          mg2.factory(function(x) {
+          var tomLayer = mmg().factory(function(x) {
             var d = document.createElement('div');
             d.className = 'my-custom';
             d.innerHTML = x.properties.name;
+            d.onclick = function() {
+              alert('hi, ' + this.innerHTML);
+            };
             return d;
           }).geojson(pt);
+
+          m.addLayer(tomLayer);
         });
     </script>
   </body>
