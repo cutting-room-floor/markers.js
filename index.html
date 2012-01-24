@@ -26,9 +26,9 @@
       added, attach event listeners to the elements in your factory method.</p>
       <p>It's based heavily on <a href='https://github.com/shawnbot'>Shawn Allen's</a>
       GeoJSON example.</p>
-      <script src="https://gist.github.com/1477030.js?file=example.js"></script>
+      <script type='text/javascript' src="https://gist.github.com/1477030.js?file=example.js"></script>
     </div>
-    <script>
+    <script type='text/javascript'>
       wax.tilejson('http://a.tiles.mapbox.com/v3/tmcw.boldness.jsonp',
         function(tj) {
           var m = new MM.Map('map', new wax.mm.connector(tj))
@@ -47,7 +47,7 @@
 
           var tomLayer = mmg().factory(function(x) {
             var d = document.createElement('div');
-            d.className = 'my-custom';
+            d.setAttribute('class', 'my-custom');
             d.innerHTML = x.properties.name;
             d.onclick = function() {
               alert('hi, ' + this.innerHTML);
