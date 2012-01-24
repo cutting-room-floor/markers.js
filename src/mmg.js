@@ -5,35 +5,20 @@ function mmg() {
         // the absolute position of the parent element
         position = null,
         factory = null,
-        // the last coordinate we saw on the map
-        lastCoord = null;
+        // map bounds
+        left = null,
+        right = null;
 
     var parent = document.createElement('div');
     parent.style.cssText = 'position: absolute; top: 0px;' +
       'left: 0px; width: 100%; height: 100%; margin: 0; padding: 0; z-index: 0';
 
     markers = [];
-    resetPosition();
 
     function defaultFactory(feature) {
         var d = document.createElement('div');
         d.className = 'mmg-default';
         return d;
-    }
-
-    // when panned, offset the position by the provided screen coordinate x
-    // and y values
-    function onPanned (dx, dy) {
-        position.x += dx;
-        position.y += dy;
-        parent.style.left = ~~(position.x + 0.5) + 'px';
-        parent.style.top = ~~(position.y + 0.5) + 'px';
-    }
-
-    // when zoomed, reset the position and reposition all markers
-    function onZoomed() {
-        resetPosition();
-        repositionAllMarkers();
     }
 
     function fLocation (feature) {
@@ -47,6 +32,8 @@ function mmg() {
 
     // Reposition al markers
     function repositionAllMarkers() {
+        left = l.map.pointLocation(new MM.Point(0, 0));
+        right = l.map.pointLocation(new MM.Point(l.map.dimensions.x, 0));
         var len = markers.length;
         for (var i = 0; i < len; i++) {
             repositionMarker(markers[i]);
@@ -58,13 +45,22 @@ function mmg() {
         // remember the tile coordinate so we don't have to reproject every time
         if (!marker.coord) marker.coord = l.map.locationCoordinate(marker.location);
         var pos = l.map.coordinatePoint(marker.coord);
-        // offset by the layer parent position if x or y is non-zero
-        if (position.x || position.y) {
-            pos.x -= position.x;
-            pox.y -= position.y;
+        var pos_loc;
+        if (pos.x < 0) {
+            pos_loc = marker.location.copy();
+            pos_loc.lon += Math.ceil((left.lon - marker.location.lon) / 360) * 360;
+            pos = l.map.locationPoint(pos_loc);
+        } else if (pos.x > l.map.dimensions.x) {
+            pos_loc = marker.location.copy();
+            pos_loc.lon -= Math.ceil((marker.location.lon - right.lon) / 360) * 360;
+            pos = l.map.locationPoint(pos_loc);
         }
-        marker.style.left = ~~(pos.x + 0.5) + "px";
-        marker.style.top = ~~(pos.y + 0.5) + "px";
+        if (pos_loc) {
+            marker.coord = l.map.locationCoordinate(pos_loc);
+        }
+        pos.scale = 1;
+        pos.width = pos.height = 0;
+        MM.moveElement(marker, pos);
     }
 
     /**
@@ -84,6 +80,7 @@ function mmg() {
         if (l.map) repositionMarker(marker);
         // append it to the DOM
         parent.appendChild(marker);
+
         // add it to the list
         markers.push(marker);
         return marker;
@@ -99,36 +96,8 @@ function mmg() {
     };
 
     l.draw = function() {
-        // these are our previous and next map center coordinates
-        var prev = lastCoord,
-            next = l.map.pointCoordinate({x: 0, y: 0});
-        // if we've recorded the map's previous center...
-        if (prev) {
-            // if the zoom hasn't changed, find the delta in screen
-            // coordinates and pan the parent element
-            if (prev.zoom == next.zoom) {
-                var p1 = l.map.coordinatePoint(prev),
-                    p2 = l.map.coordinatePoint(next),
-                    dx = p1.x - p2.x,
-                    dy = p1.y - p2.y;
-                onPanned(dx, dy);
-            // otherwise, reposition all the markers
-            } else {
-                onZoomed();
-            }
-        // otherwise, reposition all the markers
-        } else {
-            onZoomed();
-        }
-        // remember the previous center
-        _lastCoord = next.copy();
+        repositionAllMarkers();
     };
-
-    // reset the absolute position of the layer's parent element
-    function resetPosition() {
-        position = new MM.Point(0, 0);
-        parent.style.left = parent.style.top = "0px";
-    }
 
     /**
      * Remove the element marker from the layer and the DOM.
