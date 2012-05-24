@@ -58,5 +58,26 @@ describe('mmg', function() {
         .setCenterZoom(new MM.Location(37.8, -77), 7);
       expect(layer.parent.childNodes.length).toEqual(1);
     });
+
+    it('removes that element when called with geojson null', function() {
+      var mapdiv = document.createElement('div');
+      var pt = {
+        'type': 'FeatureCollection',
+        'features': [{
+          'type': 'Feature',
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [-77, 37.8]
+          },
+          "properties": { }
+        }]
+      };
+      var layer = mmg().geojson(pt);
+      var m = new MM.Map(mapdiv, layer)
+        .setCenterZoom(new MM.Location(37.8, -77), 7);
+      expect(layer.parent.childNodes.length).toEqual(1);
+      layer.geojson(null);
+      expect(layer.parent.childNodes.length).toEqual(0);
+    });
   });
 });
