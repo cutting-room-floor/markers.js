@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>mmg: simple markers for Modest Maps</title>
+    <style>
+      #map {
+        position:absolute;
+        top:0;
+        right:0;
+        left:0;
+        bottom:0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='column'>
+      <div id='map'></div>
+    </div>
+    <script type='text/javascript' src='src/mmg.js'></script>
+    <script type='text/javascript' src='src/simplestyle_factory.js'></script>
+    <script type='text/javascript' src='lib/modestmaps.min.js'></script>
+    <script type='text/javascript' src='lib/wax.mm.min.js'></script>
+    <script type='text/javascript'>
+      wax.tilejson('http://a.tiles.mapbox.com/v3/tmcw.map-5vaivzxq.jsonp',
+        function(tj) {
+          var m = new MM.Map('map', new wax.mm.connector(tj))
+            .setCenterZoom(new MM.Location(37.8, -77), 7);
+
+          var pt = {
+            'type': 'FeatureCollection',
+            'features': [{
+              'type': 'Feature',
+              'geometry': {
+                'type': 'Point',
+                'coordinates': [-77, 37.8]
+              },
+              "properties": {
+                "marker-shape": "pin",
+                "marker-size": "medium",
+                "marker-symbol": "bus",
+                "marker-color": "#1ae"
+              }
+            }]
+          };
+
+          var tomLayer = mmg().factory(simplestyle_factory).geojson(pt);
+
+          m.addLayer(tomLayer);
+        });
+    </script>
+  </body>
+</html>
