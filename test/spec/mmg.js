@@ -32,5 +32,10 @@ describe('mmg', function() {
       expect(m.geojson().type).toEqual('FeatureCollection');
       expect(m.geojson().features.length).toEqual(0);
     });
+
+    it('empties its parent and clears the internal feature collection on clear', function() {
+      var m = mmg();
+      expect(m.geojson(null)).toEqual(m);
+    });
   });
 });

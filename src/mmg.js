@@ -62,24 +62,35 @@ function mmg() {
     };
 
     mmg.geojson = function(x) {
-        if (!x) return { type: 'FeatureCollection', features: geojson_features };
-
-        for (var i = 0; i < x.features.length; i++) {
-            l.addMarker(factory(x.features[i]), x.features[i]);
+        // Return features
+        if (!arguments.length) {
+            return {
+                type: 'FeatureCollection',
+                features: geojson_features
+            };
         }
-        return this;
+
+        // Clear features
+        // removing lastChild iteratively is faster than
+        // innerHTML = ''
+        // http://jsperf.com/innerhtml-vs-removechild-yo/2
+        while (parent.hasChildNodes()) {
+            parent.removeChild(parent.lastChild);
+        }
+        geojson_features = [];
+
+        // Set features
+        if (x && x.features) {
+            for (var i = 0; i < x.features.length; i++) {
+                l.addMarker(factory(x.features[i]), x.features[i]);
+            }
+        }
+
+        return mmg;
     };
 
     mmg.draw = function() {
         repositionAllMarkers();
-    };
-
-    // remove all markers
-    mmg.removeAllMarkers = function() {
-        while (markers.length > 0) {
-            var rm = markers.pop();
-            rm.parentNode.removeChild(rm);
-        }
     };
 
     mmg.factory = function(x) {
