@@ -38,4 +38,25 @@ describe('mmg', function() {
       expect(m.geojson(null)).toEqual(m);
     });
   });
+
+  describe('marker addition', function() {
+    it('adds an element to its parent when a single marker is there', function() {
+      var mapdiv = document.createElement('div');
+      var pt = {
+        'type': 'FeatureCollection',
+        'features': [{
+          'type': 'Feature',
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [-77, 37.8]
+          },
+          "properties": { }
+        }]
+      };
+      var layer = mmg().geojson(pt);
+      var m = new MM.Map(mapdiv, layer)
+        .setCenterZoom(new MM.Location(37.8, -77), 7);
+      expect(layer.parent.childNodes.length).toEqual(1);
+    });
+  });
 });

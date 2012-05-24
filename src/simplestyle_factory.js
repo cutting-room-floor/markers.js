@@ -22,4 +22,5 @@ function simplestyle_factory(feature) {
     d.innerHTML = feature.properties.name || '';
 
     return d;
+
 };
