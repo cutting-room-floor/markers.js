@@ -1,28 +1,19 @@
 function mmg() {
     var l = {},
-        // a list of our markers
-        markers = [],
-        // the absolute position of the parent element
-        position = null,
-        factory = null,
-        // map bounds
-        left = null,
-        right = null;
+    // a list of our markers
+    geojson_features = [],
+    // the absolute position of the parent element
+    position = null,
+    factory = null,
+    // map bounds
+    left = null,
+    right = null;
 
 
     function defaultFactory(feature) {
         var d = document.createElement('div');
         d.className = 'mmg-default';
         return d;
-    }
-
-    function fLocation (feature) {
-        // GeoJSON
-        var geom = feature.geometry;
-        // coerce the lat and lon values, just in case
-        var lon = Number(geom.coordinates[0]),
-            lat = Number(geom.coordinates[1]);
-        return new MM.Location(lat, lon);
     }
 
     // Reposition al markers
@@ -68,7 +59,7 @@ function mmg() {
             return null;
         }
         // convert the feature to a Location instance
-        marker.location = fLocation(feature);
+        marker.location = new MM.Location(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
         // position: absolute
         marker.style.position = 'absolute';
         // update the marker's position
@@ -83,7 +74,7 @@ function mmg() {
     };
 
     l.geojson = function(x) {
-        if (!x) return markers;
+        if (!x) return { type: 'FeatureCollection', features: geojson_features };
 
         for (var i = 0; i < x.features.length; i++) {
             l.addMarker(factory(x.features[i]), x.features[i]);
@@ -104,14 +95,14 @@ function mmg() {
     };
 
     l.factory = function(x) {
-      if (!x) return factory;
-      factory = x;
-      return l;
+        if (!x) return factory;
+        factory = x;
+        return l;
     };
 
     var parent = document.createElement('div');
     parent.style.cssText = 'position: absolute; top: 0px;' +
-      'left: 0px; width: 100%; height: 100%; margin: 0; padding: 0; z-index: 0';
+        'left: 0px; width: 100%; height: 100%; margin: 0; padding: 0; z-index: 0';
 
     l.parent = parent;
 
