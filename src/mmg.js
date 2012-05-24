@@ -85,7 +85,7 @@ function mmg() {
     mmg.factory = function(x) {
         if (!x) return factory;
         factory = x;
-        return l;
+        return mmg;
     };
 
     var parent = document.createElement('div');
