@@ -1,26 +1,13 @@
 body {
-  margin:0;
-  padding:0;
-  background:#F7FFFF;
-  color:#333;
-  font:12px/20px 'Verdana', sans-serif;
+  background:#fff;
+  color:#222;
+  font:14px/20px 'Helvetica Neue', sans-serif;
+  width:600px;
+  margin:0 auto;
 }
 
 a, code {
   color:#1F2780;
-}
-
-div.download {
-  padding:10px 0;
-}
-
-div.download a {
-  font:20px/30px 'Verdana', sans-serif;
-}
-
-.column {
-  width:600px;
-  margin:10px auto;
 }
 
 #map {
@@ -29,22 +16,16 @@ div.download a {
   height:300px;
 }
 
-.mmg-default {
-  background:#aff379;
+.link-panel {
+  font:24px/30px 'Helvetica Neue', sans-serif;
+  padding:10px;
+  background:#fdfb8f;
+  border:1px solid #fdfb8f;
+  display:block;
+  margin:10px 0;
+  text-decoration:none;
+}
+
+.link-panel:hover {
   border:1px solid #000;
-  display:block;
-  width:10px;
-  height:10px;
-}
-
-.my-custom {
-  background:#222;
-  border:2px solid #faf45a;
-  color:#fff;
-  display:block;
-  padding:4px;
-}
-
-div.gist {
-  font-size:11px;
 }

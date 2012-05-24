@@ -1,38 +1,3 @@
-// Array.indexOf polyfill courtesy of Mozilla MDN:
-// https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/indexOf
-if (!Array.prototype.indexOf) {
-    Array.prototype.indexOf = function (searchElement /*, fromIndex */ ) {
-        "use strict";
-        if (this === void 0 || this === null) {
-            throw new TypeError();
-        }
-        var t = Object(this);
-        var len = t.length >>> 0;
-        if (len === 0) {
-            return -1;
-        }
-        var n = 0;
-        if (arguments.length > 0) {
-            n = Number(arguments[1]);
-            if (n !== n) { // shortcut for verifying if it's NaN
-                n = 0;
-            } else if (n !== 0 && n !== Infinity && n !== -Infinity) {
-                n = (n > 0 || -1) * Math.floor(Math.abs(n));
-            }
-        }
-        if (n >= len) {
-            return -1;
-        }
-        var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
-        for (; k < len; k++) {
-            if (k in t && t[k] === searchElement) {
-                return k;
-            }
-        }
-        return -1;
-    };
-}
-
 function mmg() {
     var l = {},
         // a list of our markers
@@ -44,9 +9,6 @@ function mmg() {
         left = null,
         right = null;
 
-    var parent = document.createElement('div');
-    parent.style.cssText = 'position: absolute; top: 0px;' +
-      'left: 0px; width: 100%; height: 100%; margin: 0; padding: 0; z-index: 0';
 
     function defaultFactory(feature) {
         var d = document.createElement('div');
@@ -133,37 +95,27 @@ function mmg() {
         repositionAllMarkers();
     };
 
-    /**
-     * Remove the element marker from the layer and the DOM.
-     */
-    l.removeMarker = function(marker) {
-        var index = markers.indexOf(marker);
-        if (index > -1) {
-            markers.splice(index, 1);
-        }
-        if (marker.parentNode == parent) {
-            parent.removeChild(marker);
-        }
-        return marker;
-    };
-
     // remove all markers
     l.removeAllMarkers = function() {
         while (markers.length > 0) {
-            l.removeMarker(markers[0]);
+            var rm = markers.pop();
+            rm.parentNode.removeChild(rm);
         }
     };
 
     l.factory = function(x) {
       if (!x) return factory;
       factory = x;
-      return this;
+      return l;
     };
+
+    var parent = document.createElement('div');
+    parent.style.cssText = 'position: absolute; top: 0px;' +
+      'left: 0px; width: 100%; height: 100%; margin: 0; padding: 0; z-index: 0';
 
     l.parent = parent;
 
     l.factory(defaultFactory);
-
 
     return l;
 }
