@@ -1,20 +1,14 @@
 function mmg() {
-    var l = {},
-    // a list of our markers
-    geojson_features = [],
-    // the absolute position of the parent element
-    position = null,
-    factory = null,
-    // map bounds
-    left = null,
-    right = null;
 
-
-    function defaultFactory(feature) {
-        var d = document.createElement('div');
-        d.className = 'mmg-default';
-        return d;
-    }
+    var mmg = {},
+        // a list of our markers
+        geojson_features = [],
+        // the absolute position of the parent element
+        position = null,
+        factory = null,
+        // map bounds
+        left = null,
+        right = null;
 
     // Reposition al markers
     function repositionAllMarkers() {
@@ -48,13 +42,7 @@ function mmg() {
         MM.moveElement(marker, pos);
     }
 
-    /**
-     * Add an HTML element as a marker, located at the position of the
-     * provided GeoJSON feature, Location instance (or {lat,lon} object
-     * literal), or "lat,lon" string.
-     */
-    var first = true;
-    l.addMarker = function(marker, feature) {
+    mmg.addMarker = function(marker, feature) {
         if (!marker || !feature) {
             return null;
         }
@@ -73,7 +61,7 @@ function mmg() {
         return marker;
     };
 
-    l.geojson = function(x) {
+    mmg.geojson = function(x) {
         if (!x) return { type: 'FeatureCollection', features: geojson_features };
 
         for (var i = 0; i < x.features.length; i++) {
@@ -82,19 +70,19 @@ function mmg() {
         return this;
     };
 
-    l.draw = function() {
+    mmg.draw = function() {
         repositionAllMarkers();
     };
 
     // remove all markers
-    l.removeAllMarkers = function() {
+    mmg.removeAllMarkers = function() {
         while (markers.length > 0) {
             var rm = markers.pop();
             rm.parentNode.removeChild(rm);
         }
     };
 
-    l.factory = function(x) {
+    mmg.factory = function(x) {
         if (!x) return factory;
         factory = x;
         return l;
@@ -104,9 +92,13 @@ function mmg() {
     parent.style.cssText = 'position: absolute; top: 0px;' +
         'left: 0px; width: 100%; height: 100%; margin: 0; padding: 0; z-index: 0';
 
-    l.parent = parent;
+    mmg.parent = parent;
 
-    l.factory(defaultFactory);
+    mmg.factory(function defaultFactory(feature) {
+        var d = document.createElement('div');
+        d.className = 'mmg-default';
+        return d;
+    });
 
-    return l;
+    return mmg;
 }
