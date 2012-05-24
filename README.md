@@ -1,5 +1,5 @@
 A simple HTML markers implementation for Modest Maps. Eats GeoJSON,
 produces HTML markers, positions them correctly.
 
-Using this code with a large number of markers is not recommended,
-and only `Point` geometries are supported.
+## [Documentation is managed in the GitHub wiki](https://github.com/mapbox/mmg/wiki)
+## [The demo is available in the gh-pages branch](http://mapbox.com/mmg/)
