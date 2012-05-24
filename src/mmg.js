@@ -150,7 +150,7 @@ function mmg() {
     // remove all markers
     l.removeAllMarkers = function() {
         while (markers.length > 0) {
-            removeMarker(markers[0]);
+            l.removeMarker(markers[0]);
         }
     };
 
