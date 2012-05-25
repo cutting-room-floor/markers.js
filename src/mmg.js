@@ -7,7 +7,12 @@ function mmg() {
         markers = [],
         // the absolute position of the parent element
         position = null,
+        // a factory function for creating DOM elements out of
+        // GeoJSON objects
         factory = null,
+        // a sorter function for sorting GeoJSON objects
+        // in the DOM
+        sorter = null,
         // map bounds
         left = null,
         right = null;
@@ -75,6 +80,8 @@ function mmg() {
         features = x;
         if (!features) features = [];
 
+        features.sort(sorter);
+
         for (var i = 0; i < x.length; i++) {
             m.addMarker(factory(x[i]), x[i]);
         }
@@ -84,7 +91,7 @@ function mmg() {
 
     // Factory interface
     m.factory = function(x) {
-        if (!x) return factory;
+        if (!arguments.length) return factory;
         factory = x;
         return m;
     };
@@ -92,6 +99,16 @@ function mmg() {
         var d = document.createElement('div');
         d.className = 'mmg-default';
         return d;
+    });
+
+    m.sort = function(x) {
+        if (!arguments.length) return sorter;
+        sorter = x;
+        return m;
+    };
+    m.sort(function(a, b) {
+        return b.geometry.coordinates[1] -
+          a.geometry.coordinates[1];
     });
 
     // The parent DOM element
