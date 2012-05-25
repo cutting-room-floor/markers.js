@@ -14,6 +14,8 @@ function simplestyle_factory(feature) {
     var d = document.createElement('div');
     d.style.width = sizes[size][0] + 'px';
     d.style.height = sizes[size][1] + 'px';
+    d.style.marginTop = -(sizes[size][1] / 2) + 'px';
+    d.style.marginLeft = -(sizes[size][0] / 2) + 'px';
 
     d.style.backgroundImage = 'url(http://a.tiles.mapbox.com/v3/marker/' +
       'pin-' + size[0] + symbol + '+' + color + '.png)';
@@ -22,5 +24,4 @@ function simplestyle_factory(feature) {
     d.innerHTML = feature.properties.name || '';
 
     return d;
-
-};
+}
