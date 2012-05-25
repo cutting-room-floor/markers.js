@@ -29,8 +29,8 @@ describe('mmg', function() {
   describe('geojson interface', function() {
     it('returns its empty features geojson', function() {
       var m = mmg();
-      expect(m.features().type).toEqual('FeatureCollection');
-      expect(m.features().features.length).toEqual(0);
+      expect(m.features()).toEqual([]);
+      expect(m.features().length).toEqual(0);
     });
 
     it('empties its parent and clears the internal feature collection on clear', function() {
@@ -78,6 +78,29 @@ describe('mmg', function() {
       expect(layer.parent.childNodes.length).toEqual(1);
       layer.features(null);
       expect(layer.parent.childNodes.length).toEqual(0);
+    });
+  });
+
+  describe('sorting function', function() {
+    it('sorts points by y-coordinate', function() {
+      var ft = [
+      {
+          'geometry': { 'coordinates': [0, 0] },
+          'properties': { 'order': 2 }
+      },
+      {
+          'geometry': { 'coordinates': [0, -10] },
+          'properties': { 'order': 1 }
+      },
+      {
+          'geometry': { 'coordinates': [0, 10] },
+          'properties': { 'order': 3 }
+      }
+      ];
+      var layer = mmg().features(ft);
+      expect(layer.features()[0].properties.order).toEqual(3);
+      expect(layer.features()[1].properties.order).toEqual(2);
+      expect(layer.features()[2].properties.order).toEqual(1);
     });
   });
 });

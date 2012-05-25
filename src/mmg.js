@@ -77,8 +77,8 @@ function mmg() {
         }
 
         // Set features
+        if (!x) x = [];
         features = x;
-        if (!features) features = [];
 
         features.sort(sorter);
 
