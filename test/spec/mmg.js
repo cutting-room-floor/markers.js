@@ -29,13 +29,13 @@ describe('mmg', function() {
   describe('geojson interface', function() {
     it('returns its empty features geojson', function() {
       var m = mmg();
-      expect(m.geojson().type).toEqual('FeatureCollection');
-      expect(m.geojson().features.length).toEqual(0);
+      expect(m.features().type).toEqual('FeatureCollection');
+      expect(m.features().features.length).toEqual(0);
     });
 
     it('empties its parent and clears the internal feature collection on clear', function() {
       var m = mmg();
-      expect(m.geojson(null)).toEqual(m);
+      expect(m.features(null)).toEqual(m);
     });
   });
 
@@ -53,7 +53,7 @@ describe('mmg', function() {
           "properties": { }
         }]
       };
-      var layer = mmg().geojson(pt);
+      var layer = mmg().features(pt.features);
       var m = new MM.Map(mapdiv, layer)
         .setCenterZoom(new MM.Location(37.8, -77), 7);
       expect(layer.parent.childNodes.length).toEqual(1);
@@ -72,11 +72,11 @@ describe('mmg', function() {
           "properties": { }
         }]
       };
-      var layer = mmg().geojson(pt);
+      var layer = mmg().features(pt.features);
       var m = new MM.Map(mapdiv, layer)
         .setCenterZoom(new MM.Location(37.8, -77), 7);
       expect(layer.parent.childNodes.length).toEqual(1);
-      layer.geojson(null);
+      layer.features(null);
       expect(layer.parent.childNodes.length).toEqual(0);
     });
   });

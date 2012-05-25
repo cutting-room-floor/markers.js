@@ -125,7 +125,7 @@
               ]
           };
 
-          var tomLayer = mmg().factory(simplestyle_factory).geojson(pt);
+          var tomLayer = mmg().factory(simplestyle_factory).features(pt.features);
 
           m.addLayer(tomLayer);
         });
