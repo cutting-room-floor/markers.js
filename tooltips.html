@@ -10,6 +10,9 @@
         left:0;
         bottom:0;
       }
+      body {
+        font:13px/20px 'Helvetica';
+      }
     </style>
     <link href='ext/controls.css' type='text/css' rel='stylesheet' />
   </head>
@@ -22,19 +25,22 @@
     <script type='text/javascript' src='src/tooltip_wrap.js'></script>
     <script type='text/javascript' src='lib/modestmaps.min.js'></script>
     <script type='text/javascript' src='lib/wax.mm.min.js'></script>
+    <script type='text/javascript' src='ext/movetip.js'></script>
     <script type='text/javascript'>
       wax.tilejson('http://a.tiles.mapbox.com/v3/tmcw.map-5vaivzxq.jsonp',
         function(tj) {
           var m = new MM.Map('map', [
-            new wax.mm.connector(tj),
-            mmg()
-              .factory(tooltip_wrap(
-                  simplestyle_factory,
-                  wax.tooltip().parent(document.getElementById('map')).events()))
+              new wax.mm.connector(tj)
+              ]);
+          m.addLayer(mmg()
+              .factory(tooltip_wrap()
+                  .factory(simplestyle_factory)
+                  .tooltip(wax.movetip().parent(document.getElementById('map')))
+                  .map(m)
+                  .wrapped_factory())
               .url('example/simplestyle.geojson', function(ft, l) {
                 m.extent(l.extent());
-              })
-          ]);
+              }));
         });
     </script>
   </body>
