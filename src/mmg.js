@@ -15,6 +15,9 @@ function mmg() {
         sorter = null,
         // map bounds
         left = null,
+        // a list of urls from which features can be loaded.
+        // these can be templated with {z}, {x}, and {y}
+        urls,
         right = null;
 
     // reposition a single marker element
@@ -89,6 +92,34 @@ function mmg() {
             m.addMarker(factory(x[i]), x[i]);
         }
 
+        return m;
+    };
+
+    m.url = function(x, callback) {
+        if (typeof reqwest === 'undefined') throw 'reqwest is required for url loading';
+        if (typeof x === 'string') {
+          urls = [x];
+        } else {
+          urls = x;
+        }
+
+        function add_features(x) {
+            if (x && x.features) m.features(x.features);
+            if (callback) callback(x.features);
+        }
+
+        reqwest((urls[0].match(/geojsonp$/)) ? {
+            url: urls[0] + (~urls[0].indexOf('?') ? '&' : '?') + 'callback=grid',
+            type: 'jsonp',
+            jsonpCallback: 'callback',
+            success: add_features,
+            error: add_features
+        } : {
+            url: urls[0],
+            type: 'json',
+            success: add_features,
+            error: add_features
+        });
         return m;
     };
 

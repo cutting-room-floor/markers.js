@@ -1,3 +1,10 @@
+var Klass = function () {
+};
+
+Klass.prototype.callback = function (arg) {
+  return arg;
+};
+
 describe('mmg', function() {
   it('can be initialized', function() {
     var m = mmg();
@@ -101,6 +108,33 @@ describe('mmg', function() {
       expect(layer.features()[0].properties.order).toEqual(3);
       expect(layer.features()[1].properties.order).toEqual(2);
       expect(layer.features()[2].properties.order).toEqual(1);
+    });
+  });
+
+  describe('marker loading from a url', function() {
+    it('can load markers from a URL', function() {
+      var layer;
+      runs(function() {
+        layer = mmg().url('mock/onepoint.geojson');
+      });
+      waits(100);
+      runs(function() {
+        expect(layer.features().length).toEqual(1);
+      });
+    });
+
+    it('calls a callback when features are loaded', function() {
+      var layer;
+      var obj = new Klass();
+      spyOn(obj, 'callback');
+      runs(function() {
+        layer = mmg().url('mock/onepoint.geojson', obj.callback);
+      });
+      waits(100);
+      runs(function() {
+        expect(layer.features().length).toEqual(1);
+        expect(obj.callback).toHaveBeenCalled();
+      });
     });
   });
 });
