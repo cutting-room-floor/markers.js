@@ -5,23 +5,26 @@ function simplestyle_factory(feature) {
       medium: [30, 70],
       large: [35, 90]
     };
+    var fp = feature.properties || {};
 
-    var size = feature.properties['marker-size'] || 'medium';
-    var symbol = (feature.properties['marker-symbol']) ? '-' + feature.properties['marker-symbol'] : '';
-    var color = feature.properties['marker-color'] || '7e7e7e';
+    var size = fp['marker-size'] || 'medium';
+    var symbol = (fp['marker-symbol']) ? '-' + fp['marker-symbol'] : '';
+    var color = fp['marker-color'] || '7e7e7e';
     color = color.replace('#', '');
-    
-    var d = document.createElement('div');
-    d.style.width = sizes[size][0] + 'px';
-    d.style.height = sizes[size][1] + 'px';
-    d.style.marginTop = -(sizes[size][1] / 2) + 'px';
-    d.style.marginLeft = -(sizes[size][0] / 2) + 'px';
 
-    d.style.backgroundImage = 'url(http://a.tiles.mapbox.com/v3/marker/' +
+    var d = document.createElement('div');
+    var ds = d.style;
+    ds.width = sizes[size][0] + 'px';
+    ds.height = sizes[size][1] + 'px';
+    ds.marginTop = -(sizes[size][1] / 2) + 'px';
+    ds.marginLeft = -(sizes[size][0] / 2) + 'px';
+
+    ds.backgroundImage = 'url(http://a.tiles.mapbox.com/v3/marker/' +
       'pin-' + size[0] + symbol + '+' + color + '.png)';
 
-    d.style.textIndent = -1e8;
-    d.innerHTML = feature.properties.name || '';
+    ds.textIndent = -1e8;
+    d.innerHTML = fp.name || '';
 
     return d;
+
 }
