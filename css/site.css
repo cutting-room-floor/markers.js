@@ -10,7 +10,7 @@ a, code {
   color:#1F2780;
 }
 
-#map {
+.map {
   border:2px solid #000;
   width:600px;
   height:300px;
@@ -18,7 +18,7 @@ a, code {
 
 .link-panel {
   font:24px/30px 'Helvetica Neue', sans-serif;
-  padding:10px;
+  padding:5px 10px;
   background:#fdfb8f;
   border:1px solid #fdfb8f;
   display:block;

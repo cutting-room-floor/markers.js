@@ -6,11 +6,22 @@
     <script type='text/javascript' src='lib/modestmaps.min.js'></script>
     <script type='text/javascript' src='lib/wax.mm.min.js'></script>
     <script type='text/javascript' src='src/mmg.js'></script>
+    <script type='text/javascript' src='src/simplestyle_factory.js'></script>
   </head>
   <body>
     <div class='column'>
       <h2><a href='http://mapbox.com/'>MapBox</a> mmg</h2>
-      <div id='map'></div>
+      <div class='map' id='map'></div>
+
+      <p><strong>mmg</strong> adds points in <a href='http://www.geojson.org/'>GeoJSON</a>
+      on maps powered <a href='http://modestmaps.org/'>Modest Maps</a>. There are no other dependencies,
+      and it's designed to work cross-browser.</p>
+
+      <div class='map' id='ss-map'></div>
+
+      <p>mmg comes with a <strong>simplestyle factory</strong> which implements the
+      <a href='https://github.com/mapbox/simplestyle-spec'>simplestyle spec</a> and
+      adds nice markers to GeoJSON with a predictable scheme of attributes.</p>
 
       <a class='link-panel' href='https://github.com/mapbox/mmg'>Clone or Download on GitHub &rarr;</a>
 
@@ -18,19 +29,7 @@
 
       <a class='link-panel' href='http://mapbox.com/mmg/test/'>Test Suite &rarr;</a>
 
-      <p><strong>mmg</strong> adds points in <a href='http://www.geojson.org/'>GeoJSON</a>
-      on maps powered <a href='http://modestmaps.org/'>Modest Maps</a>. There are no other dependencies,
-      and it's designed to work cross-browser.</p>
 
-      <p>It's a chaining API, so the constructor, <code>mmg()</code>, takes no arguments,
-      but returns an object with <code>.factory(function(x) { return elem; })</code> and
-      <code>.features([geojson_objects])</code> methods. It'll accept any GeoJSON object - bring your own
-      AJAX and JSON.parse if necessary.</p>
-
-      <p>The <strong>factory method</strong> takes a GeoJSON feature object, and returns an
-      HTML element that will be added as a marker for that feature. The element can have
-      childNodes, and if you want the markers to be clickable, or any other interaction to be
-      added, attach event listeners to the elements in your factory method.</p>
 
       <p>mmg is open source licensed under BSD</p>
 
@@ -72,6 +71,14 @@
             return d;
           }).features(ft);
 
+          m.addLayer(tomLayer);
+        });
+
+      wax.tilejson('http://a.tiles.mapbox.com/v3/tmcw.map-5vaivzxq.jsonp',
+        function(tj) {
+          var m = new MM.Map('ss-map', new wax.mm.connector(tj))
+            .setCenterZoom(new MM.Location(37.8, -77), 7);
+          var tomLayer = mmg().factory(simplestyle_factory).url('example/simplestyle.geojson');
           m.addLayer(tomLayer);
         });
     </script>
