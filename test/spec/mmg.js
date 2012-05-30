@@ -136,5 +136,17 @@ describe('mmg', function() {
         expect(obj.callback).toHaveBeenCalled();
       });
     });
+
+    it('gets and sets URLs', function() {
+      layer = mmg();
+      layer.url(['mock/onepoint.geojson']);
+      expect(layer.url()[0]).toEqual('mock/onepoint.geojson');
+    });
+
+    it('transforms plain url strings to arrays', function() {
+      layer = mmg();
+      layer.url('mock/onepoint.geojson');
+      expect(layer.url()[0]).toEqual('mock/onepoint.geojson');
+    });
   });
 });

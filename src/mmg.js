@@ -96,13 +96,11 @@ function mmg() {
     };
 
     m.url = function(x, callback) {
+        if (!arguments.length) return urls;
         if (typeof reqwest === 'undefined') throw 'reqwest is required for url loading';
-        if (typeof x === 'string') {
-          urls = [x];
-        } else {
-          urls = x;
-        }
+        if (typeof x === 'string') x = [x];
 
+        urls = x;
         function add_features(x) {
             if (x && x.features) m.features(x.features);
             if (callback) callback(x.features);
