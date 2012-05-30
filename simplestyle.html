@@ -23,111 +23,14 @@
     <script type='text/javascript'>
       wax.tilejson('http://a.tiles.mapbox.com/v3/tmcw.map-5vaivzxq.jsonp',
         function(tj) {
-          var m = new MM.Map('map', new wax.mm.connector(tj))
-            .setCenterZoom(new MM.Location(37.8, -77), 7);
+          var m = new MM.Map('map', new wax.mm.connector(tj));
 
-          var pt = {
-            'type': 'FeatureCollection',
-            'features': [
-            {
-              'type': 'Feature',
-              'geometry': {
-                'type': 'Point',
-                'coordinates': [-77, 37.8]
-              },
-              "properties": {
-                "marker-shape": "pin",
-                "marker-size": "medium",
-                "marker-symbol": "bus",
-                "marker-color": "#1ae"
-              }
-           },
-           {
-              'type': 'Feature',
-              'geometry': {
-                'type': 'Point',
-                'coordinates': [-78.1, 37.7]
-              },
-              "properties": {
-                "marker-shape": "pin",
-                "marker-size": "medium",
-                "marker-symbol": "monument",
-                "marker-color": "#a3e"
-              }
-            },
-            {
-              'type': 'Feature',
-              'geometry': {
-                'type': 'Point',
-                'coordinates': [-78.8, 37.4]
-              },
-              "properties": {
-                "marker-shape": "pin",
-                "marker-size": "large",
-                "marker-symbol": "monument",
-                "marker-color": "#a3e"
-              }
-            },
-            {
-              'type': 'Feature',
-              'geometry': {
-                'type': 'Point',
-                'coordinates': [-79.0, 38.4]
-              },
-              "properties": {
-                "marker-shape": "pin",
-                "marker-size": "small",
-                "marker-symbol": "bus",
-                "marker-color": "#000"
-              }
-            },
-            {
-              'type': 'Feature',
-              'geometry': {
-                'type': 'Point',
-                'coordinates': [-79.0, 38.9]
-              },
-              "properties": {
-                "marker-shape": "pin"
-              }
-            },
-            {
-              'type': 'Feature',
-              'geometry': {
-                'type': 'Point',
-                'coordinates': [-79.8, 38.9]
-              },
-              "properties": {
-                "marker-shape": "pin",
-                "marker-size": "large"
-              }
-            },
-            {
-              'type': 'Feature',
-              'geometry': {
-                'type': 'Point',
-                'coordinates': [-79.8, 36.9]
-              },
-              "properties": {
-                "marker-color": "#222"
-              }
-            },
-            {
-              'type': 'Feature',
-              'geometry': {
-                'type': 'Point',
-                'coordinates': [-79.8, 36.0]
-              },
-              "properties": {
-                "marker-symbol": "hospital"
-              }
-            }
-              ]
-          };
+          var styled_layer = mmg().factory(simplestyle_factory)
+          .url('example/simplestyle.geojson', function(ft) {
+              m.extent(styled_layer.extent());
+          });
 
-          var tomLayer = mmg().factory(simplestyle_factory).features(pt.features);
-
-          m.addLayer(tomLayer);
+          m.addLayer(styled_layer);
         });
     </script>
   </body>

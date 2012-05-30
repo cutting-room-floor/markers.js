@@ -122,6 +122,18 @@ function mmg() {
         return m;
     };
 
+    m.extent = function() {
+        var ext = [{ lat: Infinity, lon: Infinity}, { lat: -Infinity, lon: -Infinity }];
+        var ft = m.features();
+        for (var i = 0; i < ft.length; i++) {
+            if (ft[i].geometry.coordinates[0] < ext[0].lon) ext[0].lon = ft[i].geometry.coordinates[0];
+            if (ft[i].geometry.coordinates[1] < ext[0].lat) ext[0].lat = ft[i].geometry.coordinates[1];
+            if (ft[i].geometry.coordinates[0] > ext[1].lon) ext[1].lon = ft[i].geometry.coordinates[0];
+            if (ft[i].geometry.coordinates[1] > ext[1].lat) ext[1].lat = ft[i].geometry.coordinates[1];
+        }
+        return ext;
+    };
+
     // Factory interface
     m.factory = function(x) {
         if (!arguments.length) return factory;
@@ -143,7 +155,7 @@ function mmg() {
         return b.geometry.coordinates[1] -
           a.geometry.coordinates[1];
     });
-    
+
     m.destroy = function() {
         if (this.parent.parentNode) {
           this.parent.parentNode.removeChild(this.parent);
