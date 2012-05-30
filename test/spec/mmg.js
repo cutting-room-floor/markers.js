@@ -149,4 +149,21 @@ describe('mmg', function() {
       expect(layer.url()[0]).toEqual('mock/onepoint.geojson');
     });
   });
+
+  describe('extent calculation', function() {
+    it('correctly calculates the extent of a layer with one feature', function() {
+      var layer;
+      runs(function() {
+        layer = mmg().url('mock/onepoint.geojson');
+      });
+      waits(100);
+      runs(function() {
+        expect(layer.features().length).toEqual(1);
+        expect(layer.extent()[0].lon).toEqual(102);
+        expect(layer.extent()[0].lat).toEqual(0.5);
+        expect(layer.extent()[1].lon).toEqual(102);
+        expect(layer.extent()[1].lat).toEqual(0.5);
+      });
+    });
+  });
 });
