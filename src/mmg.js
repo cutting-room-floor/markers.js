@@ -144,6 +144,12 @@ function mmg() {
         return b.geometry.coordinates[1] -
           a.geometry.coordinates[1];
     });
+    
+    m.destroy = function() {
+        if (this.parent.parentNode) {
+          this.parent.parentNode.removeChild(this.parent);
+        }
+    };
 
     // The parent DOM element
     var parent = document.createElement('div');
