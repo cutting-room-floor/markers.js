@@ -3,7 +3,6 @@
   <head>
     <title>mmg: simple markers for Modest Maps</title>
     <link href='css/site.css' rel='stylesheet' type='text/css' />
-    <script type='text/javascript' src='example/random_geojson_points.js'></script>
     <script type='text/javascript' src='lib/modestmaps.min.js'></script>
     <script type='text/javascript' src='lib/wax.mm.min.js'></script>
     <script type='text/javascript' src='src/mmg.js'></script>
@@ -32,22 +31,32 @@
       added, attach event listeners to the elements in your factory method.</p>
 
     </div>
+    <style>
+      .mmg-default {
+        background:magenta;
+        width:10px;
+        height:10px;
+      }
+      .my-custom {
+        position:absolute;
+        background:#fffa96;
+      }
+    </style>
     <script type='text/javascript'>
       wax.tilejson('http://a.tiles.mapbox.com/v3/tmcw.boldness.jsonp',
         function(tj) {
           var m = new MM.Map('map', new wax.mm.connector(tj))
             .setCenterZoom(new MM.Location(0, 0), 2);
 
-          m.addLayer(mmg().geojson(random_geojson));
+          m.addLayer(mmg().url('example/random_geojson_points.geojson'));
 
-          var pt = { 'type': 'FeatureCollection',
-            'features': [{ 'type': 'Feature',
+          var ft = [{ 'type': 'Feature',
             'geometry': {
               'type': 'Point',
               'coordinates': [-40.0, 30.0]
             },
             'properties': { 'name': 'Tom' }
-          }]};
+          }];
 
           var tomLayer = mmg().factory(function(x) {
             var d = document.createElement('div');
@@ -57,7 +66,7 @@
               alert('hi, ' + this.innerHTML);
             };
             return d;
-          }).geojson(pt);
+          }).features(ft);
 
           m.addLayer(tomLayer);
         });

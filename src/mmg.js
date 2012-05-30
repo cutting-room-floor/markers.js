@@ -47,6 +47,7 @@ function mmg() {
     }
 
     m.draw = function() {
+        if (!m.map) return;
         left = m.map.pointLocation(new MM.Point(0, 0));
         right = m.map.pointLocation(new MM.Point(m.map.dimensions.x, 0));
         for (var i = 0; i < markers.length; i++) {
@@ -60,8 +61,6 @@ function mmg() {
         marker.location = new MM.Location(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
         // position: absolute
         marker.style.position = 'absolute';
-        // update the marker's position
-        if (m.map) repositionMarker(marker);
         // append it to the DOM
         parent.appendChild(marker);
         // add it to the list
@@ -91,6 +90,8 @@ function mmg() {
         for (var i = 0; i < x.length; i++) {
             m.addMarker(factory(x[i]), x[i]);
         }
+
+        if (m.map && m.map.coordinate) m.map.draw();
 
         return m;
     };
