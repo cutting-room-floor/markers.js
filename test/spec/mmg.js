@@ -134,6 +134,7 @@ describe('mmg', function() {
       runs(function() {
         expect(layer.features().length).toEqual(1);
         expect(obj.callback).toHaveBeenCalled();
+        expect(obj.callback).toHaveBeenCalledWith(layer.features(), layer);
       });
     });
 

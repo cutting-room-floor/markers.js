@@ -13,11 +13,11 @@ function mmg() {
         // a sorter function for sorting GeoJSON objects
         // in the DOM
         sorter = null,
-        // map bounds
-        left = null,
         // a list of urls from which features can be loaded.
         // these can be templated with {z}, {x}, and {y}
         urls,
+        // map bounds
+        left = null,
         right = null;
 
     // reposition a single marker element
@@ -104,7 +104,7 @@ function mmg() {
         urls = x;
         function add_features(x) {
             if (x && x.features) m.features(x.features);
-            if (callback) callback(x.features);
+            if (callback) callback(x.features, m);
         }
 
         reqwest((urls[0].match(/geojsonp$/)) ? {
@@ -126,10 +126,11 @@ function mmg() {
         var ext = [{ lat: Infinity, lon: Infinity}, { lat: -Infinity, lon: -Infinity }];
         var ft = m.features();
         for (var i = 0; i < ft.length; i++) {
-            if (ft[i].geometry.coordinates[0] < ext[0].lon) ext[0].lon = ft[i].geometry.coordinates[0];
-            if (ft[i].geometry.coordinates[1] < ext[0].lat) ext[0].lat = ft[i].geometry.coordinates[1];
-            if (ft[i].geometry.coordinates[0] > ext[1].lon) ext[1].lon = ft[i].geometry.coordinates[0];
-            if (ft[i].geometry.coordinates[1] > ext[1].lat) ext[1].lat = ft[i].geometry.coordinates[1];
+            var coords = ft[i].geometry.coordinates;
+            if (coords[0] < ext[0].lon) ext[0].lon = coords[0];
+            if (coords[1] < ext[0].lat) ext[0].lat = coords[1];
+            if (coords[0] > ext[1].lon) ext[1].lon = coords[0];
+            if (coords[1] > ext[1].lat) ext[1].lat = coords[1];
         }
         return ext;
     };
