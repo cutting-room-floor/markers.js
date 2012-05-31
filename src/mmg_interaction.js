@@ -1,7 +1,4 @@
 function mmg_interaction(mmg) {
-    if (!mmg.map) {
-        return (console) ? console.log('mmg must be added to a map before interaction is assigned') : 0;
-    }
 
     var mi = {},
         tooltips = [],
@@ -9,13 +6,7 @@ function mmg_interaction(mmg) {
         hide_on_move = true,
         formatter;
 
-    mmg.map.addCallback('panned', function() {
-        if (hide_on_move) {
-            while (tooltips.length) {
-                mmg.remove(tooltips.pop());
-            }
-        }
-    });
+
 
     mi.formatter = function(x) {
         if (!arguments.length) return formatter;
@@ -25,7 +16,7 @@ function mmg_interaction(mmg) {
     mi.formatter(function(feature) {
         var o = '';
         if (feature.properties.title) {
-          o += '<strong>' + feature.properties.title + '</strong>';
+          o += '<strong>' + feature.properties.title + '</strong><br />';
         }
         if (feature.properties.description) {
           o += feature.properties.description;
@@ -77,10 +68,20 @@ function mmg_interaction(mmg) {
         };
     };
 
-    var markers = mmg.markers();
-
-    for (var i = 0; i < markers.length; i++) {
-        mi.bind_marker(markers[i]);
+    if (mmg && mmg.map) {
+        mmg.map.addCallback('panned', function() {
+            if (hide_on_move) {
+                while (tooltips.length) {
+                    mmg.remove(tooltips.pop());
+                }
+            }
+        });
+        var markers = mmg.markers();
+        for (var i = 0; i < markers.length; i++) {
+            mi.bind_marker(markers[i]);
+        }
+    } else {
+        if (console) console.log('mmg must be added to a map before interaction is assigned');
     }
 
     return mi;
