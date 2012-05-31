@@ -58,7 +58,7 @@ function mmg() {
     };
 
     m.add = function(marker) {
-        if (!marker) return null;
+        if (!marker || !marker.element) return null;
         parent.appendChild(marker.element);
         markers.push(marker);
         return marker;
