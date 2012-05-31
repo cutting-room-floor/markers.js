@@ -6,20 +6,19 @@ function mmg_interaction(mmg) {
         hide_on_move = true,
         formatter;
 
-
-
     mi.formatter = function(x) {
         if (!arguments.length) return formatter;
         formatter = x;
         return mi;
     };
     mi.formatter(function(feature) {
-        var o = '';
-        if (feature.properties.title) {
-          o += '<strong>' + feature.properties.title + '</strong><br />';
+        var o = '',
+            props = feature.properties;
+        if (props.title) {
+          o += '<strong>' + props.title + '</strong><br />';
         }
-        if (feature.properties.description) {
-          o += feature.properties.description;
+        if (props.description) {
+          o += props.description;
         }
         return o;
     });

@@ -9,6 +9,7 @@ describe('mmg interaction', function() {
     });
     expect(output).toEqual('<strong>test</strong><br />cats');
   });
+
   it('can get and set a formatter', function() {
     var fred = function() {};
     var mi = mmg_interaction();
