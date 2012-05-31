@@ -4,8 +4,6 @@ wax.movetip = {};
 wax.movetip = function() {
     var popped = false,
         t = {},
-        anchor,
-        offset = { x: 0, y: 0 },
         parent;
 
     var tooltip = document.body.appendChild(document.createElement('div'));
@@ -32,6 +30,7 @@ wax.movetip = function() {
     function off() {
         parent.style.cursor = 'default';
         if (!popped) hide();
+        return t;
     }
 
     function on(o) {
@@ -52,12 +51,6 @@ wax.movetip = function() {
             content = o.content || o.formatter({ format: 'teaser' }, o.data);
             if (!content) return;
 
-            if (o.anchor) {
-              anchor = o.anchor;
-            } else {
-              anchor = wax.u.eventoffset(o.e);
-            }
-
             tooltip.style.display = 'block';
             tooltip.innerHTML = content;
             tooltip.className += ' wax-movetip-popup';
@@ -65,25 +58,13 @@ wax.movetip = function() {
 
             t.move();
         }
+        return t;
     }
 
     t.parent = function(x) {
         if (!arguments.length) return parent;
         parent = x;
         return t;
-    };
-
-    t.anchor = function(x) {
-        if (x) anchor = x;
-    };
-
-    t.offset = function(x) {
-        if (x) offset = x;
-    };
-
-    t.move = function(x) {
-        tooltip.style.left = anchor.x - (offset.x) + 'px';
-        tooltip.style.top = anchor.y - (offset.y) + 'px';
     };
 
     t.element = function() {

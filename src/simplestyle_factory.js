@@ -16,6 +16,7 @@ function simplestyle_factory(feature) {
     var d = document.createElement('div');
     d.className = 'simplestyle-marker';
     var ds = d.style;
+    ds.position = 'absolute';
     ds.width = sizes[size][0] + 'px';
     ds.height = sizes[size][1] + 'px';
     ds.marginTop = -(sizes[size][1] / 2) + 'px';

@@ -1,5 +1,7 @@
 function mmg() {
 
+    [].indexOf||(Array.prototype.indexOf=function(a,b,c){for(c=this.length,b=(c+~~b)%c;b<c&&(!(b in this)||this[b]!==a);b++);return b^c?b:-1;});
+
     var m = {},
         // external list of geojson features
         features = [],
@@ -21,7 +23,7 @@ function mmg() {
         right = null;
 
     // reposition a single marker element
-    function repositionMarker(marker) {
+    function reposition(marker) {
         // remember the tile coordinate so we don't have to reproject every time
         if (!marker.coord) marker.coord = m.map.locationCoordinate(marker.location);
         var pos = m.map.coordinatePoint(marker.coord);
@@ -43,7 +45,7 @@ function mmg() {
 
         pos.scale = 1;
         pos.width = pos.height = 0;
-        MM.moveElement(marker, pos);
+        MM.moveElement(marker.element, pos);
     }
 
     m.draw = function() {
@@ -51,21 +53,26 @@ function mmg() {
         left = m.map.pointLocation(new MM.Point(0, 0));
         right = m.map.pointLocation(new MM.Point(m.map.dimensions.x, 0));
         for (var i = 0; i < markers.length; i++) {
-            repositionMarker(markers[i]);
+            reposition(markers[i]);
         }
     };
 
-    m.addMarker = function(marker, feature) {
-        if (!marker || !feature) return null;
-        // convert the feature to a Location instance
-        marker.location = new MM.Location(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
-        // position: absolute
-        marker.style.position = 'absolute';
-        // append it to the DOM
-        parent.appendChild(marker);
-        // add it to the list
+    m.add = function(marker) {
+        if (!marker) return null;
+        parent.appendChild(marker.element);
         markers.push(marker);
         return marker;
+    };
+
+    m.remove = function(marker) {
+        if (!marker) return null;
+        parent.removeChild(marker.element);
+        markers.splice(markers.indexOf(marker), 1);
+        return marker;
+    };
+
+    m.markers = function(x) {
+        if (!arguments.length) return markers;
     };
 
     // Public data interface
@@ -81,6 +88,8 @@ function mmg() {
             parent.removeChild(parent.lastChild);
         }
 
+        // clear markers representation
+        markers = [];
         // Set features
         if (!x) x = [];
         features = x;
@@ -88,7 +97,11 @@ function mmg() {
         features.sort(sorter);
 
         for (var i = 0; i < x.length; i++) {
-            m.addMarker(factory(x[i]), x[i]);
+            m.add({
+                element: factory(x[i]),
+                location: new MM.Location(x[i].geometry.coordinates[1], x[i].geometry.coordinates[0]),
+                data: x[i]
+            });
         }
 
         if (m.map && m.map.coordinate) m.map.draw();
@@ -144,6 +157,7 @@ function mmg() {
     m.factory(function defaultFactory(feature) {
         var d = document.createElement('div');
         d.className = 'mmg-default';
+        d.style.position = 'absolute';
         return d;
     });
 

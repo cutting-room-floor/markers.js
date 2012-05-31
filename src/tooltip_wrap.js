@@ -1,43 +1,31 @@
-function tooltip_wrap() {
-    var tw = {},
-        map,
-        tooltip,
-        loc,
+function mmg_interaction(mmg) {
+    if (!mmg.map) {
+        return (console) ? console.log('mmg must be added to a map before interaction is assigned') : 0;
+    }
+
+    var mi = {},
+        tooltips = [],
+        exclusive = true,
+        hide_on_move = true,
         formatter;
 
-    tw.factory = function(x) {
-        if (!arguments.length) return factory;
-        factory = x;
-        return tw;
-    };
-
-    tw.tooltip = function(x) {
-        if (!arguments.length) return tooltip;
-        tooltip = x;
-        return tw;
-    };
-
-    tw.map = function(x) {
-        if (!arguments.length) return map;
-        map = x;
-        if (map.addCallback) {
-            map.addCallback('drawn', function() {
-                tooltip.anchor(map.locationPoint(loc));
-                tooltip.move();
-            });
+    mmg.map.addCallback('panned', function() {
+        if (hide_on_move) {
+            while (tooltips.length) {
+                mmg.remove(tooltips.pop());
+            }
         }
-        return tw;
-    };
+    });
 
-    tw.formatter = function(x) {
+    mi.formatter = function(x) {
         if (!arguments.length) return formatter;
         formatter = x;
-        return tw;
+        return mi;
     };
-    tw.formatter(function(feature) {
+    mi.formatter(function(feature) {
         var o = '';
         if (feature.properties.title) {
-          o += '<h2>' + feature.properties.title + '</h2>';
+          o += '<strong>' + feature.properties.title + '</strong>';
         }
         if (feature.properties.description) {
           o += feature.properties.description;
@@ -45,31 +33,55 @@ function tooltip_wrap() {
         return o;
     });
 
-    tw.wrapped_factory = function() {
-        return function(feature) {
-            var elem = factory(feature);
-            elem.onclick = function(e) {
-                loc = new MM.Location(
-                    feature.geometry.coordinates[1],
-                    feature.geometry.coordinates[0]);
-                tooltip.events().on({
-                    e: e,
-                    content: formatter(feature)
-                });
-                tooltip.offset({
-                    x: (tooltip.element().offsetWidth / 2),
-                    y: (tooltip.element().offsetHeight) + (elem.offsetHeight / 2) + 10
-                });
+    mi.hide_on_move = function(x) {
+        if (!arguments.length) return hide_on_move;
+        hide_on_move = x;
+        return mi;
+    };
+
+    mi.exclusive = function(x) {
+        if (!arguments.length) return exclusive;
+        exclusive = x;
+        return mi;
+    };
+
+    mi.bind_marker = function(marker) {
+        marker.element.onclick = function(e) {
+            if (exclusive && tooltips.length > 0) {
+                mmg.remove(tooltips.pop());
+            }
+
+            var tooltip = document.createElement('div');
+            tooltip.className = 'wax-movetip';
+
+            var intip = tooltip.appendChild(document.createElement('div'));
+            intip.className = 'wax-intip';
+            intip.innerHTML = formatter(marker.data);
+
+            // Here we're adding the tooltip to the dom briefly
+            // to gauge its size. There should be a better way to do this.
+            document.body.appendChild(tooltip);
+            intip.style.marginTop = -(
+                (marker.element.offsetHeight * 0.5) +
+                tooltip.offsetHeight + 10) + 'px';
+            document.body.removeChild(tooltip);
+
+            var t = {
+                element: tooltip,
+                data: {},
+                location: marker.location.copy()
             };
-            elem.onmouseout = function(e) {
-                tooltip.events().off({
-                    e: e,
-                    content: formatter(feature)
-                });
-            };
-            return elem;
+            tooltips.push(t);
+            mmg.add(t);
+            mmg.draw();
         };
     };
 
-    return tw;
+    var markers = mmg.markers();
+
+    for (var i = 0; i < markers.length; i++) {
+        mi.bind_marker(markers[i]);
+    }
+
+    return mi;
 }
