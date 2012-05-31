@@ -5,6 +5,7 @@ function simplestyle_factory(feature) {
       medium: [30, 70],
       large: [35, 90]
     };
+
     var fp = feature.properties || {};
 
     var size = fp['marker-size'] || 'medium';
@@ -13,6 +14,7 @@ function simplestyle_factory(feature) {
     color = color.replace('#', '');
 
     var d = document.createElement('div');
+    d.className = 'simplestyle-marker';
     var ds = d.style;
     ds.width = sizes[size][0] + 'px';
     ds.height = sizes[size][1] + 'px';
@@ -26,5 +28,4 @@ function simplestyle_factory(feature) {
     d.innerHTML = fp.title || '';
 
     return d;
-
 }
