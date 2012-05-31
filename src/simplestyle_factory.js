@@ -22,8 +22,8 @@ function simplestyle_factory(feature) {
     ds.backgroundImage = 'url(http://a.tiles.mapbox.com/v3/marker/' +
       'pin-' + size[0] + symbol + '+' + color + '.png)';
 
-    ds.textIndent = -1e8;
-    d.innerHTML = fp.name || '';
+    ds.textIndent = -1e8 + 'px';
+    d.innerHTML = fp.title || '';
 
     return d;
 
