@@ -1,7 +1,8 @@
 body {
   background:#fff;
   color:#222;
-  font:14px/20px 'Helvetica Neue', sans-serif;
+  font:18px/30px 'Helvetica Neue Light', 'Helvetica Neue', sans-serif;
+  font-weight:300;
   width:600px;
   margin:0 auto;
 }
