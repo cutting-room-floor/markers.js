@@ -3,15 +3,19 @@
   <head>
     <title>mmg: simple markers for Modest Maps</title>
     <link href='css/site.css' rel='stylesheet' type='text/css' />
+    <link href='src/mmg.css' rel='stylesheet' type='text/css' />
     <script type='text/javascript' src='lib/modestmaps.min.js'></script>
     <script type='text/javascript' src='lib/wax.mm.min.js'></script>
     <script type='text/javascript' src='src/mmg.js'></script>
     <script type='text/javascript' src='src/simplestyle_factory.js'></script>
+    <script type='text/javascript' src='src/mmg_interaction.js'></script>
   </head>
   <body>
     <div class='column'>
       <h2><a href='http://mapbox.com/'>MapBox</a> mmg</h2>
+
       <div class='map' id='map'></div>
+
 
       <p><strong>mmg</strong> adds points in <a href='http://www.geojson.org/'>GeoJSON</a>
       on maps powered <a href='http://modestmaps.org/'>Modest Maps</a>. There are no other dependencies,
@@ -28,8 +32,6 @@
       <a class='link-panel' href='https://github.com/mapbox/mmg/wiki'>Developer Documentation &rarr;</a>
 
       <a class='link-panel' href='http://mapbox.com/mmg/test/'>Test Suite &rarr;</a>
-
-
 
       <p>mmg is open source licensed under BSD</p>
 
@@ -78,7 +80,9 @@
         function(tj) {
           var m = new MM.Map('ss-map', new wax.mm.connector(tj))
             .setCenterZoom(new MM.Location(37.8, -77), 7);
-          var tomLayer = mmg().factory(simplestyle_factory).url('example/simplestyle.geojson');
+            var tomLayer = mmg().factory(simplestyle_factory).url('example/simplestyle.geojson', function(feat, l) {
+              mmg_interaction(l);
+            });
           m.addLayer(tomLayer);
         });
     </script>
