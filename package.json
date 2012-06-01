@@ -20,7 +20,6 @@
     }],
     "devDependencies": {
       "jshint": "0.5.x",
-      "uglify-js": "1.0.x",
-      "banner": "0.0.x"
+      "uglify-js": "1.0.x"
     }
 }
