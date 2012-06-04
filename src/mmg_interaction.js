@@ -46,7 +46,12 @@ function mmg_interaction(mmg) {
 
             var intip = tooltip.appendChild(document.createElement('div'));
             intip.className = 'wax-intip';
-            intip.innerHTML = formatter(marker.data);
+            var content = formatter(marker.data);
+            if (typeof content == 'string') {
+                intip.innerHTML = content;
+            } else {
+                intip.appendChild(content);
+            }
 
             // Here we're adding the tooltip to the dom briefly
             // to gauge its size. There should be a better way to do this.
