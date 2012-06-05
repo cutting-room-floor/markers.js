@@ -92,7 +92,7 @@ function mmg() {
         markers = [];
         // Set features
         if (!x) x = [];
-        features = x;
+        features = x.slice();
 
         features.sort(sorter);
 
