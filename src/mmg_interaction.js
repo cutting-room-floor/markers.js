@@ -68,14 +68,14 @@ function mmg_interaction(mmg) {
         };
 
         var show = function(e) {
-            if (exclusive && tooltips.length > 0) {
-                mi.hide_tooltips();
-            }
-
             var content = formatter(marker.data);
             // Don't show a popup if the formatter returns an
             // empty string. This does not do any magic around DOM elements.
             if (!content) return;
+
+            if (exclusive && tooltips.length > 0) {
+                mi.hide_tooltips();
+            }
 
             var tooltip = document.createElement('div');
             tooltip.className = 'wax-movetip';
@@ -94,7 +94,7 @@ function mmg_interaction(mmg) {
             document.body.appendChild(tooltip);
             intip.style.marginTop = -(
                 (marker.element.offsetHeight * 0.5) +
-                tooltip.offsetHeight + 10) + 'px';
+                tooltip.offsetHeight + 20) + 'px';
             document.body.removeChild(tooltip);
 
             if (show_on_hover) {
