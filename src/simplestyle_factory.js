@@ -21,6 +21,7 @@ function simplestyle_factory(feature) {
     ds.height = sizes[size][1] + 'px';
     ds.marginTop = -(sizes[size][1] / 2) + 'px';
     ds.marginLeft = -(sizes[size][0] / 2) + 'px';
+    ds.cursor = 'pointer';
 
     ds.backgroundImage = 'url(http://a.tiles.mapbox.com/v3/marker/' +
       'pin-' + size[0] + symbol + '+' + color + '.png)';
