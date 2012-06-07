@@ -16,12 +16,22 @@ function mmg_interaction(mmg) {
     mi.formatter(function(feature) {
         var o = '',
             props = feature.properties;
+
         if (props.title) {
-          o += '<strong>' + props.title + '</strong><br />';
+            o += '<strong>' + props.title + '</strong><br />';
         }
         if (props.description) {
-          o += props.description;
+            o += props.description;
         }
+
+        if (typeof html_sanitize !== undefined) {
+            o = html_sanitize(o,
+                function(url) {
+                    if (/^(https?:\/\/|data:image)/.test(url)) return url;
+                },
+                function(x) { return x; });
+        }
+
         return o;
     });
 
