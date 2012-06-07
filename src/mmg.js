@@ -96,11 +96,11 @@ function mmg() {
 
         features.sort(sorter);
 
-        for (var i = 0; i < x.length; i++) {
+        for (var i = 0; i < features.length; i++) {
             m.add({
-                element: factory(x[i]),
-                location: new MM.Location(x[i].geometry.coordinates[1], x[i].geometry.coordinates[0]),
-                data: x[i]
+                element: factory(features[i]),
+                location: new MM.Location(features[i].geometry.coordinates[1], features[i].geometry.coordinates[0]),
+                data: features[i]
             });
         }
 
