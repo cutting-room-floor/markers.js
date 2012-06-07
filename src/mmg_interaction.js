@@ -72,12 +72,17 @@ function mmg_interaction(mmg) {
                 mi.hide_tooltips();
             }
 
+            var content = formatter(marker.data);
+            // Don't show a popup if the formatter returns an
+            // empty string. This does not do any magic around DOM elements.
+            if (!content) return;
+
             var tooltip = document.createElement('div');
             tooltip.className = 'wax-movetip';
 
             var intip = tooltip.appendChild(document.createElement('div'));
             intip.className = 'wax-intip';
-            var content = formatter(marker.data);
+
             if (typeof content == 'string') {
                 intip.innerHTML = content;
             } else {
