@@ -18,8 +18,8 @@ function simplestyle_factory(feature) {
     var ds = d.style;
     ds.position = 'absolute';
     ds.width = sizes[size][0] + 'px';
-    ds.height = sizes[size][1] + 'px';
-    ds.marginTop = -(sizes[size][1] / 2) + 'px';
+    ds.height = (sizes[size][1] * 0.75) + 'px';
+    ds.marginTop = -((sizes[size][1]) / 2) + 'px';
     ds.marginLeft = -(sizes[size][0] / 2) + 'px';
     ds.cursor = 'pointer';
 
