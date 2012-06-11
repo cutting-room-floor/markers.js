@@ -10,6 +10,7 @@
       <h2>clustering</h2>
       <div class='map' id='map'></div>
       <label for='ten'>cluster size</label>
+      <button id='no'>no clustering</button>
       <button id='ten'>10</button>
       <button id='fifty'>50</button>
       <button id='thou'>1000</button>
@@ -45,6 +46,9 @@
           ]);
           m.extent(ml.extent());
         });
+        document.getElementById('no').onclick = function() {
+            ml.features(features);
+        };
         document.getElementById('ten').onclick = function() {
             clusters = mmg_cluster(features, 10);
             ml.features(clusters);
