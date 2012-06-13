@@ -1,7 +1,5 @@
 function mmg() {
 
-    [].indexOf||(Array.prototype.indexOf=function(a,b,c){for(c=this.length,b=(c+~~b)%c;b<c&&(!(b in this)||this[b]!==a);b++);return b^c?b:-1;});
-
     var m = {},
         // external list of geojson features
         features = [],
@@ -67,7 +65,12 @@ function mmg() {
     m.remove = function(marker) {
         if (!marker) return null;
         parent.removeChild(marker.element);
-        markers.splice(markers.indexOf(marker), 1);
+        for (var i = 0; i < markers.length; i++) {
+            if (markers[i] === marker) {
+                markers.splice(i, 1);
+                return marker;
+            }
+        }
         return marker;
     };
 
