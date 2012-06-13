@@ -1,3 +1,7 @@
+### 0.2.3
+
+* Removed indexOf shim. no functional change.
+
 ### 0.2.2
 
 * Adds index.js to make node.js happy
