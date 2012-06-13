@@ -75,6 +75,9 @@ function mmg_interaction(mmg) {
 
             if (exclusive && tooltips.length > 0) {
                 mi.hide_tooltips();
+                // We've hidden all of the tooltips, so let's not close
+                // the one that we're creating as soon as it is created.
+                if (close_timer) window.clearTimeout(close_timer);
             }
 
             var tooltip = document.createElement('div');
