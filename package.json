@@ -13,7 +13,7 @@
     },
     "homepage": "http://mapbox.com/mmg/",
     "contributors": [
-        "Tom MacWright <macwright@gmail.com>"
+        "Tom MacWright <tom@macwright.org>"
     ],
     "licenses": [{
       "type": "BSD"
