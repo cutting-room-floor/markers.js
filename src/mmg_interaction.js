@@ -92,13 +92,9 @@ function mmg_interaction(mmg) {
                 intip.appendChild(content);
             }
 
-            // Here we're adding the tooltip to the dom briefly
-            // to gauge its size. There should be a better way to do this.
-            document.body.appendChild(tooltip);
-            intip.style.marginTop = -(
-                (marker.element.offsetHeight * 0.5) +
-                tooltip.offsetHeight + 20) + 'px';
-            document.body.removeChild(tooltip);
+            // Align the bottom of the tooltip with the top of its marker
+            tooltip.style.bottom = marker.element.offsetParent.offsetHeight -
+                                   marker.element.offsetTop + 10 + 'px';
 
             if (show_on_hover) {
                 tooltip.onmouseover = function() {

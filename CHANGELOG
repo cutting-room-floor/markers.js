@@ -1,3 +1,7 @@
+### 0.2.4
+
+* Align tooltips' bottoms to their markers' tops. Handles resizable tooltips.
+
 ### 0.2.3
 
 * Removed indexOf shim. no functional change.
