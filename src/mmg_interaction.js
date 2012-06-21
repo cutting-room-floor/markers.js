@@ -83,7 +83,10 @@ function mmg_interaction(mmg) {
             var tooltip = document.createElement('div');
             tooltip.className = 'wax-movetip';
 
-            var intip = tooltip.appendChild(document.createElement('div'));
+            var wrapper = tooltip.appendChild(document.createElement('div'));
+            wrapper.style.position = 'absolute';
+
+            var intip = wrapper.appendChild(document.createElement('div'));
             intip.className = 'wax-intip';
 
             if (typeof content == 'string') {
@@ -93,8 +96,7 @@ function mmg_interaction(mmg) {
             }
 
             // Align the bottom of the tooltip with the top of its marker
-            tooltip.style.bottom = marker.element.offsetParent.offsetHeight -
-                                   marker.element.offsetTop + 10 + 'px';
+            wrapper.style.bottom = marker.element.offsetHeight / 2 + 20 + 'px';
 
             if (show_on_hover) {
                 tooltip.onmouseover = function() {
