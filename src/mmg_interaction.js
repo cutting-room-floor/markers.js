@@ -18,7 +18,7 @@ function mmg_interaction(mmg) {
             props = feature.properties;
 
         if (props.title) {
-            o += '<h1 class="mmg-title">' + props.title + '</h1>';
+            o += '<div class="mmg-title">' + props.title + '</div>';
         }
         if (props.description) {
             o += '<div class="mmg-description">' + props.description + '</div>';
