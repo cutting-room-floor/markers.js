@@ -82,9 +82,14 @@ function mmg_interaction(mmg) {
 
             var tooltip = document.createElement('div');
             tooltip.className = 'wax-movetip';
+            tooltip.style.width = '100%';
 
-            var intip = tooltip.appendChild(document.createElement('div'));
+            var wrapper = tooltip.appendChild(document.createElement('div'));
+            wrapper.style.cssText = 'position: absolute; pointer-events: none;';
+
+            var intip = wrapper.appendChild(document.createElement('div'));
             intip.className = 'wax-intip';
+            intip.style.cssText = 'pointer-events: auto;';
 
             if (typeof content == 'string') {
                 intip.innerHTML = content;
@@ -92,13 +97,8 @@ function mmg_interaction(mmg) {
                 intip.appendChild(content);
             }
 
-            // Here we're adding the tooltip to the dom briefly
-            // to gauge its size. There should be a better way to do this.
-            document.body.appendChild(tooltip);
-            intip.style.marginTop = -(
-                (marker.element.offsetHeight * 0.5) +
-                tooltip.offsetHeight + 20) + 'px';
-            document.body.removeChild(tooltip);
+            // Align the bottom of the tooltip with the top of its marker
+            wrapper.style.bottom = marker.element.offsetHeight / 2 + 20 + 'px';
 
             if (show_on_hover) {
                 tooltip.onmouseover = function() {
