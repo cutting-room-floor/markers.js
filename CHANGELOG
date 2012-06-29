@@ -1,3 +1,8 @@
+### 0.2.5
+
+* Uses images instead of divs and sprites for markers in order to make them printable
+* Updates dependency modestmaps to add touch compatibility
+
 ### 0.2.4
 
 * Align tooltips' bottoms to their markers' tops. Handles resizable tooltips.
