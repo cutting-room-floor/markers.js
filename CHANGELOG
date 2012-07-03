@@ -1,3 +1,11 @@
+### 0.3.0
+
+* Refactors `mmg_interaction` to be usable without having the mmg layer
+  attached to the map.
+* Via that refactor, the `mmg` object now has `addCallback` and
+  `removeCallback` functions for adding callbacks for the `drawn` and
+  `markeradded` events.
+
 ### 0.2.5
 
 * Uses images instead of divs and sprites for markers in order to make them printable
