@@ -73,7 +73,7 @@ function mmg_csv(url, callback) {
 
       return rows;
     }
-        
+
     if (!arguments.length) return urls;
     if (typeof reqwest === 'undefined') throw 'reqwest is required for url loading';
 

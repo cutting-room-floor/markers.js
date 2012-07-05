@@ -1,3 +1,9 @@
+### 0.3.1
+
+* Fixes error around last refactoring in which tooltips themselves
+  were interactive and caused an error trying to recursively pop up
+  more tooltips
+
 ### 0.3.0
 
 * Refactors `mmg_interaction` to be usable without having the mmg layer
