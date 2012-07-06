@@ -102,6 +102,10 @@ function mmg() {
         if (!arguments.length) return markers;
     };
 
+    m.add_feature = function(x) {
+        return m.features(m.features().concat([x]));
+    };
+
     // Public data interface
     m.features = function(x) {
         // Return features
