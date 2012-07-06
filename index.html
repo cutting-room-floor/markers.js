@@ -16,6 +16,7 @@
 
       <div class='map' id='map'></div>
 
+      <button onclick='mixuprand();'>mix up</button>
 
       <p><strong>mmg</strong> adds points in <a href='http://www.geojson.org/'>GeoJSON</a>
       on maps powered by <a href='http://modestmaps.com/'>Modest Maps</a>. There are no other dependencies,
@@ -37,6 +38,10 @@
 
     </div>
     <style>
+      .map {
+          width:500px;
+          height:500px;
+      }
       .mmg-default {
         background:magenta;
         width:10px;
@@ -48,12 +53,23 @@
       }
     </style>
     <script type='text/javascript'>
+      var rand = mmg().url('example/random_geojson_points.geojson')
+      function mixuprand() {
+        rand.factory(function(x) {
+            var d = document.createElement('div');
+            d.setAttribute('class', 'my-custom');
+            window.setInterval(function() {
+                d.innerHTML = Math.random() > 0.5 ? '!' : '+';
+            }, 100);
+            return d;
+        });
+      }
       wax.tilejson('http://a.tiles.mapbox.com/v3/tmcw.boldness.jsonp',
         function(tj) {
           var m = new MM.Map('map', new wax.mm.connector(tj))
             .setCenterZoom(new MM.Location(0, 0), 2);
 
-          m.addLayer(mmg().url('example/random_geojson_points.geojson'));
+          m.addLayer(rand);
 
           var ft = [{ 'type': 'Feature',
             'geometry': {
