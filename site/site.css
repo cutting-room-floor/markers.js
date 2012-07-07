@@ -1,0 +1,63 @@
+@font-face {
+  font-family:DroidSans;
+  src:url('http://mapbox.com/fonts/DroidSans.woff') format('woff');
+  }
+
+@font-face {
+  font-family:DroidSans;
+  font-weight:bold;
+  src:url('http://mapbox.com/fonts/DroidSansBold.woff') format('woff');
+  }
+
+body {
+  background:#fff;
+  color:#222;
+  font:18px/30px DroidSans,'Helvetica Neue Light', 'Helvetica Neue', sans-serif;
+  font-weight:300;
+  width:960px;
+  margin:0 auto;
+}
+
+.mapbox-logo {
+  text-indent:-10000px;
+  background:url(mapbox-logo.png);
+  position:absolute;
+  width:138px;
+  height:40px;
+  }
+
+.branding {
+  height:50px;
+  padding:10px;
+  }
+
+h2 {
+  float:right;
+  font-weight:normal;
+  margin:0;
+  }
+
+a, code {
+  color:#1F2780;
+}
+
+.map {
+  border:1px solid #aaa;
+  width:960px;
+  height:200px;
+  border-radius:5px;
+}
+
+.link-panel {
+  font:24px/30px 'Helvetica Neue', sans-serif;
+  padding:5px 10px;
+  background:#fdfb8f;
+  border:1px solid #fdfb8f;
+  display:block;
+  margin:10px 0;
+  text-decoration:none;
+}
+
+.link-panel:hover {
+  border:1px solid #000;
+}
