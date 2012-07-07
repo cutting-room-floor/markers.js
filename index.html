@@ -6,7 +6,6 @@
     <link href='site/site.css' rel='stylesheet' type='text/css' />
     <script type='text/javascript' src='lib/modestmaps.min.js'></script>
     <script type='text/javascript' src='lib/wax.mm.min.js'></script>
-
     <script type='text/javascript' src='dist/mmg.0.3.2.min.js'></script>
     <link href='dist/mmg.0.3.2.css' rel='stylesheet' type='text/css' />
   </head>
@@ -16,14 +15,16 @@
           <h2>markers.js</h2>
           <a class='mapbox-logo' href='http://mapbox.com/'>MapBox</a>
       </div>
-      <div class='map' id='map'></div>
 
-      <button onclick='mixuprand();'>mix up</button>
+      <iframe frameborder=no width=960 height=200 src='http://bl.ocks.org/d/3067726/'></iframe>
+      <a class='code-link' href='https://gist.github.com/3067726'>view source</a>
+
       <p><strong>markers.js</strong> adds points in <a href='http://www.geojson.org/'>GeoJSON</a>
       on maps powered by <a href='http://modestmaps.com/'>Modest Maps</a>. It's made to be a nice,
       flexible interface that works well with any design.</p>
 
-      <div class='map' id='ss-map'></div>
+      <iframe frameborder=no width=960 height=200 src='http://bl.ocks.org/d/3067697/'></iframe>
+      <a class='code-link' href='https://gist.github.com/3067697'>view source</a>
 
       <p>mmg comes with a <strong>simplestyle factory</strong> which implements the
       <a href='https://github.com/mapbox/simplestyle-spec'>simplestyle spec</a> and
@@ -35,67 +36,6 @@
       <a class='link-panel' href='https://github.com/mapbox/mmg/wiki'>Developer Documentation &rarr;</a>
       <a class='link-panel' href='http://mapbox.com/mmg/test/'>Test Suite &rarr;</a>
     </div>
-    <style>
-      .mmg-default {
-        background:magenta;
-        width:10px;
-        height:10px;
-      }
-      .my-custom {
-        position:absolute;
-        background:#fffa96;
-      }
-    </style>
-    <script type='text/javascript'>
-      var rand = mmg().url('example/random_geojson_points.geojson')
-      function mixuprand() {
-        rand.factory(function(x) {
-            var d = document.createElement('div');
-            d.setAttribute('class', 'my-custom');
-            window.setInterval(function() {
-                d.innerHTML = Math.random() > 0.5 ? '!' : '+';
-            }, 100);
-            return d;
-        });
-      }
-      wax.tilejson('http://a.tiles.mapbox.com/v3/tmcw.boldness.jsonp',
-        function(tj) {
-          var m = new MM.Map('map', new wax.mm.connector(tj))
-            .setCenterZoom(new MM.Location(0, 0), 2);
-
-          m.addLayer(rand);
-
-          var ft = [{ 'type': 'Feature',
-            'geometry': {
-              'type': 'Point',
-              'coordinates': [-40.0, 30.0]
-            },
-            'properties': { 'name': 'Tom' }
-          }];
-
-          var tomLayer = mmg().factory(function(x) {
-            var d = document.createElement('div');
-            d.setAttribute('class', 'my-custom');
-            d.innerHTML = x.properties.name;
-            d.onclick = function() {
-              alert('hi, ' + this.innerHTML);
-            };
-            return d;
-          }).features(ft);
-
-          m.addLayer(tomLayer);
-        });
-
-      wax.tilejson('http://a.tiles.mapbox.com/v3/tmcw.map-5vaivzxq.jsonp',
-        function(tj) {
-          var m = new MM.Map('ss-map', new wax.mm.connector(tj))
-            .setCenterZoom(new MM.Location(37.8, -77), 7);
-            var tomLayer = mmg().factory(simplestyle_factory).url('example/simplestyle.geojson', function(feat, l) {
-              mmg_interaction(l);
-            });
-          m.addLayer(tomLayer);
-        });
-    </script>
     <script type="text/javascript">
   var _gauges = _gauges || [];
   (function() {

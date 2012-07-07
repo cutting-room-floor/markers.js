@@ -12,8 +12,7 @@
 body {
   background:#fff;
   color:#222;
-  font:18px/30px DroidSans,'Helvetica Neue Light', 'Helvetica Neue', sans-serif;
-  font-weight:300;
+  font:20px/30px DroidSans,'Helvetica Neue Light', 'Helvetica Neue', sans-serif;
   width:960px;
   margin:0 auto;
 }
@@ -41,9 +40,19 @@ a, code {
   color:#1F2780;
 }
 
-.map {
+.code-link {
+  float:right;
+  background:#58b13b;
+  color:#fff;
+  padding:2px 5px;
+  text-decoration:none;
+  border-radius:5px;
+}
+
+iframe {
   border:1px solid #aaa;
-  width:960px;
+  overflow:hidden;
+  width:958px;
   height:200px;
   border-radius:5px;
 }
