@@ -23,10 +23,9 @@ function mmg() {
         right = null;
 
     // The parent DOM element
-    var parent = document.createElement('div');
-    parent.style.cssText = 'position: absolute; top: 0px;' +
-        'left: 0px; width: 100%; height: 100%; margin: 0; padding: 0; z-index: 0';
-    m.parent = parent;
+    m.parent = document.createElement('div');
+    m.parent.style.cssText = 'position: absolute; top: 0px;' +
+        'left:0px; width:100%; height:100%; margin:0; padding:0; z-index:0';
 
     // reposition a single marker element
     function reposition(marker) {
@@ -68,6 +67,8 @@ function mmg() {
         return m;
     };
 
+    // Draw this layer - reposition all markers on the div. This requires
+    // the markers library to be attached to a map, and will noop otherwise.
     m.draw = function() {
         if (!m.map) return;
         left = m.map.pointLocation(new MM.Point(0, 0));
@@ -78,17 +79,21 @@ function mmg() {
         }
     };
 
+    // Add a fully-formed marker to the layer. This fires a `markeradded` event.
+    // This does not require the map element t be attached.
     m.add = function(marker) {
         if (!marker || !marker.element) return null;
-        parent.appendChild(marker.element);
+        m.parent.appendChild(marker.element);
         markers.push(marker);
         callbackManager.dispatchCallback('markeradded', marker);
         return marker;
     };
 
+    // Remove a fully-formed marker - which must be the same exact marker
+    // object as in the markers array - from the layer.
     m.remove = function(marker) {
         if (!marker) return null;
-        parent.removeChild(marker.element);
+        m.parent.removeChild(marker.element);
         for (var i = 0; i < markers.length; i++) {
             if (markers[i] === marker) {
                 markers.splice(i, 1);
@@ -102,6 +107,7 @@ function mmg() {
         if (!arguments.length) return markers;
     };
 
+    // Add a GeoJSON feature to the markers layer.
     m.add_feature = function(x) {
         return m.features(m.features().concat([x]));
     };
@@ -112,11 +118,11 @@ function mmg() {
         if (!arguments.length) return features;
 
         // Clear features
-        while (parent.hasChildNodes()) {
+        while (m.parent.hasChildNodes()) {
             // removing lastChild iteratively is faster than
             // innerHTML = ''
             // http://jsperf.com/innerhtml-vs-removechild-yo/2
-            parent.removeChild(parent.lastChild);
+            m.parent.removeChild(m.parent.lastChild);
         }
 
         // clear markers representation
@@ -130,7 +136,9 @@ function mmg() {
         for (var i = 0; i < features.length; i++) {
             m.add({
                 element: factory(features[i]),
-                location: new MM.Location(features[i].geometry.coordinates[1], features[i].geometry.coordinates[0]),
+                location: new MM.Location(
+                    features[i].geometry.coordinates[1],
+                    features[i].geometry.coordinates[0]),
                 data: features[i]
             });
         }
@@ -140,6 +148,8 @@ function mmg() {
         return m;
     };
 
+    // Request features from a URL - either a local URL or a JSONP call.
+    // Expects GeoJSON-formatted features.
     m.url = function(x, callback) {
         if (!arguments.length) return urls;
         if (typeof reqwest === 'undefined') throw 'reqwest is required for url loading';
@@ -167,7 +177,13 @@ function mmg() {
     };
 
     m.extent = function() {
-        var ext = [{ lat: Infinity, lon: Infinity}, { lat: -Infinity, lon: -Infinity }];
+        var ext = [{
+            lat: Infinity,
+            lon: Infinity
+        }, {
+            lat: -Infinity,
+            lon: -Infinity
+        }];
         var ft = m.features();
         for (var i = 0; i < ft.length; i++) {
             var coords = ft[i].geometry.coordinates;
@@ -206,8 +222,8 @@ function mmg() {
     });
 
     m.destroy = function() {
-        if (this.parent.parentNode) {
-          this.parent.parentNode.removeChild(this.parent);
+        if (m.parent.parentNode) {
+            m.parent.parentNode.removeChild(m.parent);
         }
     };
 
@@ -378,6 +394,135 @@ function mmg_interaction(mmg) {
     }
 
     return mi;
+}
+function mmg_csv(x) {
+    // Extracted from d3
+    function csv_parse(text) {
+        var header;
+        return csv_parseRows(text, function(row, i) {
+            if (i) {
+                var o = {}, j = -1, m = header.length;
+                while (++j < m) o[header[j]] = row[j];
+                return o;
+            } else {
+                header = row;
+                return null;
+            }
+        });
+    }
+
+    function csv_parseRows (text, f) {
+        var EOL = {}, // sentinel value for end-of-line
+        EOF = {}, // sentinel value for end-of-file
+        rows = [], // output rows
+        re = /\r\n|[,\r\n]/g, // field separator regex
+        n = 0, // the current line number
+        t, // the current token
+        eol; // is the current token followed by EOL?
+
+        re.lastIndex = 0; // work-around bug in FF 3.6
+
+        /** @private Returns the next token. */
+        function token() {
+            if (re.lastIndex >= text.length) return EOF; // special case: end of file
+            if (eol) { eol = false; return EOL; } // special case: end of line
+
+            // special case: quotes
+            var j = re.lastIndex;
+            if (text.charCodeAt(j) === 34) {
+                var i = j;
+                while (i++ < text.length) {
+                    if (text.charCodeAt(i) === 34) {
+                        if (text.charCodeAt(i + 1) !== 34) break;
+                        i++;
+                    }
+                }
+                re.lastIndex = i + 2;
+                var c = text.charCodeAt(i + 1);
+                if (c === 13) {
+                    eol = true;
+                    if (text.charCodeAt(i + 2) === 10) re.lastIndex++;
+                } else if (c === 10) {
+                    eol = true;
+                }
+                return text.substring(j + 1, i).replace(/""/g, "\"");
+            }
+
+            // common case
+            var m = re.exec(text);
+            if (m) {
+                eol = m[0].charCodeAt(0) !== 44;
+                return text.substring(j, m.index);
+            }
+            re.lastIndex = text.length;
+            return text.substring(j);
+        }
+
+        while ((t = token()) !== EOF) {
+            var a = [];
+            while ((t !== EOL) && (t !== EOF)) {
+                a.push(t);
+                t = token();
+            }
+            if (f && !(a = f(a, n++))) continue;
+            rows.push(a);
+        }
+
+        return rows;
+    }
+
+    var features = [];
+    var parsed = csv_parse(x);
+    if (!parsed.length) return callback(features);
+
+    var latfield = '',
+        lonfield = '';
+
+    for (var f in parsed[0]) {
+        if (f.match(/^Lat/i)) latfield = f;
+        if (f.match(/^Lon/i)) lonfield = f;
+    }
+
+    if (!latfield || !lonfield) {
+        throw 'CSV: Could not find latitude or longitude field';
+    }
+
+    for (var i = 0; i < parsed.length; i++) {
+        if (parsed[i][lonfield] !== undefined &&
+            parsed[i][lonfield] !== undefined) {
+            features.push({
+                type: 'Feature',
+                properties: parsed[i],
+                geometry: {
+                    type: 'Point',
+                    coordinates: [
+                        parsed[i][lonfield],
+                        parsed[i][latfield]]
+                }
+            });
+        }
+    }
+    return features;
+}
+
+function mmg_csv_url(url, callback) {
+    if (typeof reqwest === 'undefined') {
+        throw 'CSV: reqwest required for mmg_csv_url';
+    }
+
+    function response(x) {
+        if (x.status >= 400) {
+            throw 'CSV: URL returned 404';
+        }
+        return callback(mmg_csv(x.responseText));
+    }
+
+    reqwest({
+        url: url,
+        type: 'string',
+        success: response,
+        error: response
+    });
 }
 function simplestyle_factory(feature) {
 
