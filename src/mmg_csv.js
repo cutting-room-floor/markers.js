@@ -114,9 +114,6 @@ function mmg_csv_url(url, callback) {
     }
 
     function response(x) {
-        if (x.status >= 400) {
-            throw 'CSV: URL returned 404';
-        }
         return callback(mmg_csv(x.responseText));
     }
 
