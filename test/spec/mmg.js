@@ -5,6 +5,15 @@ Klass.prototype.callback = function (arg) {
   return arg;
 };
 
+var test_features = [{
+  type: 'Feature',
+  geometry: {
+    type: 'Point',
+    coordinates: [-77, 37.8]
+  },
+  properties: { }
+}];
+
 describe('mmg', function() {
   it('can be initialized', function() {
     var m = mmg();
@@ -46,37 +55,22 @@ describe('mmg', function() {
   describe('marker addition', function() {
     it('adds an element to its parent when a single marker is there', function() {
       var mapdiv = document.createElement('div');
-      var pt = {
-        'type': 'FeatureCollection',
-        'features': [{
-          'type': 'Feature',
-          'geometry': {
-            'type': 'Point',
-            'coordinates': [-77, 37.8]
-          },
-          "properties": { }
-        }]
-      };
-      var layer = mmg().features(pt.features);
+      var layer = mmg().features(test_features);
       var m = new MM.Map(mapdiv, layer)
         .setCenterZoom(new MM.Location(37.8, -77), 7);
       expect(layer.parent.childNodes.length).toEqual(1);
     });
 
+    it('can have a marker added to it before attachment to a layer', function() {
+      var layer = mmg()
+        .features(test_features)
+        .add_feature(test_features[0]);
+      expect(layer.parent.childNodes.length).toEqual(2);
+    });
+
     it('removes that element when called with geojson null', function() {
       var mapdiv = document.createElement('div');
-      var pt = {
-        'type': 'FeatureCollection',
-        'features': [{
-          'type': 'Feature',
-          'geometry': {
-            'type': 'Point',
-            'coordinates': [-77, 37.8]
-          },
-          "properties": { }
-        }]
-      };
-      var layer = mmg().features(pt.features);
+      var layer = mmg().features(test_features);
       var m = new MM.Map(mapdiv, layer)
         .setCenterZoom(new MM.Location(37.8, -77), 7);
       expect(layer.parent.childNodes.length).toEqual(1);
