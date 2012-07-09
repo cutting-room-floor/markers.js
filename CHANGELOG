@@ -1,3 +1,10 @@
+### 0.5.0
+
+* Adds `.filter()` method which allows the filtering of points
+  to be displayed without changing the underlying features array.
+* `mmg` is now renamed `markers` and will be renamed in code
+  at 1.0.0
+
 ### 0.4.0
 
 * Adds mmg_csv to core.
