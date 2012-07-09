@@ -158,4 +158,36 @@ describe('mmg', function() {
             });
         });
     });
+
+    describe('filtering', function() {
+        it('can filter elements.', function() {
+            var features = [];
+            for (var i = 0; i < 10; i++) {
+                features.push({
+                    geometry: {
+                        coordinates: [i, i]
+                    },
+                    properties: {
+                        i: i
+                    }
+                });
+            }
+            var layer = mmg().features(features);
+            expect(layer.parent.childNodes.length).toEqual(10);
+            layer.filter(function(f) {
+                return f.properties.i > 4;
+            });
+            expect(layer.parent.childNodes.length).toEqual(5);
+            layer.filter(function(f) {
+                return true;
+            });
+            expect(layer.parent.childNodes.length).toEqual(10);
+            expect(layer.features().length).toEqual(10);
+            layer.filter(function(f) {
+                return false;
+            });
+            expect(layer.parent.childNodes.length).toEqual(0);
+            expect(layer.features().length).toEqual(10);
+        });
+    });
 });
