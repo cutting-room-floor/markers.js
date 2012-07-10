@@ -7,7 +7,7 @@ describe('mmg interaction', function() {
                 description: 'cats'
             }
         });
-        expect(output).toEqual('<div class="mmg-title">test</div><div class="mmg-description">cats</div>');
+        expect(output).toEqual('<div class="marker-title">test</div><div class="marker-description">cats</div>');
     });
 
     it('can get and set a formatter', function() {
