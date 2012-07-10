@@ -1,8 +1,8 @@
-.map-movetip {
+.map-tooltip {
   z-index:999999;
   position:absolute;
   }
-.map-intip {
+.marker-popup {
   position:relative;
   left:-50%;
   max-width:400px;
@@ -18,8 +18,8 @@
   -webkit-border-radius:3px;
           border-radius:3px;
   }
-  .map-intip:after,
-  .map-intip:before {
+  .marker-popup:after,
+  .marker-popup:before {
     top:100%;
     border:solid transparent;
     content:'';
@@ -30,13 +30,13 @@
     pointer-events:none;
     }
 
-  .map-intip:after {
+  .marker-popup:after {
     border-top-color:#fff;
     border-width:15px;
     margin-left:-15px;
     }
 
-  .map-intip:before {
+  .marker-popup:before {
     border-top-color:#ccc;
     border-width:18px;
     margin-left:-18px;

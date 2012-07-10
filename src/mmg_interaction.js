@@ -21,10 +21,10 @@ function mmg_interaction(mmg) {
         if (!props) return null;
 
         if (props.title) {
-            o += '<div class="mmg-title">' + props.title + '</div>';
+            o += '<div class="marker-title">' + props.title + '</div>';
         }
         if (props.description) {
-            o += '<div class="mmg-description">' + props.description + '</div>';
+            o += '<div class="marker-description">' + props.description + '</div>';
         }
 
         if (typeof html_sanitize !== undefined) {
@@ -84,20 +84,20 @@ function mmg_interaction(mmg) {
             }
 
             var tooltip = document.createElement('div');
-            tooltip.className = 'map-movetip';
+            tooltip.className = 'marker-tooltip';
             tooltip.style.width = '100%';
 
             var wrapper = tooltip.appendChild(document.createElement('div'));
             wrapper.style.cssText = 'position: absolute; pointer-events: none;';
 
-            var intip = wrapper.appendChild(document.createElement('div'));
-            intip.className = 'map-intip';
-            intip.style.cssText = 'pointer-events: auto;';
+            var popup = wrapper.appendChild(document.createElement('div'));
+            popup.className = 'marker-popup';
+            poup.style.cssText = 'pointer-events: auto;';
 
             if (typeof content == 'string') {
-                intip.innerHTML = content;
+                popup.innerHTML = content;
             } else {
-                intip.appendChild(content);
+                popup.appendChild(content);
             }
 
             // Align the bottom of the tooltip with the top of its marker
