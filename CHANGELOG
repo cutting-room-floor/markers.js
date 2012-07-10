@@ -1,3 +1,8 @@
+### 0.5.1
+
+* Fixed an error in which using array syntax instead of
+  `.charAt()` resulted in all simplestyle markers for IE being 404s.
+
 ### 0.5.0
 
 * Adds `.filter()` method which allows the filtering of points

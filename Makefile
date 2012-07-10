@@ -7,9 +7,9 @@ dist/mmg.min.js:
 		src/mmg_interaction.js \
 		src/mmg_csv.js \
 		src/simplestyle_factory.js > dist/mmg.js
-	cat lib/*.js > dist/markers.0.5.0.externals.js
-	cp src/mmg.css dist/markers.0.5.0.css
-	$(UGLIFYJS) dist/mmg.js > dist/markers.0.5.0.min.js
+	cat lib/*.js > dist/markers.0.5.1.externals.js
+	cp src/mmg.css dist/markers.0.5.1.css
+	$(UGLIFYJS) dist/mmg.js > dist/markers.0.5.1.min.js
 
 clean:
 	rm dist/*
