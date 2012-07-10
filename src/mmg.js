@@ -242,5 +242,5 @@ function mmg() {
     return m;
 }
 
-if (!mapbox) mapbox = { markers: mmg };
-else mapbox.markers = mmg;
+if (typeof mapbox == 'undefined') mapbox = { };
+mapbox.markers = mmg;

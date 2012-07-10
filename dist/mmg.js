@@ -241,6 +241,9 @@ function mmg() {
 
     return m;
 }
+
+if (typeof mapbox == 'undefined') mapbox = { };
+mapbox.markers = mmg;
 function mmg_interaction(mmg) {
 
     var mi = {},
@@ -407,6 +410,9 @@ function mmg_interaction(mmg) {
 
     return mi;
 }
+
+if (typeof mapbox == 'undefined') mapbox = { };
+mapbox.marker_interaction = mmg_interaction;
 function mmg_csv(x) {
     // Extracted from d3
     function csv_parse(text) {
@@ -533,6 +539,10 @@ function mmg_csv_url(url, callback) {
         error: response
     });
 }
+
+if (typeof mapbox == 'undefined') mapbox = { };
+mapbox.csv_to_geojson = mmg_csv;
+mapbox.csv_url_to_geojson = mmg_csv_url;
 function simplestyle_factory(feature) {
 
     var sizes = {

@@ -165,5 +165,5 @@ function mmg_interaction(mmg) {
     return mi;
 }
 
-if (!mapbox) mapbox = {};
+if (typeof mapbox == 'undefined') mapbox = { };
 mapbox.marker_interaction = mmg_interaction;

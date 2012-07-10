@@ -125,7 +125,6 @@ function mmg_csv_url(url, callback) {
     });
 }
 
-if (!mapbox) mapbox = {};
-
+if (typeof mapbox == 'undefined') mapbox = { };
 mapbox.csv_to_geojson = mmg_csv;
 mapbox.csv_url_to_geojson = mmg_csv_url;
