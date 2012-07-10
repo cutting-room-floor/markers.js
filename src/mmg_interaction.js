@@ -84,14 +84,14 @@ function mmg_interaction(mmg) {
             }
 
             var tooltip = document.createElement('div');
-            tooltip.className = 'wax-movetip';
+            tooltip.className = 'map-movetip';
             tooltip.style.width = '100%';
 
             var wrapper = tooltip.appendChild(document.createElement('div'));
             wrapper.style.cssText = 'position: absolute; pointer-events: none;';
 
             var intip = wrapper.appendChild(document.createElement('div'));
-            intip.className = 'wax-intip';
+            intip.className = 'map-intip';
             intip.style.cssText = 'pointer-events: auto;';
 
             if (typeof content == 'string') {

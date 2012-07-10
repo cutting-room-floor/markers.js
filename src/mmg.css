@@ -1,4 +1,8 @@
-.wax-intip {
+.map-movetip {
+  z-index:999999;
+  position:absolute;
+  }
+.map-intip {
   position:relative;
   left:-50%;
   max-width:400px;
@@ -14,8 +18,8 @@
   -webkit-border-radius:3px;
           border-radius:3px;
   }
-  .wax-intip:after,
-  .wax-intip:before {
+  .map-intip:after,
+  .map-intip:before {
     top:100%;
     border:solid transparent;
     content:'';
@@ -26,13 +30,13 @@
     pointer-events:none;
     }
 
-  .wax-intip:after {
+  .map-intip:after {
     border-top-color:#fff;
     border-width:15px;
     margin-left:-15px;
     }
 
-  .wax-intip:before {
+  .map-intip:before {
     border-top-color:#ccc;
     border-width:18px;
     margin-left:-18px;
