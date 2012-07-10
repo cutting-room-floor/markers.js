@@ -164,3 +164,6 @@ function mmg_interaction(mmg) {
 
     return mi;
 }
+
+if (!mapbox) mapbox = {};
+mapbox.marker_interaction = mmg_interaction;

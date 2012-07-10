@@ -124,3 +124,8 @@ function mmg_csv_url(url, callback) {
         error: response
     });
 }
+
+if (!mapbox) mapbox = {};
+
+mapbox.csv_to_geojson = mmg_csv;
+mapbox.csv_url_to_geojson = mmg_csv_url;

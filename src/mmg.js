@@ -241,3 +241,6 @@ function mmg() {
 
     return m;
 }
+
+if (!mapbox) mapbox = { markers: mmg };
+else mapbox.markers = mmg;
