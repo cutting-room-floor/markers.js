@@ -1,3 +1,13 @@
+### 0.5.2
+
+* Changes some style naming:
+
+
+	wax-movetip - map-tooltip
+	wax-intip - marker-popup
+	mmg-title - marker-title
+	mmg-description - marker-description
+
 ### 0.5.1
 
 * Fixed an error in which using array syntax instead of
