@@ -23,7 +23,9 @@ function simplestyle_factory(feature) {
       // Internet Explorer does not support the `size[0]` syntax.
       size.charAt(0) +
       symbol +
-      '+' + color + '.png';
+      '+' + color + '.png' +
+      // Support retina markers for 2x devices
+      ((window.devicePixelRatio === 2) ? '@2x' : '');
 
     var ds = d.style;
     ds.position = 'absolute';
