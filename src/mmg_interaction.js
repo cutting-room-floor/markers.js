@@ -92,7 +92,7 @@ function mmg_interaction(mmg) {
 
             var popup = wrapper.appendChild(document.createElement('div'));
             popup.className = 'marker-popup';
-            poup.style.cssText = 'pointer-events: auto;';
+            popup.style.cssText = 'pointer-events: auto;';
 
             if (typeof content == 'string') {
                 popup.innerHTML = content;
