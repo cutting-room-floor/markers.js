@@ -1,4 +1,6 @@
-function mmg() {
+if (typeof mapbox == 'undefined') mapbox = { };
+
+mapbox.markers = function() {
 
     var m = {},
         // external list of geojson features
@@ -11,12 +13,7 @@ function mmg() {
         position = null,
         // a factory function for creating DOM elements out of
         // GeoJSON objects
-        factory = function defaultFactory(feature) {
-            var d = document.createElement('div');
-            d.className = 'mmg-default';
-            d.style.position = 'absolute';
-            return d;
-        },
+        factory = simplestyle_factory,
         // a sorter function for sorting GeoJSON objects
         // in the DOM
         sorter = function(a, b) {
@@ -37,7 +34,7 @@ function mmg() {
     // The parent DOM element
     m.parent = document.createElement('div');
     m.parent.style.cssText = 'position: absolute; top: 0px;' +
-        'left:0px; width:100%; height:100%; margin:0; padding:0; z-index:0';
+        'left:0px; width:100%; height:100%; margin:0; padding:0; z-index:0;pointer-events:none;';
 
     // reposition a single marker element
     function reposition(marker) {
@@ -240,10 +237,11 @@ function mmg() {
     };
 
     return m;
-}
+};
 
-if (typeof mapbox == 'undefined') mapbox = { };
-mapbox.markers = mmg;
+// Backwards compatibility
+mmg = mapbox.markers;
+if (typeof module !== 'undefined') module.exports = mapbox.markers;
 function mmg_interaction(mmg) {
 
     var mi = {},
@@ -338,7 +336,7 @@ function mmg_interaction(mmg) {
 
             var popup = wrapper.appendChild(document.createElement('div'));
             popup.className = 'marker-popup';
-            poup.style.cssText = 'pointer-events: auto;';
+            popup.style.cssText = 'pointer-events: auto;';
 
             if (typeof content == 'string') {
                 popup.innerHTML = content;
@@ -568,7 +566,9 @@ function simplestyle_factory(feature) {
       // Internet Explorer does not support the `size[0]` syntax.
       size.charAt(0) +
       symbol +
-      '+' + color + '.png';
+      '+' + color + '.png' +
+      // Support retina markers for 2x devices
+      ((window.devicePixelRatio === 2) ? '@2x' : '');
 
     var ds = d.style;
     ds.position = 'absolute';
@@ -576,6 +576,7 @@ function simplestyle_factory(feature) {
     ds.marginTop = -((sizes[size][1]) / 2) + 'px';
     ds.marginLeft = -(sizes[size][0] / 2) + 'px';
     ds.cursor = 'pointer';
+    ds.pointerEvents = 'all';
 
     return d;
 }
