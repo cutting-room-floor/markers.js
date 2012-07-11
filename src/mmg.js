@@ -1,4 +1,6 @@
-function mmg() {
+if (typeof mapbox == 'undefined') mapbox = { };
+
+mapbox.markers = function() {
 
     var m = {},
         // external list of geojson features
@@ -11,12 +13,7 @@ function mmg() {
         position = null,
         // a factory function for creating DOM elements out of
         // GeoJSON objects
-        factory = function defaultFactory(feature) {
-            var d = document.createElement('div');
-            d.className = 'mmg-default';
-            d.style.position = 'absolute';
-            return d;
-        },
+        factory = simplestyle_factory,
         // a sorter function for sorting GeoJSON objects
         // in the DOM
         sorter = function(a, b) {
@@ -240,7 +237,8 @@ function mmg() {
     };
 
     return m;
-}
+};
 
-if (typeof mapbox == 'undefined') mapbox = { };
-mapbox.markers = mmg;
+// Backwards compatibility
+mmg = mapbox.markers;
+if (typeof module !== 'undefined') module.exports = mapbox.markers;
