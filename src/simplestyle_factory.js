@@ -33,6 +33,7 @@ function simplestyle_factory(feature) {
     ds.marginTop = -((sizes[size][1]) / 2) + 'px';
     ds.marginLeft = -(sizes[size][0] / 2) + 'px';
     ds.cursor = 'pointer';
+    ds.pointerEvents = 'all';
 
     return d;
 }
