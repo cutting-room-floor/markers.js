@@ -1,3 +1,10 @@
+### 0.5.3
+
+* Allows for interaction to be assigned to markers in multiple
+  layers. This means that users _must_ assign `.style.pointerEvents = 'all'`
+  in custom factories. It's done by default in the default factory.
+* Sets `simplestyle_factory` to be the default factory.
+
 ### 0.5.2
 
 * Changes some style naming:
