@@ -27,7 +27,7 @@ describe('mmg', function() {
 
         it('the default factory creates a dom node', function() {
             var m = mmg();
-            expect(jasmine.isDomNode(m.factory()()));
+            expect(jasmine.isDomNode(m.factory()({})));
         });
 
         it('can be assigned a new factory function', function() {
