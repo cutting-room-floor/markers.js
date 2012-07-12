@@ -1,17 +1,17 @@
-## The Markers Layer
+# The Markers Layer
 
 `mapbox.markers()` is a markers library that makes it easier to add HTML elements
 on top of maps in geographical locations and interact with them. Internally,
 markers are stored as [GeoJSON](http://www.geojson.org/) objects, though
 interfaces through CSV and simple Javascript are provided.
 
-<a href='#wiki-markers'>#</a> mapbox.<b>markers</b>()
+## mapbox.markers()
 
 `mapbox.markers()` is the singular entry point to this library - it creates a
 new layer into which markers can be placed and which can be added to
 a Modest Maps map with `.addLayer()`
 
-<a href="#wiki-markers_factory">#</a> markers.<b>factory</b>([<i>value</i>])
+## markers.factory([value])
 
 Defines a new factory function, and if the layer already has points added to it,
 re-renders them with the new factory. Factory functions are what turn GeoJSON feature
@@ -28,7 +28,7 @@ the elements.
 
 If value is not specified, returns the current factory function.
 
-<a href="#wiki-markers_features">#</a> markers.<b>features</b>([<i>value</i>])
+## markers.features([value])
 
 This is the central function for setting the contents of a markers layer: it runs the provided
 features through the filter function and then through the factory function to create elements
@@ -40,7 +40,7 @@ An empty array will clear the layer of all features
 
 If the value is not specified, returns the current array of features.
 
-<a href="#wiki-markers_sort">#</a> markers.<b>sort</b>([<i>value</i>])
+## markers.sort([value])
 
 Markers are typically sorted in the DOM in order for them to correctly visually overlap. By default,
 this is a function that sorts markers by latitude value - `geometry.coordinates[1]`.
@@ -60,7 +60,7 @@ function(a, b) {
 }
 ```
 
-<a href='#wiki-markers_filter'>#</a> markers.<b>filter</b>([<i>value</i>])
+## markers.filter([value])
 
 Markers can also be filtered before appearing on the map. This is a purely presentational filter -
 the underlying features, which are accessed by `.features()`, are unaffected. Setting a new
@@ -77,7 +77,7 @@ The default filter function is:
 function() { return true; }
 ```
 
-<a href='#wiki-markers_url'>#</a> markers.<b>url</b>(<i>url</i> [<i>, callback</i>])
+## markers.url(url [, callback])
 
 This provides another way of adding features to a map - by loading them from a remote GeoJSON file.
 
@@ -87,7 +87,7 @@ GeoJSON file must be served with a `.geojsonp` extension and respond to the JSON
 The second argument is optional and should be a callback that is called after the request finishes,
 with the features array (if any) and the layer instance as arguments.
 
-<a href='#wiki-markers_extent'>#</a> markers.<b>extent</b>()
+## markers.extent()
 
 Return the extent of all of the features provided.
 Returns an array of two `{ lat: 23, lon: 32 }` objects compatible with
@@ -95,7 +95,7 @@ Modest Maps's `extent()` call. If there are no features, the extent is set to
 `Infinity` in all directions, and if there is one feature, the extent is set
 to its point exactly.
 
-<a href='#wiki-markers_addCallback'>#</a> markers.<b>addCallback</b>(<i>event, callback</i>)`
+## markers.addCallback(event, callback)`
 
 Adds a callback that is called on certain events by this layer. These are primarily used by `mmg_interaction`, but otherwise useful to support more advanced bindings on mmg layers that are bound at times when the mmg object may not be added to a map - like binding to the map's `panned` event to clear tooltips.
 
@@ -109,7 +109,7 @@ Callback is a Function that is called with arguments depending on what `event` i
 * `drawn`: the layer object
 * `markeradded`: the new marker
 
-<a href='#wiki-markers_removeCallback'>#</a> markers.<b>removeCallback</b>(<i>event, callback</i>)`
+## markers.removeCallback(event, callback)`
 
 This removes a callback bound by `.addCallback(event, callback)`.
 
@@ -121,21 +121,21 @@ Classic interaction, hovering and/or clicking markers and seeing their details,
 is supported by `marker_interaction` and customizable through its methods.
 This supports both mouse & touch input.
 
-<a href='#wiki-marker_interaction'>#</a> mapbox.<b>marker_interaction</b>(<i>value</i>)`
+## mapbox.markers.interaction(value)`
 
 Adds tooltips to your markers, for when a user hovers over or taps the features.
 
 The single argument must be a markers layer. This returns an `interaction` instance which provides methods for customizing how the layer behaves.
 
-<a href='#wiki-interaction_hide_on_move'>#</a> interaction.<b>hide_on_move</b>([<i>value</i>])`
+## interaction.hide_on_move([value])`
 
 Determines whether tooltips are hidden when the map is moved. The single argument should be `true` or `false` or not given in order to retrieve the current value.
 
-<a href='#wiki-interaction_exclusive'>#</a> interaction.<b>exclusive</b>([<i>value</i>])
+## interaction.exclusive([value])
 
 Determines whether a single popup should be open at a time, or unlimited. The single argument should be `true` or `false` or not given in order to retrieve the current value.
 
-<a href='#wiki-interaction_formatter'>#</a> interaction.<b>formatter</b>([<i>value</i>])
+## interaction.formatter([value])
 
 Set or get the formatter function, that decides how data goes from being in a feature's `properties` to the HTML inside of a tooltip. This is a getter setter that takes a Function as its argument.
 
@@ -161,20 +161,20 @@ function(feature) {
 }
 ```
 
-## CSV Support
+# CSV Support
 
 [GeoJSON](http://www.geojson.org/) is a simple and convenient format, but requires
 familiarity with [JSON](http://www.json.org/) to master. [CSV](http://en.wikipedia.org/wiki/Comma-separated_values) is also supported by converters which attempt to find the geodata -
 the columns with coordinates - in CSV files, and convert them into GeoJSON objects
 that are usable by the markers API.
 
-<a href='#wiki-mapbox_csv_to_geojson'>#</a> mapbox.<b>csv_to_geojson</b>(<i>value</i>)
+## mapbox.markers.csv_to_geojson(value)
 
 [CSV](http://en.wikipedia.org/wiki/Comma-separated_values) support is provided by a translation layer that reads CSV files, attempts to pick up latitude and longitude columns (by any columns named with `lat` or `lon` at the beginning, in upper or lower case), and converting these into an array of GeoJSON features which you can easily use with `.feature()`.
 
 Takes a string of CSV text and returns an array of CSV features. This will _throw_ if it cannot find a latitude & longitude field, and return `[]` if given a blank string.
 
-<a href='#wiki-mapbox_csv_url_to_geojson'>#</a> mapbox.<b>csv_to_geojson</b>(<i>url, callback</i>)
+## mapbox.markers.csv_to_geojson(url, callback)
 
 While `csv_to_geojson` expects a string of CSV data, `csv_url_to_geojson` can take a URL to a CSV file - which must be locally hosted due to [cross domain restrictions](http://en.wikipedia.org/wiki/Same_origin_policy)
 
