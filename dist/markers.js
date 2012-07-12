@@ -516,7 +516,7 @@ mapbox.markers.csv_to_geojson = function(x) {
         }
     }
     return features;
-}
+};
 
 mapbox.markers.csv_url_to_geojson = function(url, callback) {
     if (typeof reqwest === 'undefined') {
