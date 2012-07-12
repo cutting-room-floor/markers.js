@@ -1,6 +1,4 @@
-if (typeof mapbox == 'undefined') mapbox = {};
-
-mapbox.markers = function() {
+mapbox.markers.layer = function() {
 
     var m = {},
         // external list of geojson features
@@ -13,7 +11,7 @@ mapbox.markers = function() {
         position = null,
         // a factory function for creating DOM elements out of
         // GeoJSON objects
-        factory = simplestyle_factory,
+        factory = mapbox.markers.simplestyle_factory,
         // a sorter function for sorting GeoJSON objects
         // in the DOM
         sorter = function(a, b) {
@@ -239,4 +237,4 @@ mapbox.markers = function() {
     return m;
 };
 
-mmg = mapbox.markers; // Backwards compatibility
+mmg = mapbox.markers.layer; // Backwards compatibility

@@ -1,3 +1,10 @@
+### 0.7.0
+
+* Yet again renames things quite a bit, get out your text editors:
+
+    mapbox.markers - mapbox.markers.layer
+    mapbox.markers_interaction - mapbox.markers.interaction
+
 ### 0.6.0
 
 * Removing version-prefixed builds. Either use `/dist/markers.min.js`

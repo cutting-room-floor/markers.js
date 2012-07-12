@@ -1,4 +1,4 @@
-function simplestyle_factory(feature) {
+mapbox.markers.simplestyle_factory = function(feature) {
 
     var sizes = {
       small: [20, 50],
@@ -18,7 +18,7 @@ function simplestyle_factory(feature) {
     d.height = sizes[size][1];
     d.className = 'simplestyle-marker';
     d.alt = fp.title || '';
-    d.src = (simplestyle_factory.baseurl || 'http://a.tiles.mapbox.com/v3/marker/') +
+    d.src = (mapbox.markers.marker_baseurl || 'http://a.tiles.mapbox.com/v3/marker/') +
       'pin-' +
       // Internet Explorer does not support the `size[0]` syntax.
       size.charAt(0) +
@@ -36,4 +36,4 @@ function simplestyle_factory(feature) {
     ds.pointerEvents = 'all';
 
     return d;
-}
+};

@@ -16,22 +16,22 @@ var test_features = [{
 
 describe('mapbox.markers', function() {
     it('can be initialized', function() {
-        var m = mapbox.markers();
+        var m = mapbox.markers.layer();
     });
 
     describe('factory', function() {
         it('returns its default factory function', function() {
-            var m = mapbox.markers();
+            var m = mapbox.markers.layer();
             expect(typeof m.factory()).toEqual('function');
         });
 
         it('the default factory creates a dom node', function() {
-            var m = mapbox.markers();
+            var m = mapbox.markers.layer();
             expect(jasmine.isDomNode(m.factory()({})));
         });
 
         it('can be assigned a new factory function', function() {
-            var m = mapbox.markers();
+            var m = mapbox.markers.layer();
             var foo = function() {};
             expect(typeof m.factory()).toEqual('function');
             expect(m.factory(foo)).toEqual(m);
@@ -41,13 +41,13 @@ describe('mapbox.markers', function() {
 
     describe('geojson interface', function() {
         it('returns its empty features geojson', function() {
-            var m = mapbox.markers();
+            var m = mapbox.markers.layer();
             expect(m.features()).toEqual([]);
             expect(m.features().length).toEqual(0);
         });
 
         it('empties its parent and clears the internal feature collection on clear', function() {
-            var m = mapbox.markers();
+            var m = mapbox.markers.layer();
             expect(m.features(null)).toEqual(m);
         });
     });
@@ -55,14 +55,14 @@ describe('mapbox.markers', function() {
     describe('marker addition', function() {
         it('adds an element to its parent when a single marker is there', function() {
             var mapdiv = document.createElement('div');
-            var layer = mapbox.markers().features(test_features);
+            var layer = mapbox.markers.layer().features(test_features);
             var m = new MM.Map(mapdiv, layer)
             .setCenterZoom(new MM.Location(37.8, -77), 7);
             expect(layer.parent.childNodes.length).toEqual(1);
         });
 
         it('can have a marker added to it before attachment to a layer', function() {
-            var layer = mapbox.markers()
+            var layer = mapbox.markers.layer()
             .features(test_features)
             .add_feature(test_features[0]);
             expect(layer.parent.childNodes.length).toEqual(2);
@@ -70,7 +70,7 @@ describe('mapbox.markers', function() {
 
         it('removes that element when called with geojson null', function() {
             var mapdiv = document.createElement('div');
-            var layer = mapbox.markers().features(test_features);
+            var layer = mapbox.markers.layer().features(test_features);
             var m = new MM.Map(mapdiv, layer)
             .setCenterZoom(new MM.Location(37.8, -77), 7);
             expect(layer.parent.childNodes.length).toEqual(1);
@@ -95,7 +95,7 @@ describe('mapbox.markers', function() {
                 'properties': { 'order': 3 }
             }
             ];
-            var layer = mapbox.markers().features(ft);
+            var layer = mapbox.markers.layer().features(ft);
             expect(layer.features()[0].properties.order).toEqual(3);
             expect(layer.features()[1].properties.order).toEqual(2);
             expect(layer.features()[2].properties.order).toEqual(1);
@@ -106,7 +106,7 @@ describe('mapbox.markers', function() {
         it('can load markers from a URL', function() {
             var layer;
             runs(function() {
-                layer = mapbox.markers().url('mock/onepoint.geojson');
+                layer = mapbox.markers.layer().url('mock/onepoint.geojson');
             });
             waits(100);
             runs(function() {
@@ -119,7 +119,7 @@ describe('mapbox.markers', function() {
             var obj = new Klass();
             spyOn(obj, 'callback');
             runs(function() {
-                layer = mapbox.markers().url('mock/onepoint.geojson', obj.callback);
+                layer = mapbox.markers.layer().url('mock/onepoint.geojson', obj.callback);
             });
             waits(100);
             runs(function() {
@@ -130,13 +130,13 @@ describe('mapbox.markers', function() {
         });
 
         it('gets and sets URLs', function() {
-            layer = mapbox.markers();
+            layer = mapbox.markers.layer();
             layer.url(['mock/onepoint.geojson']);
             expect(layer.url()[0]).toEqual('mock/onepoint.geojson');
         });
 
         it('transforms plain url strings to arrays', function() {
-            layer = mapbox.markers();
+            layer = mapbox.markers.layer();
             layer.url('mock/onepoint.geojson');
             expect(layer.url()[0]).toEqual('mock/onepoint.geojson');
         });
@@ -146,7 +146,7 @@ describe('mapbox.markers', function() {
         it('correctly calculates the extent of a layer with one feature', function() {
             var layer;
             runs(function() {
-                layer = mapbox.markers().url('mock/onepoint.geojson');
+                layer = mapbox.markers.layer().url('mock/onepoint.geojson');
             });
             waits(100);
             runs(function() {
@@ -172,7 +172,7 @@ describe('mapbox.markers', function() {
                     }
                 });
             }
-            var layer = mapbox.markers().features(features);
+            var layer = mapbox.markers.layer().features(features);
             expect(layer.parent.childNodes.length).toEqual(10);
             layer.filter(function(f) {
                 return f.properties.i > 4;

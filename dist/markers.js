@@ -1,6 +1,6 @@
 if (typeof mapbox == 'undefined') mapbox = {};
-
-mapbox.markers = function() {
+mapbox.markers = {};
+mapbox.markers.layer = function() {
 
     var m = {},
         // external list of geojson features
@@ -13,7 +13,7 @@ mapbox.markers = function() {
         position = null,
         // a factory function for creating DOM elements out of
         // GeoJSON objects
-        factory = simplestyle_factory,
+        factory = mapbox.markers.simplestyle_factory,
         // a sorter function for sorting GeoJSON objects
         // in the DOM
         sorter = function(a, b) {
@@ -239,7 +239,7 @@ mapbox.markers = function() {
     return m;
 };
 
-mmg = mapbox.markers; // Backwards compatibility
+mmg = mapbox.markers.layer; // Backwards compatibility
 mapbox.markers.interaction = function(mmg) {
 
     var mi = {},
@@ -534,7 +534,7 @@ mapbox.markers.csv_url_to_geojson = function(url, callback) {
         error: response
     });
 };
-function simplestyle_factory(feature) {
+mapbox.markers.simplestyle_factory = function(feature) {
 
     var sizes = {
       small: [20, 50],
@@ -554,7 +554,7 @@ function simplestyle_factory(feature) {
     d.height = sizes[size][1];
     d.className = 'simplestyle-marker';
     d.alt = fp.title || '';
-    d.src = (simplestyle_factory.baseurl || 'http://a.tiles.mapbox.com/v3/marker/') +
+    d.src = (mapbox.markers.marker_baseurl || 'http://a.tiles.mapbox.com/v3/marker/') +
       'pin-' +
       // Internet Explorer does not support the `size[0]` syntax.
       size.charAt(0) +
@@ -572,4 +572,4 @@ function simplestyle_factory(feature) {
     ds.pointerEvents = 'all';
 
     return d;
-}
+};
