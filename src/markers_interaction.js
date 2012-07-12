@@ -1,4 +1,4 @@
-function mmg_interaction(mmg) {
+mapbox.markers.interaction = function(mmg) {
 
     var mi = {},
         tooltips = [],
@@ -163,7 +163,6 @@ function mmg_interaction(mmg) {
     }
 
     return mi;
-}
+};
 
-if (typeof mapbox == 'undefined') mapbox = { };
-mapbox.marker_interaction = mmg_interaction;
+mmg_interaction = mapbox.markers.interaction;

@@ -1,3 +1,15 @@
+### 0.6.0
+
+* Removing version-prefixed builds. Either use `/dist/markers.min.js`
+  or use `mapbox.js` for versioning.
+* API restructuring:
+
+
+    mapbox.markers_interaction - mapbox.markers.interaction
+	mapbox.csv_to_geojson - mapbox.markers.csv_to_geojson
+	mapbox.csv_url_to_geojson - mapbox.markers.csv_url_to_geojson
+
+
 ### 0.5.3
 
 * Allows for interaction to be assigned to markers in multiple

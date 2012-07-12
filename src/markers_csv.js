@@ -1,4 +1,4 @@
-function mmg_csv(x) {
+mapbox.markers.csv_to_geojson = function(x) {
     // Extracted from d3
     function csv_parse(text) {
         var header;
@@ -108,7 +108,7 @@ function mmg_csv(x) {
     return features;
 }
 
-function mmg_csv_url(url, callback) {
+mapbox.markers.csv_url_to_geojson = function(url, callback) {
     if (typeof reqwest === 'undefined') {
         throw 'CSV: reqwest required for mmg_csv_url';
     }
@@ -123,8 +123,4 @@ function mmg_csv_url(url, callback) {
         success: response,
         error: response
     });
-}
-
-if (typeof mapbox == 'undefined') mapbox = { };
-mapbox.csv_to_geojson = mmg_csv;
-mapbox.csv_url_to_geojson = mmg_csv_url;
+};

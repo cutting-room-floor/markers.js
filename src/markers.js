@@ -1,4 +1,4 @@
-if (typeof mapbox == 'undefined') mapbox = { };
+if (typeof mapbox == 'undefined') mapbox = {};
 
 mapbox.markers = function() {
 
@@ -239,6 +239,4 @@ mapbox.markers = function() {
     return m;
 };
 
-// Backwards compatibility
-mmg = mapbox.markers;
-if (typeof module !== 'undefined') module.exports = mapbox.markers;
+mmg = mapbox.markers; // Backwards compatibility

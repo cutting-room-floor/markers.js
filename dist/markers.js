@@ -1,4 +1,4 @@
-if (typeof mapbox == 'undefined') mapbox = { };
+if (typeof mapbox == 'undefined') mapbox = {};
 
 mapbox.markers = function() {
 
@@ -239,10 +239,8 @@ mapbox.markers = function() {
     return m;
 };
 
-// Backwards compatibility
-mmg = mapbox.markers;
-if (typeof module !== 'undefined') module.exports = mapbox.markers;
-function mmg_interaction(mmg) {
+mmg = mapbox.markers; // Backwards compatibility
+mapbox.markers.interaction = function(mmg) {
 
     var mi = {},
         tooltips = [],
@@ -407,11 +405,10 @@ function mmg_interaction(mmg) {
     }
 
     return mi;
-}
+};
 
-if (typeof mapbox == 'undefined') mapbox = { };
-mapbox.marker_interaction = mmg_interaction;
-function mmg_csv(x) {
+mmg_interaction = mapbox.markers.interaction;
+mapbox.markers.csv_to_geojson = function(x) {
     // Extracted from d3
     function csv_parse(text) {
         var header;
@@ -521,7 +518,7 @@ function mmg_csv(x) {
     return features;
 }
 
-function mmg_csv_url(url, callback) {
+mapbox.markers.csv_url_to_geojson = function(url, callback) {
     if (typeof reqwest === 'undefined') {
         throw 'CSV: reqwest required for mmg_csv_url';
     }
@@ -536,11 +533,7 @@ function mmg_csv_url(url, callback) {
         success: response,
         error: response
     });
-}
-
-if (typeof mapbox == 'undefined') mapbox = { };
-mapbox.csv_to_geojson = mmg_csv;
-mapbox.csv_url_to_geojson = mmg_csv_url;
+};
 function simplestyle_factory(feature) {
 
     var sizes = {
