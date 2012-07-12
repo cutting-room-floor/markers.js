@@ -1,2 +1,2 @@
 if (typeof mapbox == 'undefined') mapbox = {};
-mapbox.markers = {};
+if (typeof mapbox.markers == 'undefined') mapbox.markers = {};

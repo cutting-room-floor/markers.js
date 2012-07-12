@@ -110,11 +110,11 @@ mapbox.markers.csv_to_geojson = function(x) {
 
 mapbox.markers.csv_url_to_geojson = function(url, callback) {
     if (typeof reqwest === 'undefined') {
-        throw 'CSV: reqwest required for mmg_csv_url';
+        throw 'CSV: reqwest required for mapbox.markers.csv_url_to_geojson';
     }
 
     function response(x) {
-        return callback(mmg_csv(x.responseText));
+        return callback(mapbox.markers.csv_to_geojson(x.responseText));
     }
 
     reqwest({
