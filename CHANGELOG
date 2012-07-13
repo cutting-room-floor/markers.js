@@ -1,3 +1,8 @@
+### 0.8.0
+
+* Adds `layer.csv(csvText)` interface, removes
+  mapbox.markers.csv_url_to_geojson interface.
+
 ### 0.7.2
 
 * Updates `simplestyle_factory` Retina URLs to have the `@2x` indicator
