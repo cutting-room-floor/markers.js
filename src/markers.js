@@ -191,6 +191,10 @@ mapbox.markers.layer = function() {
         return m;
     };
 
+    m.csv = function(x) {
+        return m.features(mapbox.markers.csv_to_geojson(x));
+    };
+
     m.extent = function() {
         var ext = [{
             lat: Infinity,

@@ -8,4 +8,9 @@ describe('mapbox.markers csv', function() {
         var csv = 'lat,lon,name\n10,15,Tom';
         expect(mapbox.markers.csv_to_geojson(csv)[0].properties.name).toEqual('Tom');
     });
+
+    it('provides a simple features interface', function() {
+        var csv = 'lat,lon,name\n10,15,Tom';
+        expect(mapbox.markers.layer().csv(csv).features()[0].properties.name).toEqual('Tom');
+    });
 });

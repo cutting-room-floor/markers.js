@@ -193,6 +193,10 @@ mapbox.markers.layer = function() {
         return m;
     };
 
+    m.csv = function(x) {
+        return m.features(mapbox.markers.csv_to_geojson(x));
+    };
+
     m.extent = function() {
         var ext = [{
             lat: Infinity,
@@ -516,23 +520,6 @@ mapbox.markers.csv_to_geojson = function(x) {
         }
     }
     return features;
-};
-
-mapbox.markers.csv_url_to_geojson = function(url, callback) {
-    if (typeof reqwest === 'undefined') {
-        throw 'CSV: reqwest required for mapbox.markers.csv_url_to_geojson';
-    }
-
-    function response(x) {
-        return callback(mapbox.markers.csv_to_geojson(x.responseText));
-    }
-
-    reqwest({
-        url: url,
-        type: 'string',
-        success: response,
-        error: response
-    });
 };
 mapbox.markers.simplestyle_factory = function(feature) {
 
