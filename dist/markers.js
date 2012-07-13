@@ -557,11 +557,10 @@ mapbox.markers.simplestyle_factory = function(feature) {
     d.src = (mapbox.markers.marker_baseurl || 'http://a.tiles.mapbox.com/v3/marker/') +
       'pin-' +
       // Internet Explorer does not support the `size[0]` syntax.
-      size.charAt(0) +
-      symbol +
-      '+' + color + '.png' +
+      size.charAt(0) + symbol + '+' + color +
+      ((window.devicePixelRatio === 2) ? '@2x' : '') +
+      '.png';
       // Support retina markers for 2x devices
-      ((window.devicePixelRatio === 2) ? '@2x' : '');
 
     var ds = d.style;
     ds.position = 'absolute';

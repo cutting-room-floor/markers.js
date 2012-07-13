@@ -1,3 +1,8 @@
+### 0.7.2
+
+* Updates `simplestyle_factory` Retina URLs to have the `@2x` indicator
+  within the filename, not at its end.
+
 ### 0.7.0
 
 * Yet again renames things quite a bit, get out your text editors:
