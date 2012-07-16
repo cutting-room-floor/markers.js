@@ -35,6 +35,7 @@ mapbox.markers.layer = function() {
     m.parent = document.createElement('div');
     m.parent.style.cssText = 'position: absolute; top: 0px;' +
         'left:0px; width:100%; height:100%; margin:0; padding:0; z-index:0;pointer-events:none;';
+    m.name = '';
 
     // reposition a single marker element
     function reposition(marker) {
@@ -238,6 +239,13 @@ mapbox.markers.layer = function() {
         if (m.parent.parentNode) {
             m.parent.parentNode.removeChild(m.parent);
         }
+    };
+
+    // Get or set this layer's name
+    m.named = function(x) {
+        if (!arguments.length) return m.name;
+        m.name = x;
+        return m;
     };
 
     return m;

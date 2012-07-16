@@ -19,6 +19,21 @@ describe('mapbox.markers', function() {
         var m = mapbox.markers.layer();
     });
 
+    it('has a parent dom element', function() {
+        var m = mapbox.markers.layer();
+        expect(jasmine.isDomNode(m.parent)).toBeTruthy();
+    });
+
+    it('can be named', function() {
+        var m = mapbox.markers.layer().named('tom');
+        expect(m.named()).toEqual('tom');
+        expect(m.name).toEqual('tom');
+
+        m.named('john');
+        expect(m.named()).toEqual('john');
+        expect(m.name).toEqual('john');
+    });
+
     describe('factory', function() {
         it('returns its default factory function', function() {
             var m = mapbox.markers.layer();
