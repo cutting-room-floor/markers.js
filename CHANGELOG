@@ -1,3 +1,8 @@
+### 0.9.0
+
+* Allows markers to be named with the `.named([value])`
+  interface, sets default name to 'markers'
+
 ### 0.8.0
 
 * Adds `layer.csv(csvText)` interface, removes
