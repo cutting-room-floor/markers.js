@@ -33,12 +33,12 @@ that want their elements to be interactive **must** either set `.style.pointerEv
 them via Javascript, or have an equivalent CSS rule with `pointer-events: all` that affects
 the elements.
 
-If value is not specified, returns the current rerender function.
+If value is not specified, returns the current renderer function.
 
 ### markers.features([value])
 
 This is the central function for setting the contents of a markers layer: it runs the provided
-features through the filter function and then through the rerender function to create elements
+features through the filter function and then through the renderer function to create elements
 for the map. If the layer already has features, they are replaced with the new features.
 
 The argument should be
