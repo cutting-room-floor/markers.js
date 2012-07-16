@@ -11,6 +11,13 @@ interfaces through CSV and simple Javascript are provided.
 new layer into which markers can be placed and which can be added to
 a Modest Maps map with `.addLayer()`
 
+### markers.named([value])
+
+Set the name of this markers layer. The argument, if given, must be a string.
+If no argument is given, returns the current name of the layer. Names are useful
+for finding and interacting with layers in a map. The default name of a markers
+layer is 'markers'.
+
 ### markers.factory([value])
 
 Defines a new factory function, and if the layer already has points added to it,
