@@ -216,7 +216,7 @@ mapbox.markers.layer = function() {
     };
 
     // Factory interface
-    m.factory = function(x) {
+    m.renderer = function(x) {
         if (!arguments.length) return factory;
         factory = x;
         // re-render all features
