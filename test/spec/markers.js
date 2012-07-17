@@ -34,23 +34,23 @@ describe('mapbox.markers', function() {
         expect(m.name).toEqual('john');
     });
 
-    describe('factory', function() {
-        it('returns its default factory function', function() {
+    describe('renderer', function() {
+        it('returns its default renderer function', function() {
             var m = mapbox.markers.layer();
-            expect(typeof m.factory()).toEqual('function');
+            expect(typeof m.renderer()).toEqual('function');
         });
 
-        it('the default factory creates a dom node', function() {
+        it('the default renderer creates a dom node', function() {
             var m = mapbox.markers.layer();
-            expect(jasmine.isDomNode(m.factory()({})));
+            expect(jasmine.isDomNode(m.renderer()({})));
         });
 
-        it('can be assigned a new factory function', function() {
+        it('can be assigned a new renderer function', function() {
             var m = mapbox.markers.layer();
             var foo = function() {};
-            expect(typeof m.factory()).toEqual('function');
-            expect(m.factory(foo)).toEqual(m);
-            expect(m.factory()).toEqual(foo);
+            expect(typeof m.renderer()).toEqual('function');
+            expect(m.renderer(foo)).toEqual(m);
+            expect(m.renderer()).toEqual(foo);
         });
     });
 

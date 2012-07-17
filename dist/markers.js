@@ -218,7 +218,7 @@ mapbox.markers.layer = function() {
     };
 
     // Factory interface
-    m.factory = function(x) {
+    m.renderer = function(x) {
         if (!arguments.length) return factory;
         factory = x;
         // re-render all features
@@ -257,8 +257,8 @@ mapbox.markers.interaction = function(mmg) {
     var mi = {},
         tooltips = [],
         exclusive = true,
-        hide_on_move = true,
-        show_on_hover = true,
+        hideOnMove = true,
+        showOnHover = true,
         close_timer = null,
         formatter;
 
@@ -292,9 +292,9 @@ mapbox.markers.interaction = function(mmg) {
         return o;
     });
 
-    mi.hide_on_move = function(x) {
-        if (!arguments.length) return hide_on_move;
-        hide_on_move = x;
+    mi.hideOnMove = function(x) {
+        if (!arguments.length) return hideOnMove;
+        hideOnMove = x;
         return mi;
     };
 
@@ -304,9 +304,9 @@ mapbox.markers.interaction = function(mmg) {
         return mi;
     };
 
-    mi.show_on_hover = function(x) {
-        if (!arguments.length) return show_on_hover;
-        show_on_hover = x;
+    mi.showOnHover = function(x) {
+        if (!arguments.length) return showOnHover;
+        showOnHover = x;
         return mi;
     };
 
@@ -357,7 +357,7 @@ mapbox.markers.interaction = function(mmg) {
             // Align the bottom of the tooltip with the top of its marker
             wrapper.style.bottom = marker.element.offsetHeight / 2 + 20 + 'px';
 
-            if (show_on_hover) {
+            if (showOnHover) {
                 tooltip.onmouseover = function() {
                     if (close_timer) window.clearTimeout(close_timer);
                 };
@@ -380,7 +380,7 @@ mapbox.markers.interaction = function(mmg) {
             marker.clicked = true;
         };
 
-        if (show_on_hover) {
+        if (showOnHover) {
             marker.element.onmouseover = show;
             marker.element.onmouseout = delayed_close;
         }
@@ -388,7 +388,7 @@ mapbox.markers.interaction = function(mmg) {
 
     function bindPanned() {
         mmg.map.addCallback('panned', function() {
-            if (hide_on_move) {
+            if (hideOnMove) {
                 while (tooltips.length) {
                     mmg.remove(tooltips.pop());
                 }

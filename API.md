@@ -18,10 +18,10 @@ If no argument is given, returns the current name of the layer. Names are useful
 for finding and interacting with layers in a map. The default name of a markers
 layer is 'markers'.
 
-### markers.factory([value])
+### markers.renderer([value])
 
-Defines a new factory function, and if the layer already has points added to it,
-re-renders them with the new factory. Factory functions are what turn GeoJSON feature
+Defines a new renderer function, and if the layer already has points added to it,
+re-renders them with the new renderer. Renderer functions are what turn GeoJSON feature
 objects into HTML elements on the map.
 
 The argument should be a function that takes a
@@ -33,12 +33,12 @@ that want their elements to be interactive **must** either set `.style.pointerEv
 them via Javascript, or have an equivalent CSS rule with `pointer-events: all` that affects
 the elements.
 
-If value is not specified, returns the current factory function.
+If value is not specified, returns the current renderer function.
 
 ### markers.features([value])
 
 This is the central function for setting the contents of a markers layer: it runs the provided
-features through the filter function and then through the factory function to create elements
+features through the filter function and then through the renderer function to create elements
 for the map. If the layer already has features, they are replaced with the new features.
 
 The argument should be
@@ -136,7 +136,7 @@ Adds tooltips to your markers, for when a user hovers over or taps the features.
 
 The single argument must be a markers layer. This returns an `interaction` instance which provides methods for customizing how the layer behaves.
 
-### interaction.hide_on_move([value])
+### interaction.hideOnMove([value])
 
 Determines whether tooltips are hidden when the map is moved. The single argument should be `true` or `false` or not given in order to retrieve the current value.
 
