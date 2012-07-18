@@ -57,9 +57,12 @@ describe('simplestyle factory', function() {
         };
         var dp = window.devicePixelRatio;
         window.devicePixelRatio = 2;
-        var elem = mapbox.markers.simplestyle_factory(ft);
-        expect(elem.src).toEqual('http://a.tiles.mapbox.com/v3/marker/pin-m-bus+1ae@2x.png');
-        window.devicePixelRatio = dp;
+        // Some browsers do not allow this attribute to be modified (Opera)
+        if (window.devicePixelRatio == 2) {
+            var elem = mapbox.markers.simplestyle_factory(ft);
+            expect(elem.src).toEqual('http://a.tiles.mapbox.com/v3/marker/pin-m-bus+1ae@2x.png');
+            window.devicePixelRatio = dp;
+        }
     });
 
 });
