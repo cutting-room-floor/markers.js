@@ -498,7 +498,7 @@ mapbox.markers.csv_to_geojson = function(x) {
 
     var features = [];
     var parsed = csv_parse(x);
-    if (!parsed.length) return callback(features);
+    if (!parsed.length) return features;
 
     var latfield = '',
         lonfield = '';

@@ -13,4 +13,9 @@ describe('mapbox.markers csv', function() {
         var csv = 'lat,lon,name\n10,15,Tom';
         expect(mapbox.markers.layer().csv(csv).features()[0].properties.name).toEqual('Tom');
     });
+
+    it('with invalid input does not set any features', function() {
+        var csv = 'fdsakfljdsl fjdklsafj fdsaf';
+        expect(mapbox.markers.layer().csv(csv).features()).toEqual([]);
+    });
 });

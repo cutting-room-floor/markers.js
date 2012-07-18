@@ -17,6 +17,14 @@ var test_features = [{
 describe('mapbox.markers', function() {
     it('can be initialized', function() {
         var m = mapbox.markers.layer();
+        expect(m.features()).toEqual([]);
+        expect(m.markers()).toEqual([]);
+    });
+
+    it('can be destroyed', function() {
+        var m = mapbox.markers.layer();
+        m.destroy();
+        expect(m.parent.parentNode).toBeFalsy();
     });
 
     it('has a parent dom element', function() {
@@ -95,6 +103,14 @@ describe('mapbox.markers', function() {
     });
 
     describe('sorting function', function() {
+        it('has a sorting function and can accept a new one', function() {
+            var layer = mapbox.markers.layer();
+            expect(typeof layer.sort()).toEqual('function');
+            function revsort(a, b) { return -1; }
+            expect(layer.sort(revsort)).toEqual(layer);
+            expect(layer.sort()).toEqual(revsort);
+        });
+
         it('sorts points by y-coordinate', function() {
             var ft = [
                 {
