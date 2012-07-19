@@ -88,7 +88,7 @@ The first argument should be a URL to a GeoJSON file on a server. If the server 
 GeoJSON file must be served with a `.geojsonp` extension and respond to the JSONP callback `grid`.
 
 The second argument is optional and should be a callback that is called after the request finishes,
-with the features array (if any) and the layer instance as arguments.
+with the error (if encountered), features array (if any) and the layer instance as arguments.
 
 ### markers.csv(value)
 

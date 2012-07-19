@@ -28,7 +28,7 @@
             new wax.mm.connector(tj)]);
         var pts = mmg()
             .factory(simplestyle_factory)
-            .url('../example/simplestyle.geojson', function(ft, l) {
+            .url('../example/simplestyle.geojson', function(err, ft, l) {
               m.extent(l.extent());
             });
         mmg_interaction(pts);
