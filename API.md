@@ -11,97 +11,120 @@ interfaces through CSV and simple Javascript are provided.
 new layer into which markers can be placed and which can be added to
 a Modest Maps map with `.addLayer()`
 
-### markers.named([value])
+### markers.named([name])
 
-Set the name of this markers layer. The argument, if given, must be a string.
-If no argument is given, returns the current name of the layer. Names are useful
-for finding and interacting with layers in a map. The default name of a markers
-layer is 'markers'.
+Set the name of this markers layer. The default name for a `markers` layer
+is `'markers'`
 
-### markers.factory([value])
+**Arguments:**
 
-Defines a new factory function, and if the layer already has points added to it,
-re-renders them with the new factory. Factory functions are what turn GeoJSON feature
-objects into HTML elements on the map.
+* `name` if given, must be a string.
 
-The argument should be a function that takes a
-[GeoJSON feature object](http://geojson.org/geojson-spec.html#feature-objects)
-and returns an HTML element.
+**Returns** the layer object if a new name is provided, otherwise the layer's existing name
+if it is omitted.
 
-Due to the way that `markers.js` allows multiple layers of interactivity, factories
+### markers.factory([factoryfunction])
+
+Define a new factory function, and if the layer already has points added to it,
+re-render them with the new factory. Factory functions are what turn GeoJSON feature
+objects into HTML elements on the map. Due to the way that `markers.js` allows multiple layers of interactivity, factories
 that want their elements to be interactive **must** either set `.style.pointerEvents = 'all'` on
 them via Javascript, or have an equivalent CSS rule with `pointer-events: all` that affects
 the elements.
 
-If value is not specified, returns the current factory function.
+**Arguments:**
 
-### markers.features([value])
+* `factoryfunction` should be a function that takes a
+  [GeoJSON feature object](http://geojson.org/geojson-spec.html#feature-objects)
+  and returns an HTML element,
+  or omitted to get the current value.
+
+**Returns** the layer object if a new factory function is provided, otherwise the layer's existing factory function
+
+### markers.features([features])
 
 This is the central function for setting the contents of a markers layer: it runs the provided
 features through the filter function and then through the factory function to create elements
 for the map. If the layer already has features, they are replaced with the new features.
+An empty array will clear the layer of all features.
 
-The argument should be
-a array of [GeoJSON feature objects](http://geojson.org/geojson-spec.html#feature-objects).
-An empty array will clear the layer of all features
+**Arguments:**
 
-If the value is not specified, returns the current array of features.
+* `features` can be a array of [GeoJSON feature objects](http://geojson.org/geojson-spec.html#feature-objects),
+  or omitted to get the current value.
 
-### markers.sort([value])
+**Returns** the layer object if a new array of features is provided, otherwise the layer's features
+
+### markers.sort([sortfunction])
 
 Markers are typically sorted in the DOM in order for them to correctly visually overlap. By default,
 this is a function that sorts markers by latitude value - `geometry.coordinates[1]`.
 
-The argument should be a function that takes two GeoJSON feature objects and returns a number indicating
+**Arguments:**
+
+* `sortfunction` can be a function that takes two GeoJSON feature objects and returns a number indicating
 sorting direction - fulfilling the [Array.sort](https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/sort)
-interface.
+interface, or omitted to get the current value.
 
-If the value is not specified, returns the current function used to sort.
+**Returns the layer object if a new function is specified, otherwise the current function used to sort.
 
-The default sorting function is:
-
-    function(a, b) {
+**Example:**
+    // The default sorting function is:
+    layer.sort(function(a, b) {
         return b.geometry.coordinates[1] -
           a.geometry.coordinates[1];
-    }
+    });
 
-### markers.filter([value])
+### markers.filter([filterfunction])
 
-Markers can also be filtered before appearing on the map. This is a purely presentational filter -
+Set the layer's filter function and refilter features. Markers can also be filtered before appearing on
+the map. This is a purely presentational filter -
 the underlying features, which are accessed by `.features()`, are unaffected. Setting a new
 filter can therefore cause points to be displayed which were previously hidden.
 
-The argument should be a functoin that takes a GeoJSON feature object and returns `true`
-to allow it to be displayed or `false` to hide it.
+**Arguments:**
 
-If the value is not specified, returns the current function used to filter features.
+* `filterfunction` can be a function that takes a GeoJSON feature object and returns `true`
+  to allow it to be displayed or `false` to hide it, or omitted to get the current value
 
-The default filter function is:
+**Returns the layer object if a new function is specified, otherwise the current function used to filter.
 
-    function() { return true; }
+**Example:**
+
+    // The default filter function is:
+    layer.filter(function() { return true; });
 
 ### markers.url(url [, callback])
 
-This provides another way of adding features to a map - by loading them from a remote GeoJSON file.
+Loading features from a remote GeoJSON file into the layer.
 
-The first argument should be a URL to a GeoJSON file on a server. If the server is remote, the
-GeoJSON file must be served with a `.geojsonp` extension and respond to the JSONP callback `grid`.
+**Arguments:**
 
-The second argument is optional and should be a callback that is called after the request finishes,
-with the features array (if any) and the layer instance as arguments.
+* `url` should be a URL to a GeoJSON file on a server. If the server is remote, the
+  GeoJSON file must be served with a `.geojsonp` extension and respond to the JSONP callback `grid`.
+* `callback`, if provided, is a function that is called after the request finishes
+  with the features array and the layer instance as arguments.
 
-### markers.csv(value)
+### markers.csv(csvstring)
 
-[CSV](http://en.wikipedia.org/wiki/Comma-separated_values) can be an easier format to master than
-GeoJSON. The argument to this method must be a string of CSV data. This method returns the markers
-layer. The CSV file must include columns beginning with `lat` and `lon` in any casing (Latitude, latitude, lat are acceptable).
+Convert a string of [CSV](http://en.wikipedia.org/wiki/Comma-separated_values) data into GeoJSON
+and set layer to show it as features.
 If it can find features in the CSV file, the `.features()` of the layer are set to them - otherwise
 it will throw an error about not finding headers.
 
+**Arguments:**
+
+* `csvstring` must be a string of CSV data. This method returns the markers
+  layer. The CSV file must include columns beginning with `lat` and `lon` in any
+  case (Latitude, latitude, lat are acceptable).
+
+**Returns** the markers layer
+
 ### markers.extent()
 
-Return the extent of all of the features provided.
-Returns an array of two `{ lat: 23, lon: 32 }` objects compatible with
+Get the extent of all of the features provided.
+
+**Returns** an array of two `{ lat: 23, lon: 32 }` objects compatible with
 Modest Maps's `extent()` call. If there are no features, the extent is set to
 `Infinity` in all directions, and if there is one feature, the extent is set
 to its point exactly.
@@ -109,6 +132,11 @@ to its point exactly.
 ### markers.addCallback(event, callback)
 
 Adds a callback that is called on certain events by this layer. These are primarily used by `mmg_interaction`, but otherwise useful to support more advanced bindings on mmg layers that are bound at times when the mmg object may not be added to a map - like binding to the map's `panned` event to clear tooltips.
+
+**Arguments:**
+
+* `event` is a string of the event you want to bind the callback to
+* `callback` is a funcion that is called on the event specified by `event`
 
 Event should be a String which is one of the following:
 
@@ -120,13 +148,23 @@ Callback is a Function that is called with arguments depending on what `event` i
 * `drawn`: the layer object
 * `markeradded`: the new marker
 
+**Returns** the markers layer
+
 ### markers.removeCallback(event, callback)
 
-This removes a callback bound by `.addCallback(event, callback)`.
+Remove a callback bound by `.addCallback(event, callback)`.
 
-The `callback` argument must be the same Function as was given in `addCallback`. The `event` argument must be the same String that was given in `addCallback`
+**Arguments:**
 
-## mapbox.markers.interaction(value)
+* `event` is a string of the event you want to bind the callback to
+  This must be the same string that was given in `addCallback`
+
+* `callback` is a funcion that is called on the event specified by `event`.
+  This must be the same function as was given in `addCallback`. 
+
+**Returns** the markers layer
+
+## mapbox.markers.interaction(markerslayer)
 
 Classic interaction, hovering and/or clicking markers and seeing their details,
 is supported by `marker_interaction` and customizable through its methods.
@@ -134,23 +172,48 @@ This supports both mouse & touch input.
 
 Adds tooltips to your markers, for when a user hovers over or taps the features.
 
-The single argument must be a markers layer. This returns an `interaction` instance which provides methods for customizing how the layer behaves.
+**Arguments:**
+
+* `markerslayer` must be a markers layer. 
+
+**Returns** an `interaction` instance which provides methods for customizing how the layer behaves.
 
 ### interaction.hide_on_move([value])
 
 Determines whether tooltips are hidden when the map is moved. The single argument should be `true` or `false` or not given in order to retrieve the current value.
 
+**Arguments:**
+
+* `value` must be true or false to activate or deactivate the mode
+
+**Returns** the interaction instance.
+
 ### interaction.exclusive([value])
 
 Determines whether a single popup should be open at a time, or unlimited. The single argument should be `true` or `false` or not given in order to retrieve the current value.
 
-### interaction.formatter([value])
+**Arguments:**
+
+* `value` must be true or false to activate or deactivate the mode
+
+**Returns** the interaction instance.
+
+### interaction.formatter([formatterfunction])
 
 Set or get the formatter function, that decides how data goes from being in a feature's `properties` to the HTML inside of a tooltip. This is a getter setter that takes a Function as its argument.
 
-The default formatter is:
+**Arguments:**
 
-    function(feature) {
+* `formatterfunction`: a new function that takes GeoJSON features as input and returns
+  HTML suitable for tooltips, or omitted to get the current value.
+
+**Returns** the interaction instance if a new formatter function is provided, otherwise the current formatter
+function
+
+**Example:**
+
+    // The default formatter function
+    interaction.formatter(function(feature) {
         var o = '', props = feature.properties;
         if (props.title) {
             o += '<h1 class="mmg-title">' + props.title + '</h1>';
@@ -166,4 +229,4 @@ The default formatter is:
                 function(x) { return x; });
         }
         return o;
-    }
+    });
