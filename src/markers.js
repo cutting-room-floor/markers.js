@@ -27,7 +27,12 @@ mapbox.markers.layer = function() {
         // a function that filters points
         filter = function() {
             return true;
-        };
+        },
+        _seq = 0,
+        idfn = function() {
+            return ++_seq;
+        },
+        index = {};
 
     // The parent DOM element
     m.parent = document.createElement('div');
@@ -131,31 +136,43 @@ mapbox.markers.layer = function() {
         // Return features
         if (!arguments.length) return features;
 
-        // Clear features
-        while (m.parent.hasChildNodes()) {
-            // removing lastChild iteratively is faster than
-            // innerHTML = ''
-            // http://jsperf.com/innerhtml-vs-removechild-yo/2
-            m.parent.removeChild(m.parent.lastChild);
-        }
-
-        // clear markers representation
-        markers = [];
         // Set features
         if (!x) x = [];
         features = x.slice();
 
         features.sort(sorter);
 
+        for (var j = 0; j < markers.length; j++) {
+            markers[j].touch = false;
+        }
+
         for (var i = 0; i < features.length; i++) {
             if (filter(features[i])) {
-                m.add({
-                    element: factory(features[i]),
-                    location: new MM.Location(
+                var id = idfn(features[i]);
+                if (index[id]) {
+                    // marker is already on the map, needs to be moved or rebuilt
+                    index[id].location = new MM.Location(
                         features[i].geometry.coordinates[1],
-                        features[i].geometry.coordinates[0]),
-                    data: features[i]
-                });
+                        features[i].geometry.coordinates[0]);
+                    index[id].coord = null;
+                    reposition(index[id]);
+                } else {
+                    // marker needs to be added to the map
+                    index[id] = m.add({
+                        element: factory(features[i]),
+                        location: new MM.Location(
+                            features[i].geometry.coordinates[1],
+                            features[i].geometry.coordinates[0]),
+                        data: features[i]
+                    });
+                }
+                index[id].touch = true;
+            }
+        }
+
+        for (var k = 0; k < markers.length; k++) {
+            if (markers[k].touch == false) {
+                m.remove(markers[k]);
             }
         }
 
@@ -213,6 +230,12 @@ mapbox.markers.layer = function() {
             if (coords[1] > ext[1].lat) ext[1].lat = coords[1];
         }
         return ext;
+    };
+
+    m.id = function(x) {
+        if (!arguments.length) return idfn;
+        idfn = x;
+        return m;
     };
 
     // Factory interface
