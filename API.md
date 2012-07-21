@@ -94,6 +94,26 @@ filter can therefore cause points to be displayed which were previously hidden.
     // The default filter function is:
     layer.filter(function() { return true; });
 
+### markers.id([idfunction])
+
+Set the id getter for this layer. The id getter is a funcion that takes a GeoJSON feature
+and returns a _unique id_ for that feature. If this is provided, the layer can optimize repeated
+calls to `.features()` for animation purposes, since updated markers will not be recreated,
+only modified.
+
+**Arguments:**
+
+* `idfunction` must be a function that takes a GeoJSON object and returns a unique ID for it
+  that does not change for the same features on repeated calls
+
+**Returns the layer object if a new function is specified, otherwise the current function used to get ids.
+
+**Example:**
+
+    // The default filter function is:
+    var _seq = 0;
+    layer.id(function() { return ++_seq; });
+
 ### markers.url(url [, callback])
 
 Loading features from a remote GeoJSON file into the layer.
