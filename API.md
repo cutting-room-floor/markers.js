@@ -106,13 +106,16 @@ only modified.
 * `idfunction` must be a function that takes a GeoJSON object and returns a unique ID for it
   that does not change for the same features on repeated calls
 
-**Returns the layer object if a new function is specified, otherwise the current function used to get ids.
+**Returns** the layer object if a new function is specified, otherwise the current function used to get ids.
 
 **Example:**
 
-    // The default filter function is:
+    // The default id function is:
     var _seq = 0;
     layer.id(function() { return ++_seq; });
+    // Thus this function always returns a new id for any feature. If you had
+    // features that do have an id attribute, a function would look like
+    layer.id(function(f) { return f.properties.id; });
 
 ### markers.url(url [, callback])
 
