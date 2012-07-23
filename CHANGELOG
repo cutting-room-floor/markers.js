@@ -1,3 +1,10 @@
+### 0.10.0
+
+* Adds an `.id(idfn)` interface that allows for higher performance
+  for moving markers
+* The callback to `.url()` now takes `(err, features)` instead of
+  just `(features)`
+
 ### 0.9.0
 
 * Allows markers to be named with the `.named([value])`
