@@ -136,7 +136,7 @@ Adds tooltips to your markers, for when a user hovers over or taps the features.
 
 The single argument must be a markers layer. This returns an `interaction` instance which provides methods for customizing how the layer behaves.
 
-### interaction.hide_on_move([value])
+### interaction.hideOnMove([value])
 
 Determines whether tooltips are hidden when the map is moved. The single argument should be `true` or `false` or not given in order to retrieve the current value.
 
