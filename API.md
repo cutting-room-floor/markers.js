@@ -125,8 +125,10 @@ Loading features from a remote GeoJSON file into the layer.
 
 * `url` should be a URL to a GeoJSON file on a server. If the server is remote, the
   GeoJSON file must be served with a `.geojsonp` extension and respond to the JSONP callback `grid`.
-* `callback`, if provided, is a function that is called after the request finishes
-  with the features array and the layer instance as arguments.
+* `callback`, if provided, is optional and should be a callback that is called after the request finishes,
+  with the error (if encountered), features array (if any) and the layer instance as arguments.
+  If an error is encountered, `.url()` will not call `.features()`, since this would likely
+  clear the features array.
 
 ### markers.csv(csvstring)
 
