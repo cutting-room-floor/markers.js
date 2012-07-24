@@ -171,7 +171,7 @@ mapbox.markers.layer = function() {
         }
 
         for (var k = markers.length - 1; k >= 0; k--) {
-            if (markers[k].touch == false) {
+            if (markers[k].touch === false) {
                 m.remove(markers[k]);
             }
         }

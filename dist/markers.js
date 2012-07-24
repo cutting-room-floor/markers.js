@@ -173,7 +173,7 @@ mapbox.markers.layer = function() {
         }
 
         for (var k = markers.length - 1; k >= 0; k--) {
-            if (markers[k].touch == false) {
+            if (markers[k].touch === false) {
                 m.remove(markers[k]);
             }
         }
@@ -273,6 +273,20 @@ mapbox.markers.layer = function() {
     m.named = function(x) {
         if (!arguments.length) return m.name;
         m.name = x;
+        return m;
+    };
+
+    m.enabled = true;
+
+    m.enable = function() {
+        this.enabled = true;
+        this.parent.style.display = '';
+        return m;
+    };
+
+    m.disable = function() {
+        this.enabled = false;
+        this.parent.style.display = 'none';
         return m;
     };
 

@@ -32,6 +32,18 @@ describe('mapbox.markers', function() {
         expect(jasmine.isDomNode(m.parent)).toBeTruthy();
     });
 
+    it('can be enabled and disabled', function() {
+        var m = mapbox.markers.layer();
+
+        expect(m.enabled).toBeTruthy();
+
+        expect(m.enable()).toEqual(m);
+        expect(m.enabled).toBeTruthy();
+
+        expect(m.disable()).toEqual(m);
+        expect(m.enabled).toBeFalsy();
+    });
+
     it('can be named', function() {
         var m = mapbox.markers.layer().named('tom');
         expect(m.named()).toEqual('tom');
