@@ -270,6 +270,20 @@ mapbox.markers.layer = function() {
         return m;
     };
 
+    m.enabled = true;
+
+    m.enable = function() {
+        this.enabled = true;
+        this.parent.style.display = '';
+        return m;
+    };
+
+    m.disable = function() {
+        this.enabled = false;
+        this.parent.style.display = 'none';
+        return m;
+    };
+
     return m;
 };
 
