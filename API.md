@@ -43,7 +43,7 @@ the elements.
 
 ### markers.features([features])
 
-This is the central function for setting the contents of a markers layer: it runs the provided
+Set the contents of a markers layer: run the provided
 features through the filter function and then through the factory function to create elements
 for the map. If the layer already has features, they are replaced with the new features.
 An empty array will clear the layer of all features.
@@ -55,8 +55,31 @@ An empty array will clear the layer of all features.
 
 **Returns** the layer object if a new array of features is provided, otherwise the layer's features
 
+### markers.add_feature([feature])
+
+Add a single GeoJSON feature object to the layer.
+
+**Arguments:**
+
+* `features` must be a single GeoJSON feature object
+
+**Returns** the layer object
+
+**Example:**
+
+    var markerLayer = mapbox.markers.layer();
+    var newfeature = {
+        geometry: { coordinates: [-77, 37.9] },
+        properties: { }
+    };
+    // add this single new feature
+    markerLayer.add_feature(newfeature);
+    // This call is equivalent to
+     markerLayer.features(markerLayer.features().concat([x]));
+
 ### markers.sort([sortfunction])
 
+Set the sorting function for markers in the DOM.
 Markers are typically sorted in the DOM in order for them to correctly visually overlap. By default,
 this is a function that sorts markers by latitude value - `geometry.coordinates[1]`.
 
@@ -156,7 +179,10 @@ to its point exactly.
 
 ### markers.addCallback(event, callback)
 
-Adds a callback that is called on certain events by this layer. These are primarily used by `mmg_interaction`, but otherwise useful to support more advanced bindings on mmg layers that are bound at times when the mmg object may not be added to a map - like binding to the map's `panned` event to clear tooltips.
+Add a callback that is called on certain events by this layer. These are primarily
+used by `mapbox.markers.interaction`, but otherwise useful to support more advanced bindings
+on markers layers that are bound at times when the markers layer object may not
+be added to a map - like binding to the map's `panned` event to clear tooltips.
 
 **Arguments:**
 
@@ -203,9 +229,21 @@ Adds tooltips to your markers, for when a user hovers over or taps the features.
 
 **Returns** an `interaction` instance which provides methods for customizing how the layer behaves.
 
-### interaction.hide_on_move([value])
+### interaction.hideOnMove([value])
 
-Determines whether tooltips are hidden when the map is moved. The single argument should be `true` or `false` or not given in order to retrieve the current value.
+Determine whether tooltips are hidden when the map is moved.
+The single argument should be `true` or `false` or not given in order to retrieve the current value.
+
+**Arguments:**
+
+* `value` must be true or false to activate or deactivate the mode
+
+**Returns** the interaction instance.
+
+### interaction.showOnHover([value])
+
+Determine whether tooltips are shown when the user hovers over them.
+The single argument should be `true` or `false` or not given in order to retrieve the current value.
 
 **Arguments:**
 
@@ -215,7 +253,8 @@ Determines whether tooltips are hidden when the map is moved. The single argumen
 
 ### interaction.exclusive([value])
 
-Determines whether a single popup should be open at a time, or unlimited. The single argument should be `true` or `false` or not given in order to retrieve the current value.
+Determine whether a single popup should be open at a time, or unlimited.
+The single argument should be `true` or `false` or not given in order to retrieve the current value.
 
 **Arguments:**
 
@@ -225,7 +264,8 @@ Determines whether a single popup should be open at a time, or unlimited. The si
 
 ### interaction.formatter([formatterfunction])
 
-Set or get the formatter function, that decides how data goes from being in a feature's `properties` to the HTML inside of a tooltip. This is a getter setter that takes a Function as its argument.
+Set or get the formatter function, that decides how data goes from being in a feature's `properties` to
+the HTML inside of a tooltip. This is a getter setter that takes a Function as its argument.
 
 **Arguments:**
 
@@ -241,10 +281,10 @@ function
     interaction.formatter(function(feature) {
         var o = '', props = feature.properties;
         if (props.title) {
-            o += '<h1 class="mmg-title">' + props.title + '</h1>';
+            o += '<h1 class="marker-title">' + props.title + '</h1>';
         }
         if (props.description) {
-            o += '<div class="mmg-description">' + props.description + '</div>';
+            o += '<div class="marker-description">' + props.description + '</div>';
         }
         if (typeof html_sanitize !== undefined) {
             o = html_sanitize(o,

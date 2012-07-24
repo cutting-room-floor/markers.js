@@ -168,11 +168,11 @@ mapbox.markers.layer = function() {
                         data: features[i]
                     });
                 }
-                index[id].touch = true;
+                if (index[id]) index[id].touch = true;
             }
         }
 
-        for (var k = 0; k < markers.length; k++) {
+        for (var k = markers.length - 1; k >= 0; k--) {
             if (markers[k].touch == false) {
                 m.remove(markers[k]);
             }
@@ -191,21 +191,22 @@ mapbox.markers.layer = function() {
         if (typeof x === 'string') x = [x];
 
         urls = x;
-        function add_features(x) {
+        function add_features(err, x) {
+            if (err && callback) return callback(err);
             if (x && x.features) m.features(x.features);
-            if (callback) callback(x.features, m);
+            if (callback) callback(err, x.features, m);
         }
 
         reqwest((urls[0].match(/geojsonp$/)) ? {
             url: urls[0] + (~urls[0].indexOf('?') ? '&' : '?') + 'callback=grid',
             type: 'jsonp',
             jsonpCallback: 'callback',
-            success: add_features,
+            success: function(resp) { add_features(null, resp); },
             error: add_features
         } : {
             url: urls[0],
             type: 'json',
-            success: add_features,
+            success: function(resp) { add_features(null, resp); },
             error: add_features
         });
         return m;
@@ -236,7 +237,11 @@ mapbox.markers.layer = function() {
 
     m.id = function(x) {
         if (!arguments.length) return idfn;
-        idfn = x;
+        if (x === null) {
+            idfn = function() { return ++_seq; };
+        } else {
+            idfn = x;
+        }
         return m;
     };
 
@@ -280,8 +285,8 @@ mapbox.markers.interaction = function(mmg) {
     var mi = {},
         tooltips = [],
         exclusive = true,
-        hide_on_move = true,
-        show_on_hover = true,
+        hideOnMove = true,
+        showOnHover = true,
         close_timer = null,
         formatter;
 
@@ -315,9 +320,9 @@ mapbox.markers.interaction = function(mmg) {
         return o;
     });
 
-    mi.hide_on_move = function(x) {
-        if (!arguments.length) return hide_on_move;
-        hide_on_move = x;
+    mi.hideOnMove = function(x) {
+        if (!arguments.length) return hideOnMove;
+        hideOnMove = x;
         return mi;
     };
 
@@ -327,23 +332,23 @@ mapbox.markers.interaction = function(mmg) {
         return mi;
     };
 
-    mi.show_on_hover = function(x) {
-        if (!arguments.length) return show_on_hover;
-        show_on_hover = x;
+    mi.showOnHover = function(x) {
+        if (!arguments.length) return showOnHover;
+        showOnHover = x;
         return mi;
     };
 
-    mi.hide_tooltips = function() {
+    mi.hideTooltips = function() {
         while (tooltips.length) mmg.remove(tooltips.pop());
         for (var i = 0; i < markers.length; i++) {
             delete markers[i].clicked;
         }
     };
 
-    mi.bind_marker = function(marker) {
+    mi.bindMarker = function(marker) {
         var delayed_close = function() {
             if (!marker.clicked) close_timer = window.setTimeout(function() {
-                mi.hide_tooltips();
+                mi.hideTooltips();
             }, 200);
         };
 
@@ -354,7 +359,7 @@ mapbox.markers.interaction = function(mmg) {
             if (!content) return;
 
             if (exclusive && tooltips.length > 0) {
-                mi.hide_tooltips();
+                mi.hideTooltips();
                 // We've hidden all of the tooltips, so let's not close
                 // the one that we're creating as soon as it is created.
                 if (close_timer) window.clearTimeout(close_timer);
@@ -380,7 +385,7 @@ mapbox.markers.interaction = function(mmg) {
             // Align the bottom of the tooltip with the top of its marker
             wrapper.style.bottom = marker.element.offsetHeight / 2 + 20 + 'px';
 
-            if (show_on_hover) {
+            if (showOnHover) {
                 tooltip.onmouseover = function() {
                     if (close_timer) window.clearTimeout(close_timer);
                 };
@@ -403,7 +408,7 @@ mapbox.markers.interaction = function(mmg) {
             marker.clicked = true;
         };
 
-        if (show_on_hover) {
+        if (showOnHover) {
             marker.element.onmouseover = show;
             marker.element.onmouseout = delayed_close;
         }
@@ -411,7 +416,7 @@ mapbox.markers.interaction = function(mmg) {
 
     function bindPanned() {
         mmg.map.addCallback('panned', function() {
-            if (hide_on_move) {
+            if (hideOnMove) {
                 while (tooltips.length) {
                     mmg.remove(tooltips.pop());
                 }
@@ -427,7 +432,7 @@ mapbox.markers.interaction = function(mmg) {
         // Bind present markers
         var markers = mmg.markers();
         for (var i = 0; i < markers.length; i++) {
-            mi.bind_marker(markers[i]);
+            mi.bindMarker(markers[i]);
         }
 
         // Bind future markers
@@ -435,7 +440,7 @@ mapbox.markers.interaction = function(mmg) {
             // Markers can choose to be not-interactive. The main example
             // of this currently is marker bubbles, which should not recursively
             // give marker bubbles.
-            if (marker.interactive !== false) mi.bind_marker(marker);
+            if (marker.interactive !== false) mi.bindMarker(marker);
         });
     }
 
