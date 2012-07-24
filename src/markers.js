@@ -166,11 +166,11 @@ mapbox.markers.layer = function() {
                         data: features[i]
                     });
                 }
-                index[id].touch = true;
+                if (index[id]) index[id].touch = true;
             }
         }
 
-        for (var k = 0; k < markers.length; k++) {
+        for (var k = markers.length - 1; k >= 0; k--) {
             if (markers[k].touch == false) {
                 m.remove(markers[k]);
             }
@@ -235,7 +235,11 @@ mapbox.markers.layer = function() {
 
     m.id = function(x) {
         if (!arguments.length) return idfn;
-        idfn = x;
+        if (x === null) {
+            idfn = function() { return ++_seq; };
+        } else {
+            idfn = x;
+        }
         return m;
     };
 

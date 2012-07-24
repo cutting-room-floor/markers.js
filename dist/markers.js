@@ -168,11 +168,11 @@ mapbox.markers.layer = function() {
                         data: features[i]
                     });
                 }
-                index[id].touch = true;
+                if (index[id]) index[id].touch = true;
             }
         }
 
-        for (var k = 0; k < markers.length; k++) {
+        for (var k = markers.length - 1; k >= 0; k--) {
             if (markers[k].touch == false) {
                 m.remove(markers[k]);
             }
@@ -191,21 +191,22 @@ mapbox.markers.layer = function() {
         if (typeof x === 'string') x = [x];
 
         urls = x;
-        function add_features(x) {
+        function add_features(err, x) {
+            if (err && callback) return callback(err);
             if (x && x.features) m.features(x.features);
-            if (callback) callback(x.features, m);
+            if (callback) callback(err, x.features, m);
         }
 
         reqwest((urls[0].match(/geojsonp$/)) ? {
             url: urls[0] + (~urls[0].indexOf('?') ? '&' : '?') + 'callback=grid',
             type: 'jsonp',
             jsonpCallback: 'callback',
-            success: add_features,
+            success: function(resp) { add_features(null, resp); },
             error: add_features
         } : {
             url: urls[0],
             type: 'json',
-            success: add_features,
+            success: function(resp) { add_features(null, resp); },
             error: add_features
         });
         return m;
@@ -236,7 +237,11 @@ mapbox.markers.layer = function() {
 
     m.id = function(x) {
         if (!arguments.length) return idfn;
-        idfn = x;
+        if (x === null) {
+            idfn = function() { return ++_seq; };
+        } else {
+            idfn = x;
+        }
         return m;
     };
 
