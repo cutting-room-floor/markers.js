@@ -4,7 +4,23 @@
 you make your own HTML elements and assign them their own styles. The library also supports
 tooltips, which are implemented as dynamic markers of their own.
 
-## Styling Markers
+## Styling default markers
+
+By default, markers uses `mapbox.markers.simplestyle_factory` to generate
+markers from GeoJSON features. [simplestyle-spec](https://github.com/mapbox/simplestyle-spec/tree/master/1.0.0)
+is the formal description for the attributes suggested to customize markers
+this way.
+
+* `marker-size` can be `"small"`, `"medium"`, or `"large"` for varying sizes.
+* `marker-color` can be any [hex color](http://en.wikipedia.org/wiki/Web_colors#Hex_triplet),
+either in full form, like `#0099cc`, or shorthand form, like `#09c`.
+* `marker-symbol` can be any [Maki icon](http://mapbox.com/maki/)
+
+The properties `title` and `description` allow for customizing
+the interactivity from `mapbox.markers.interaction`, and here you're allowed to
+use most HTML elements in their values.
+
+## Styling custom Markers
 
 All styles should position elements with `position:absolute;` and offset them so that the center
 of the element is in the geographic center. So, if you have elements that are red and 40x40, a style
