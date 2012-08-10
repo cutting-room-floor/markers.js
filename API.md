@@ -1,4 +1,4 @@
-# The Markers Layer
+# Markers layer
 
 `mapbox.markers` is a markers library that makes it easier to add HTML elements
 on top of maps in geographical locations and interact with them. Internally,

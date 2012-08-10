@@ -1,10 +1,10 @@
-# Styling Markers And Tooltips
+# Styling markers and tooltips
 
 `mapbox.markers` allows for total style flexibility with the `.factory()` functionality -
 you make your own HTML elements and assign them their own styles. The library also supports
 tooltips, which are implemented as dynamic markers of their own.
 
-## Styling default markers
+## Default markers
 
 By default, markers uses `mapbox.markers.simplestyle_factory` to generate
 markers from GeoJSON features. [simplestyle-spec](https://github.com/mapbox/simplestyle-spec/tree/master/1.0.0)
@@ -20,7 +20,7 @@ The properties `title` and `description` allow for customizing
 the interactivity from `mapbox.markers.interaction`, and here you're allowed to
 use most HTML elements in their values.
 
-## Styling custom Markers
+## Custom markers
 
 All styles should position elements with `position:absolute;` and offset them so that the center
 of the element is in the geographic center. So, if you have elements that are red and 40x40, a style
@@ -48,7 +48,7 @@ a rule setting the `pointer-events` property of the markers:
         margin-top:-20px;
     }
 
-## Styling Tooltips
+## Tooltips
 
 Tooltips, provided in `mapbox.markers.interaction`, are added to the map as markers themselves, so that they
 are correctly geographically positioned. The default DOM structure for a tooltip is:
