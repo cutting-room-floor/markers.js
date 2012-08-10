@@ -1,13 +1,13 @@
 # The Markers Layer
 
-`mapbox.markers()` is a markers library that makes it easier to add HTML elements
+`mapbox.markers` is a markers library that makes it easier to add HTML elements
 on top of maps in geographical locations and interact with them. Internally,
 markers are stored as [GeoJSON](http://www.geojson.org/) objects, though
 interfaces through CSV and simple Javascript are provided.
 
-## mapbox.markers()
+## mapbox.markers.layer()
 
-`mapbox.markers()` is the singular entry point to this library - it creates a
+`mapbox.markers.layer()` creates a
 new layer into which markers can be placed and which can be added to
 a map with [`map.addLayer()`](#map.addLayer)
 
