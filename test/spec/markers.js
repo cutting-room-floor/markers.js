@@ -157,6 +157,17 @@ describe('mapbox.markers', function() {
             });
         });
 
+        it('can load markers from an ID', function() {
+            var layer;
+            runs(function() {
+                layer = mapbox.markers.layer().id('examples.map-sjm2w6i9');
+            });
+            waits(1000);
+            runs(function() {
+                expect(layer.features().length).toEqual(9);
+            });
+        });
+
         it('calls a callback when features are loaded', function() {
             var layer;
             var obj = new Klass();

@@ -119,28 +119,28 @@ _Example:_
     // The default filter function is:
     layer.filter(function() { return true; });
 
-### markers.id([idfunction])
+### markers.key([idfunction])
 
-Set the id getter for this layer. The id getter is a funcion that takes a GeoJSON feature
+Set the key getter for this layer. The key getter is a funcion that takes a GeoJSON feature
 and returns a _unique id_ for that feature. If this is provided, the layer can optimize repeated
 calls to [`markers.features()`](#markers.features) for animation purposes, since updated markers will not be recreated,
 only modified.
 
 _Arguments:_
 
-* `idfunction` must be a function that takes a GeoJSON object and returns a unique ID for it
+* `keyfunction` must be a function that takes a GeoJSON object and returns a unique ID for it
   that does not change for the same features on repeated calls
 
-_Returns_ the layer object if a new function is specified, otherwise the current function used to get ids.
+_Returns_ the layer object if a new function is specified, otherwise the current function used to get keys.
 
 _Example:_
 
     // The default id function is:
     var _seq = 0;
-    layer.id(function() { return ++_seq; });
+    layer.key(function() { return ++_seq; });
     // Thus this function always returns a new id for any feature. If you had
     // features that do have an id attribute, a function would look like
-    layer.id(function(f) { return f.properties.id; });
+    layer.key(function(f) { return f.properties.id; });
 
 ### markers.url(url [, callback])
 
@@ -154,6 +154,21 @@ _Arguments:_
   with the error (if encountered), features array (if any) and the layer instance as arguments.
   If an error is encountered, `.url()` will not call `.features()`, since this would likely
   clear the features array.
+
+__Returns__ the markers layer or the current URL given if no `url` argument
+is provided.
+
+### markers.id(layerid [, callback])
+
+Load markers from a [MapBox](http://mapbox.com/) layer.
+
+_Arguments:_
+
+* `layerid` must be the ID of a layer, like `user.map-example`
+* `callback` can be a callback that fires after the request finishes, and behaves
+  the same as the callback in `markers.url`
+
+__Returns__ the markers layer.
 
 ### markers.csv(csvstring)
 

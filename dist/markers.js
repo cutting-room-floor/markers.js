@@ -31,7 +31,7 @@ mapbox.markers.layer = function() {
             return true;
         },
         _seq = 0,
-        idfn = function() {
+        keyfn = function() {
             return ++_seq;
         },
         index = {};
@@ -150,7 +150,7 @@ mapbox.markers.layer = function() {
 
         for (var i = 0; i < features.length; i++) {
             if (filter(features[i])) {
-                var id = idfn(features[i]);
+                var id = keyfn(features[i]);
                 if (index[id]) {
                     // marker is already on the map, needs to be moved or rebuilt
                     index[id].location = new MM.Location(
@@ -212,6 +212,10 @@ mapbox.markers.layer = function() {
         return m;
     };
 
+    m.id = function(x, callback) {
+        return m.url('http://a.tiles.mapbox.com/v3/' + x + '/markers.geojsonp', callback);
+    };
+
     m.csv = function(x) {
         return m.features(mapbox.markers.csv_to_geojson(x));
     };
@@ -235,12 +239,12 @@ mapbox.markers.layer = function() {
         return ext;
     };
 
-    m.id = function(x) {
-        if (!arguments.length) return idfn;
+    m.key = function(x) {
+        if (!arguments.length) return keyfn;
         if (x === null) {
-            idfn = function() { return ++_seq; };
+            keyfn = function() { return ++_seq; };
         } else {
-            idfn = x;
+            keyfn = x;
         }
         return m;
     };
