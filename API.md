@@ -174,13 +174,13 @@ __Returns__ the markers layer.
 
 Convert a string of [CSV](http://en.wikipedia.org/wiki/Comma-separated_values) data into GeoJSON
 and set layer to show it as features.
-If it can find features in the CSV file, the [`markers.features()`](#markers.features)
+If it can find features in the CSV string , the [`markers.features()`](#markers.features)
 of the layer are set to them - otherwise it will throw an error about not finding headers.
 
 _Arguments:_
 
 * `csvstring` must be a string of CSV data. This method returns the markers
-  layer. The CSV file must include columns beginning with `lat` and `lon` in any
+  layer. The CSV string must include columns beginning with `lat` and `lon` in any
   case (Latitude, latitude, lat are acceptable).
 
 _Returns_ the markers layer
