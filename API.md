@@ -152,7 +152,7 @@ _Arguments:_
   GeoJSON file must be served with a `.geojsonp` extension and respond to the JSONP callback `grid`.
 * `callback`, if provided, is optional and should be a callback that is called after the request finishes,
   with the error (if encountered), features array (if any) and the layer instance as arguments.
-  If an error is encountered, `.url()` will not call `.features()`, since this would likely
+  If an error is encountered, `markers.url()` will not call `markers.features()`, since this would likely
   clear the features array.
 
 __Returns__ the markers layer or the current URL given if no `url` argument
@@ -221,7 +221,7 @@ _Returns_ the markers layer
 
 ### markers.removeCallback(event, callback)
 
-Remove a callback bound by `.addCallback(event, callback)`.
+Remove a callback bound by `markers.addCallback(event, callback)`.
 
 _Arguments:_
 
@@ -229,7 +229,7 @@ _Arguments:_
   This must be the same string that was given in `addCallback`
 
 * `callback` is a funcion that is called on the event specified by `event`.
-  This must be the same function as was given in `addCallback`.
+  This must be the same function as was given in `markers.addCallback`.
 
 _Returns_ the markers layer
 
