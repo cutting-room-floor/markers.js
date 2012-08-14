@@ -174,7 +174,7 @@ __Returns__ the markers layer.
 
 Convert a string of [CSV](http://en.wikipedia.org/wiki/Comma-separated_values) data into GeoJSON
 and set layer to show it as features.
-If it can find features in the CSV string , the [`markers.features()`](#markers.features)
+If it can find features in the CSV string, the [`markers.features()`](#markers.features)
 of the layer are set to them - otherwise it will throw an error about not finding headers.
 
 _Arguments:_
@@ -232,6 +232,35 @@ _Arguments:_
   This must be the same function as was given in `addCallback`.
 
 _Returns_ the markers layer
+
+## Styling markers
+
+By default, markers use pretty styles and a default factory function. `markers.factory()`
+allows for custom DOM elements as markers, which should be assigned specific CSS
+in order to ensure correct placement.
+
+All styles should position elements with `position:absolute;` and offset them
+so that the center of the element is in the positioning center - thus the
+geographic center. So, an element this is 40x40 should be offset by 20 pixels
+up and to the left.
+
+And in order to support mouse events - like tooltips or hover hints, you'll need to add
+a rule setting the `pointer-events` property of the markers:
+
+_Example:_
+
+    .my-custom-marker {
+        /* support pointer events */
+        pointer-events:all;
+
+        position:absolute;
+        width:40px;
+        height:40px;
+
+        /* offset to keep a correct center */
+        margin-left:-20px;
+        margin-top:-20px;
+    }
 
 ## mapbox.markers.interaction(markerslayer)
 
@@ -312,3 +341,20 @@ _Example:_
         }
         return o;
     });
+
+## Styling tooltips
+
+Tooltips, provided in `mapbox.markers.interaction`, are added to the map as
+markers themselves, so that they are correctly geographically positioned.
+You can customize the details of tooltips by changing one of the classes
+in its DOM structure:
+
+    <div class='marker-tooltip'>
+        <div>
+            <div class='marker-popup'>
+                <div class='marker-title'>Your Marker's Title</div>
+                <div class='marker-description'>Your Marker's Description</div>
+            </div>
+        </div>
+    </div>
+
