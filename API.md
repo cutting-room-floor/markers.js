@@ -93,6 +93,7 @@ interface, or omitted to get the current value.
 _Returns_ the layer object if a new function is specified, otherwise the current function used to sort.
 
 _Example:_
+
     // The default sorting function is:
     layer.sort(function(a, b) {
         return b.geometry.coordinates[1] -
