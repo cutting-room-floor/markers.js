@@ -145,7 +145,6 @@ mapbox.markers.interaction = function(mmg) {
     if (mmg) {
         // Remove tooltips on panning
         mmg.addCallback('drawn', bindPanned);
-        mmg.removeCallback('drawn', bindPanned);
 
         // Bind present markers
         var markers = mmg.markers();
