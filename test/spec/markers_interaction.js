@@ -35,12 +35,14 @@ describe('mapbox.markers interaction', function() {
             properties: { title: 'Foo' }
         }]);
 
-        expect(m.markers()[0].show).toBeFalsy();
+        expect(m.markers()[0].showTooltip).toBeFalsy();
         var mi = mapbox.markers.interaction(m);
-        expect(m.markers()[0].show).toBeTruthy();
+        expect(m.markers()[0].showTooltip).toBeTruthy();
 
+        expect(m.markers()[0].tooltip).toBeFalsy();
         expect(m.markers().length).toEqual(1);
-        m.markers()[0].show();
+        m.markers()[0].showTooltip();
+        expect(m.markers()[0].tooltip).toBeTruthy();
         expect(m.markers().length).toEqual(2);
 
         mi.hideTooltips();

@@ -234,6 +234,20 @@ _Arguments:_
 
 _Returns_ the markers layer
 
+### markers.markers()
+
+Get the layer's internal markers array. Unlike `markers.features()`, this
+is not a getter-setter - you can only _get_ the internal markers. Markers
+are internally objects of `{ element: DOMNode, location: Location, data: feature }`
+structure, optionally with `showTooltip()` functions added by
+`mapbox.markers.interaction()`.
+
+This is direct access to the internal circuitry of markers, and should only
+be used in very specific circumstances, where the functionality provided by
+`markers.factory()`, `markers.filter()`, etc., is insufficient.
+
+_Returns_ the internal array of marker objects.
+
 ## Styling markers
 
 By default, markers use pretty styles and a default factory function. `markers.factory()`

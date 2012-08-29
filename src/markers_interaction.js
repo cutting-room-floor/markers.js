@@ -131,11 +131,12 @@ mapbox.markers.interaction = function(mmg) {
                 location: marker.location.copy()
             };
             tooltips.push(t);
+            marker.tooltip = t;
             mmg.add(t);
             mmg.draw();
         };
 
-        marker.show = show;
+        marker.showTooltip = show;
 
         marker.element.onclick = marker.element.ontouchstart = function() {
             show();
