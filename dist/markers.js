@@ -47,20 +47,26 @@ mapbox.markers.layer = function() {
         // remember the tile coordinate so we don't have to reproject every time
         if (!marker.coord) marker.coord = m.map.locationCoordinate(marker.location);
         var pos = m.map.coordinatePoint(marker.coord);
-        var pos_loc;
+        var pos_loc, new_pos;
 
         // If this point has wound around the world, adjust its position
         // to the new, onscreen location
         if (pos.x < 0) {
             pos_loc = new MM.Location(marker.location.lat, marker.location.lon);
             pos_loc.lon += Math.ceil((left.lon - marker.location.lon) / 360) * 360;
-            pos = m.map.locationPoint(pos_loc);
-            marker.coord = m.map.locationCoordinate(pos_loc);
+            new_pos = m.map.locationPoint(pos_loc);
+            if (new_pos.x < m.map.dimensions.x) {
+                pos = new_pos;
+                marker.coord = m.map.locationCoordinate(pos_loc);
+            }
         } else if (pos.x > m.map.dimensions.x) {
             pos_loc = new MM.Location(marker.location.lat, marker.location.lon);
             pos_loc.lon -= Math.ceil((marker.location.lon - right.lon) / 360) * 360;
-            pos = m.map.locationPoint(pos_loc);
-            marker.coord = m.map.locationCoordinate(pos_loc);
+            new_pos = m.map.locationPoint(pos_loc);
+            if (new_pos.x > 0) {
+                pos = new_pos;
+                marker.coord = m.map.locationCoordinate(pos_loc);
+            }
         }
 
         pos.scale = 1;
@@ -299,6 +305,8 @@ mapbox.markers.layer = function() {
 
 mmg = mapbox.markers.layer; // Backwards compatibility
 mapbox.markers.interaction = function(mmg) {
+    // Make markersLayer.interaction a singleton and this an accessor.
+    if (mmg && mmg.interaction) return mmg.interaction;
 
     var mi = {},
         tooltips = [],
@@ -306,6 +314,7 @@ mapbox.markers.interaction = function(mmg) {
         hideOnMove = true,
         showOnHover = true,
         close_timer = null,
+        on = true,
         formatter;
 
     mi.formatter = function(x) {
@@ -363,6 +372,16 @@ mapbox.markers.interaction = function(mmg) {
         }
     };
 
+    mi.add = function() {
+        on = true;
+        return mi;
+    };
+
+    mi.remove = function() {
+        on = false;
+        return mi;
+    };
+
     mi.bindMarker = function(marker) {
         var delayed_close = function() {
             if (!marker.clicked) close_timer = window.setTimeout(function() {
@@ -371,6 +390,7 @@ mapbox.markers.interaction = function(mmg) {
         };
 
         var show = function(e) {
+            if (!on) return;
             var content = formatter(marker.data);
             // Don't show a popup if the formatter returns an
             // empty string. This does not do any magic around DOM elements.
@@ -421,6 +441,8 @@ mapbox.markers.interaction = function(mmg) {
             mmg.draw();
         };
 
+        marker.show = show;
+
         marker.element.onclick = marker.element.ontouchstart = function() {
             show();
             marker.clicked = true;
@@ -459,6 +481,9 @@ mapbox.markers.interaction = function(mmg) {
             // give marker bubbles.
             if (marker.interactive !== false) mi.bindMarker(marker);
         });
+
+        // Save reference to self on the markers instance.
+        mmg.interaction = mi;
     }
 
     return mi;

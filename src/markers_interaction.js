@@ -1,4 +1,6 @@
 mapbox.markers.interaction = function(mmg) {
+    // Make markersLayer.interaction a singleton and this an accessor.
+    if (mmg && mmg.interaction) return mmg.interaction;
 
     var mi = {},
         tooltips = [],
@@ -6,6 +8,7 @@ mapbox.markers.interaction = function(mmg) {
         hideOnMove = true,
         showOnHover = true,
         close_timer = null,
+        on = true,
         formatter;
 
     mi.formatter = function(x) {
@@ -63,6 +66,16 @@ mapbox.markers.interaction = function(mmg) {
         }
     };
 
+    mi.add = function() {
+        on = true;
+        return mi;
+    };
+
+    mi.remove = function() {
+        on = false;
+        return mi;
+    };
+
     mi.bindMarker = function(marker) {
         var delayed_close = function() {
             if (!marker.clicked) close_timer = window.setTimeout(function() {
@@ -71,6 +84,7 @@ mapbox.markers.interaction = function(mmg) {
         };
 
         var show = function(e) {
+            if (!on) return;
             var content = formatter(marker.data);
             // Don't show a popup if the formatter returns an
             // empty string. This does not do any magic around DOM elements.
@@ -121,6 +135,8 @@ mapbox.markers.interaction = function(mmg) {
             mmg.draw();
         };
 
+        marker.show = show;
+
         marker.element.onclick = marker.element.ontouchstart = function() {
             show();
             marker.clicked = true;
@@ -159,6 +175,9 @@ mapbox.markers.interaction = function(mmg) {
             // give marker bubbles.
             if (marker.interactive !== false) mi.bindMarker(marker);
         });
+
+        // Save reference to self on the markers instance.
+        mmg.interaction = mi;
     }
 
     return mi;

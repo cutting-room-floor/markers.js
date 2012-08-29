@@ -270,11 +270,28 @@ and customizable through its methods. This supports both mouse & touch input.
 
 Adds tooltips to your markers, for when a user hovers over or taps the features.
 
+This function will create at most one interaction instance per markers layer.
+Thus you can use it to access interaction instances previously created and
+to change their settings.
+
 _Arguments:_
 
 * `markerslayer` must be a markers layer.
 
-_Returns_ an `interaction` instance which provides methods for customizing how the layer behaves.
+_Returns_ an `interaction` instance which provides methods for customizing how
+the layer behaves.
+
+### interaction.remove()
+
+Disable interactivity.
+
+_Returns_ the interaction instance.
+
+### interaction.add()
+
+Enable interactivity. By default, interactivity is enabled.
+
+_Returns_ the interaction instance.
 
 ### interaction.hideOnMove([value])
 
