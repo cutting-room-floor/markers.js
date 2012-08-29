@@ -1,3 +1,11 @@
+### 0.14.3
+
+* Fixes use case for changing the value of `showOnHover` after tooltips
+  have already been attached.
+* Adds .add() and .remove() methods to quickly enable and disable interaction.
+* Documents .markers() and adds programmatic access to `.showTooltip()`
+  per-marker - as well as access to `.tooltip` for markers with tooltips.
+
 ### 0.14.2
 
 * Fixes code around bindPanned that was breaking hideOnMove functionality.
