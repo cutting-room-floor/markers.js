@@ -15,15 +15,13 @@
         font:13px/20px 'Helvetica';
       }
     </style>
-    <link href='../src/mmg.css' type='text/css' rel='stylesheet' />
+    <link href='../src/markers.css' type='text/css' rel='stylesheet' />
   </head>
   <body>
     <div class='column'>
       <div id='map'></div>
     </div>
-    <script type='text/javascript' src='../src/mmg.js'></script>
-    <script type='text/javascript' src='../src/simplestyle_factory.js'></script>
-    <script type='text/javascript' src='../src/mmg_interaction.js'></script>
+    <script type='text/javascript' src='../dist/markers.js'></script>
     <script type='text/javascript' src='../lib/modestmaps.min.js'></script>
     <script type='text/javascript' src='../lib/wax.mm.min.js'></script>
     <script type='text/javascript'>
@@ -33,11 +31,12 @@
               new wax.mm.connector(tj)
               ]);
           m.tileSize = { x: 128, y: 128 };
-          var ml = mmg()
-              .factory(simplestyle_factory)
+          var ml = mapbox.markers.layer()
               .url('../example/simplestyle.geojson', function(err, ft, l) {
                 m.extent(l.extent());
-                mmg_interaction(ml);
+                mapbox.markers.interaction(ml);
+                mapbox.markers.interaction(ml)
+                    .hideOnMove(false);
               })
           m.addLayer(ml);
         });

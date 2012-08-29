@@ -384,12 +384,14 @@ mapbox.markers.interaction = function(mmg) {
 
     mi.bindMarker = function(marker) {
         var delayed_close = function() {
+            if (showOnHover === false) return;
             if (!marker.clicked) close_timer = window.setTimeout(function() {
                 mi.hideTooltips();
             }, 200);
         };
 
         var show = function(e) {
+            if (e && e.type == 'mouseover' && showOnHover === false) return;
             if (!on) return;
             var content = formatter(marker.data);
             // Don't show a popup if the formatter returns an
@@ -449,10 +451,8 @@ mapbox.markers.interaction = function(mmg) {
             marker.clicked = true;
         };
 
-        if (showOnHover) {
-            marker.element.onmouseover = show;
-            marker.element.onmouseout = delayed_close;
-        }
+        marker.element.onmouseover = show;
+        marker.element.onmouseout = delayed_close;
     };
 
     function bindPanned() {
