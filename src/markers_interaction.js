@@ -119,6 +119,15 @@ mapbox.markers.interaction = function(mmg) {
             // Align the bottom of the tooltip with the top of its marker
             wrapper.style.bottom = marker.element.offsetHeight / 2 + 20 + 'px';
 
+            // Block mouse and touch events
+            function stopPropagation(e) {
+                e.cancelBubble = true;
+                if (e.stopPropagation) { e.stopPropagation(); }
+                return false;
+            }
+            MM.addEvent(popup, 'mousedown', stopPropagation);
+            MM.addEvent(popup, 'touchstart', stopPropagation);
+
             if (showOnHover) {
                 tooltip.onmouseover = function() {
                     if (close_timer) window.clearTimeout(close_timer);
