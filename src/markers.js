@@ -197,7 +197,7 @@ mapbox.markers.layer = function() {
         urls = x;
         function add_features(err, x) {
             if (err && callback) return callback(err);
-            var features = x && x.features ? x.features : null;
+            var features = typeof x !== 'undefined' && x.features ? x.features : null;
             if (features) m.features(features);
             if (callback) callback(err, features, m);
         }
