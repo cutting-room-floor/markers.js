@@ -199,8 +199,9 @@ mapbox.markers.layer = function() {
         urls = x;
         function add_features(err, x) {
             if (err && callback) return callback(err);
-            if (x && x.features) m.features(x.features);
-            if (callback) callback(err, x.features, m);
+            var features = typeof x !== 'undefined' && x.features ? x.features : null;
+            if (features) m.features(features);
+            if (callback) callback(err, features, m);
         }
 
         reqwest((urls[0].match(/geojsonp$/)) ? {
