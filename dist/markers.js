@@ -205,9 +205,8 @@ mapbox.markers.layer = function() {
         }
 
         reqwest((urls[0].match(/geojsonp$/)) ? {
-            url: urls[0] + (~urls[0].indexOf('?') ? '&' : '?') + 'callback=grid',
+            url: urls[0] + (~urls[0].indexOf('?') ? '&' : '?') + 'callback=?',
             type: 'jsonp',
-            jsonpCallback: 'callback',
             success: function(resp) { add_features(null, resp); },
             error: add_features
         } : {
