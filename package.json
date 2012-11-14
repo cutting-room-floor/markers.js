@@ -4,14 +4,14 @@
     "description": "Simple markers for Modest Maps",
     "repository": {
         "type": "git",
-        "url": "git://github.com/mapbox/mmg.git"
+        "url": "git://github.com/mapbox/markers.js.git"
     },
     "author": {
         "name": "MapBox",
         "url": "http://mapbox.com/",
         "email": "info@mapbox.com"
     },
-    "homepage": "http://mapbox.com/mmg/",
+    "homepage": "http://mapbox.com/markers.js/",
     "contributors": [
         "Tom MacWright",
         "Tristen Brown"
