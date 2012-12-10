@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>mmg: simple markers for Modest Maps</title>
+    <title>markers.js: simple markers for Modest Maps</title>
     <style>
       .m {
         width:200px;
@@ -16,10 +16,11 @@
     </style>
   </head>
   <body>
-    <script type='text/javascript' src='src/mmg.js'></script>
-    <script type='text/javascript' src='src/simplestyle_factory.js'></script>
-    <script type='text/javascript' src='lib/modestmaps.min.js'></script>
-    <script type='text/javascript' src='lib/wax.mm.min.js'></script>
+    <script type='text/javascript' src='../src/start.js'></script>
+    <script type='text/javascript' src='../src/markers.js'></script>
+    <script type='text/javascript' src='../src/simplestyle_factory.js'></script>
+    <script type='text/javascript' src='../lib/modestmaps.min.js'></script>
+    <script type='text/javascript' src='../lib/wax.mm.min.js'></script>
     <script type='text/javascript'>
       var features = [{
          'type': 'Feature',
@@ -47,7 +48,7 @@
             d.style.backgroundImage = 'url("' + sapi(z) + '")';
             var m = new MM.Map(d, new wax.mm.connector(tj))
               .zoom(z).center(new MM.Location(38.8, -77));
-            var tomLayer = mmg().factory(simplestyle_factory).features(features);
+            var tomLayer = mmg().factory(mapbox.markers.simplestyle_factory).features(features);
             m.addLayer(tomLayer);
           }
         });

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>mmg: simple markers for Modest Maps</title>
+    <title>markers.js: simple markers for Modest Maps</title>
     <style>
       #map {
         position:absolute;
@@ -14,15 +14,16 @@
         font:13px/20px 'Helvetica';
       }
     </style>
-    <link href='../src/mmg.css' rel='stylesheet' type='text/css' />
+    <link href='../src/markers.css' rel='stylesheet' type='text/css' />
   </head>
   <body>
     <div class='column'>
       <div id='map'></div>
     </div>
-    <script type='text/javascript' src='../src/mmg.js'></script>
+    <script type='text/javascript' src='../src/start.js'></script>
+    <script type='text/javascript' src='../src/markers.js'></script>
     <script type='text/javascript' src='../src/simplestyle_factory.js'></script>
-    <script type='text/javascript' src='../src/mmg_interaction.js'></script>
+    <script type='text/javascript' src='../src/markers_interaction.js'></script>
     <script type='text/javascript' src='../lib/modestmaps.min.js'></script>
     <script type='text/javascript' src='../lib/wax.mm.min.js'></script>
     <script type='text/javascript'>
@@ -30,7 +31,7 @@
         function(tj) {
           var m = new MM.Map('map', [
             new wax.mm.connector(tj),
-            mapbox.markers().add_feature({
+            mapbox.markers.layer().add_feature({
                 geometry: {
                     coordinates: [0, 0]
                 },
@@ -39,7 +40,7 @@
                     'marker-color': '#f00'
                 }
             }),
-            mapbox.markers().add_feature({
+            mapbox.markers.layer().add_feature({
                 geometry: {
                     coordinates: [10, 0]
                 },
