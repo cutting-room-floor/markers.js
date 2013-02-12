@@ -256,7 +256,7 @@ in order to ensure correct placement.
 
 All styles should position elements with `position:absolute;` and offset them
 so that the center of the element is in the positioning center - thus the
-geographic center. So, an element this is 40x40 should be offset by 20 pixels
+geographic center. So, an element that is 40x40 should be offset by 20 pixels
 up and to the left.
 
 And in order to support mouse events - like tooltips or hover hints, you'll need to add
