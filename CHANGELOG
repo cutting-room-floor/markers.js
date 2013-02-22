@@ -1,6 +1,8 @@
 ### 0.14.6
 
 * Calls `drawn` after markers are positioned, rather than before.
+* Documents `hideTooltips`, and that API now returns the markers interaction
+  instance.
 
 ### 0.14.5
 
