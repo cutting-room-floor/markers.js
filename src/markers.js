@@ -92,10 +92,10 @@ mapbox.markers.layer = function() {
         if (!m.map) return;
         left = m.map.pointLocation(new MM.Point(0, 0));
         right = m.map.pointLocation(new MM.Point(m.map.dimensions.x, 0));
-        callbackManager.dispatchCallback('drawn', m);
         for (var i = 0; i < markers.length; i++) {
             reposition(markers[i]);
         }
+        callbackManager.dispatchCallback('drawn', m);
     };
 
     // Add a fully-formed marker to the layer. This fires a `markeradded` event.
