@@ -374,6 +374,19 @@ _Example:_
         return o;
     });
 
+### interaction.hideTooltips()
+
+Hides any currently-displayed tooltips controlled by this interaction
+handler.
+
+_Arguments:_ none
+
+_Returns_ the interaction instance
+
+_Example:_
+
+    interaction.hideTooltips();
+
 ## Styling tooltips
 
 Tooltips, provided in `mapbox.markers.interaction`, are added to the map as

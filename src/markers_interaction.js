@@ -64,6 +64,7 @@ mapbox.markers.interaction = function(mmg) {
         for (var i = 0; i < markers.length; i++) {
             delete markers[i].clicked;
         }
+        return mi;
     };
 
     mi.add = function() {

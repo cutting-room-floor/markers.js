@@ -160,7 +160,7 @@ describe('mapbox.markers', function() {
         it('can load markers from an ID', function() {
             var layer;
             runs(function() {
-                layer = mapbox.markers.layer().id('examples.map-sjm2w6i9');
+                layer = mapbox.markers.layer().id('examples.map-zr0njcqy');
             });
             waits(1000);
             runs(function() {

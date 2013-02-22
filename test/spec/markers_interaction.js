@@ -29,6 +29,12 @@ describe('mapbox.markers interaction', function() {
         expect(mi.remove()).toEqual(mi);
     });
 
+    it('can hide all tooltips', function() {
+        var m = mapbox.markers.layer();
+        var mi = mapbox.markers.interaction(m);
+        expect(mi.hideTooltips()).toEqual(mi);
+    });
+
     it('binds a marker', function() {
         var m = mapbox.markers.layer().features([{
             geometry: { coordinates: [0, 0] },
