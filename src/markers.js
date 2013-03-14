@@ -115,8 +115,6 @@ mapbox.markers.layer = function() {
         m.parent.removeChild(marker.element);
         for (var i = 0; i < markers.length; i++) {
             if (markers[i] === marker) {
-                var id = keyfn(marker.data);
-                delete index[id];
                 markers.splice(i, 1);
                 return marker;
             }
@@ -167,6 +165,7 @@ mapbox.markers.layer = function() {
                 } else {
                     // marker needs to be added to the map
                     index[id] = m.add({
+                        id: id,
                         element: factory(features[i]),
                         location: new MM.Location(
                             features[i].geometry.coordinates[1],
@@ -180,6 +179,8 @@ mapbox.markers.layer = function() {
 
         for (var k = markers.length - 1; k >= 0; k--) {
             if (markers[k].touch === false) {
+                if (typeof markers[k].id !== 'undefined')
+                    delete index[markers[k].id];
                 m.remove(markers[k]);
             }
         }
