@@ -115,6 +115,8 @@ mapbox.markers.layer = function() {
         m.parent.removeChild(marker.element);
         for (var i = 0; i < markers.length; i++) {
             if (markers[i] === marker) {
+                var id = keyfn(marker.data);
+                delete index[id];
                 markers.splice(i, 1);
                 return marker;
             }
