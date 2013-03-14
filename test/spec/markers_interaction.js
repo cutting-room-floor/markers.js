@@ -55,6 +55,30 @@ describe('mapbox.markers interaction', function() {
         expect(m.markers().length).toEqual(1);
     });
 
+    it('does not mess with `key`ed features', function () {
+        var m = mapbox.markers.layer();
+        var mi = mapbox.markers.interaction(m);
+        // this would throw if it would be called with a tooltips empty `data`
+        m.key(function (f) { return f.properties.title; });
+
+        function check() {
+            m.features([{
+                geometry: { coordinates: [0, 0] },
+                properties: { title: 'Foo' }
+            }]);
+            expect(m.markers().length).toEqual(1);
+            m.markers()[0].showTooltip();
+            expect(m.markers().length).toEqual(2);
+        }
+        check();
+        // TODO: automatically removing the tooltip when a marker is removed
+        // is not yet possible, so clear the tooltips manually
+        mi.hideTooltips();
+        m.features([]);
+        expect(m.markers().length).toEqual(0);
+        check();
+    });
+
     it('multiple interactions will not attach, only the first', function() {
         var m = mapbox.markers.layer();
         var a = mapbox.markers.interaction(m);

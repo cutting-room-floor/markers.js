@@ -115,8 +115,9 @@ describe('mapbox.markers', function() {
 
         it('should be able to re-add a marker with the same key', function () {
             var mapdiv = document.createElement('div');
-            var layer = mapbox.markers.layer().features(test_features);
+            var layer = mapbox.markers.layer();
             layer.key(function () { return 1; });
+            layer.features(test_features);
             var m = new MM.Map(mapdiv, layer)
             .setCenterZoom(new MM.Location(37.8, -77), 7);
             expect(layer.parent.childNodes.length).toEqual(1);
