@@ -112,6 +112,19 @@ describe('mapbox.markers', function() {
             layer.features(null);
             expect(layer.parent.childNodes.length).toEqual(0);
         });
+
+        it('should be able to re-add a marker with the same key', function () {
+            var mapdiv = document.createElement('div');
+            var layer = mapbox.markers.layer().features(test_features);
+            layer.key(function () { return 1; });
+            var m = new MM.Map(mapdiv, layer)
+            .setCenterZoom(new MM.Location(37.8, -77), 7);
+            expect(layer.parent.childNodes.length).toEqual(1);
+            layer.features(null);
+            expect(layer.parent.childNodes.length).toEqual(0);
+            layer.features(test_features);
+            expect(layer.parent.childNodes.length).toEqual(1);
+        });
     });
 
     describe('sorting function', function() {
